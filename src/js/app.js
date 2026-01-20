@@ -19,7 +19,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     store.init();
     incrementAccessCount();
-    if (window.innerWidth <= 900) document.body.classList.add("mobile-lite");
+    const preferFull = localStorage.getItem("lit_mobile_full") === "true";
+    if (window.innerWidth <= 900 && !preferFull) {
+        document.body.classList.add("mobile-lite");
+    }
     ui.init();
     
     lang.init();
@@ -49,6 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
     restoreEditorScroll();
     initMobileMemos();
     initMobileIntro();
+    initMobileFullToggle();
 
     // TRAVA DE SEGURANÇA (Anti-Close)
     window.addEventListener("beforeunload", (e) => {
@@ -631,6 +635,29 @@ function setupEventListeners() {
 
     const mobileThemeBtn = document.getElementById("btnMobileTheme");
     if (mobileThemeBtn) mobileThemeBtn.onclick = () => ui.toggleTheme();
+}
+
+function initMobileFullToggle() {
+    if (window.innerWidth > 900) return;
+    const btn = document.getElementById("btnMobileFullToggle");
+    if (!btn) return;
+    const updateLabel = () => {
+        const isLite = document.body.classList.contains("mobile-lite");
+        btn.textContent = isLite ? lang.t("mobile_full_enable") : lang.t("mobile_full_disable");
+    };
+    updateLabel();
+    btn.onclick = () => {
+        const isLite = document.body.classList.contains("mobile-lite");
+        if (isLite) {
+            document.body.classList.remove("mobile-lite");
+            localStorage.setItem("lit_mobile_full", "true");
+        } else {
+            document.body.classList.add("mobile-lite");
+            localStorage.setItem("lit_mobile_full", "false");
+        }
+        updateLabel();
+    };
+    document.addEventListener("lang:changed", updateLabel);
 }
 
 // Funções auxiliares mantidas iguais

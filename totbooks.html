@@ -615,6 +615,7 @@ const library = document.getElementById('library');
 const overlay  = document.getElementById('overlay');
 
 const modal = document.getElementById('modal');
+const modalTitle = document.getElementById('modalTitle');
 const modalInput = document.getElementById('modalInput');
 const modalCancel = document.getElementById('modalCancel');
 const modalOk = document.getElementById('modalOk');
@@ -627,6 +628,87 @@ const CREATE_COOLDOWN_MS = 60000; // 1 minuto
 let isSpawning = false;
 let lastSpawnAt = 0;
 let pendingSpawn = null;
+
+const langCode = localStorage.getItem('lit_lang') || 'pt';
+const i18n = {
+  pt: {
+    totbooks_hint: "Duplo clique para criar • Arraste para organizar",
+    totbooks_drop: "Solte para descartar",
+    totbooks_modal_title: "🔸 T∅TBook novo",
+    totbooks_modal_ph: "Nome do projeto...",
+    totbooks_cancel: "Cancelar",
+    totbooks_create: "Criar",
+    totbooks_open: "clique para abrir",
+    totbooks_cooldown: "Aguarde {s}s para criar outro...",
+    totbooks_drag: "Arrastar",
+    totbooks_prev: "Página anterior",
+    totbooks_next: "Próxima página",
+    totbooks_pages_label: "Páginas {title}",
+    totbooks_cover_label: "Capa {title}"
+  },
+  "en-uk": {
+    totbooks_hint: "Double-click to create • Drag to organise",
+    totbooks_drop: "Drop to discard",
+    totbooks_modal_title: "🔸 New T∅TBook",
+    totbooks_modal_ph: "Project name...",
+    totbooks_cancel: "Cancel",
+    totbooks_create: "Create",
+    totbooks_open: "click to open",
+    totbooks_cooldown: "Wait {s}s to create another...",
+    totbooks_drag: "Drag",
+    totbooks_prev: "Previous page",
+    totbooks_next: "Next page",
+    totbooks_pages_label: "Pages {title}",
+    totbooks_cover_label: "Cover {title}"
+  },
+  es: {
+    totbooks_hint: "Doble clic para crear • Arrastra para organizar",
+    totbooks_drop: "Suelta para descartar",
+    totbooks_modal_title: "🔸 Nuevo T∅TBook",
+    totbooks_modal_ph: "Nombre del proyecto...",
+    totbooks_cancel: "Cancelar",
+    totbooks_create: "Crear",
+    totbooks_open: "clic para abrir",
+    totbooks_cooldown: "Espera {s}s para crear otro...",
+    totbooks_drag: "Arrastrar",
+    totbooks_prev: "Página anterior",
+    totbooks_next: "Página siguiente",
+    totbooks_pages_label: "Páginas {title}",
+    totbooks_cover_label: "Portada {title}"
+  },
+  fr: {
+    totbooks_hint: "Double-cliquez pour créer • Glissez pour organiser",
+    totbooks_drop: "Déposez pour supprimer",
+    totbooks_modal_title: "🔸 Nouveau T∅TBook",
+    totbooks_modal_ph: "Nom du projet...",
+    totbooks_cancel: "Annuler",
+    totbooks_create: "Créer",
+    totbooks_open: "cliquer pour ouvrir",
+    totbooks_cooldown: "Attendez {s}s pour en créer un autre...",
+    totbooks_drag: "Glisser",
+    totbooks_prev: "Page précédente",
+    totbooks_next: "Page suivante",
+    totbooks_pages_label: "Pages {title}",
+    totbooks_cover_label: "Couverture {title}"
+  }
+};
+
+const t = (key) => (i18n[langCode] && i18n[langCode][key]) || i18n.pt[key] || key;
+const format = (str, vars = {}) => String(str).replace(/\{(\w+)\}/g, (_, k) => vars[k] ?? '');
+
+function applyUiText() {
+  const hint = document.getElementById('hint-text');
+  if (hint) hint.textContent = t('totbooks_hint');
+  const drop = document.querySelector('#trash-zone span');
+  if (drop) drop.textContent = t('totbooks_drop');
+  if (modalTitle) modalTitle.textContent = t('totbooks_modal_title');
+  if (modalInput) modalInput.placeholder = t('totbooks_modal_ph');
+  if (modalCancel) modalCancel.textContent = t('totbooks_cancel');
+  if (modalOk) modalOk.textContent = t('totbooks_create');
+  document.querySelectorAll('.hint').forEach(el => { el.textContent = t('totbooks_open'); });
+}
+
+applyUiText();
 
 // Paleta variada + shuffle-bag
 const strapColors = [
@@ -894,8 +976,10 @@ function createBook(title, x, y, opts = {}){
   let pages = loadPages(id);
   let pageIndex = 0;
 
+  const coverLabel = format(t('totbooks_cover_label'), { title: savedTitle });
+  const pagesLabel = format(t('totbooks_pages_label'), { title: savedTitle });
   book.innerHTML = `
-    <div class="cover" aria-label="Capa ${savedTitle}">
+    <div class="cover" aria-label="${escapeHtml(coverLabel)}">
       <div class="sheen"></div>
       <div class="strap" style="background:${savedColor}">
         <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" style="font-size: 18px;">
@@ -906,13 +990,13 @@ function createBook(title, x, y, opts = {}){
       <div class="elastic"></div>
     </div>
 
-    <div class="drag-handle" title="Arrastar">
+    <div class="drag-handle" title="${escapeHtml(t('totbooks_drag'))}">
       <div class="dots"></div>
     </div>
 
-    <div class="hint">clique para abrir</div>
+    <div class="hint">${escapeHtml(t('totbooks_open'))}</div>
 
-    <div class="pages" role="region" aria-label="Páginas ${savedTitle}">
+    <div class="pages" role="region" aria-label="${escapeHtml(pagesLabel)}">
       <div class="page-viewport">
         <div class="sheet sheet-a">
           <div class="page-text" contenteditable="true" spellcheck="false"></div>
@@ -923,9 +1007,9 @@ function createBook(title, x, y, opts = {}){
       </div>
 
       <div class="pagination">
-        <button class="prev" title="Página anterior">‹</button>
+        <button class="prev" title="${escapeHtml(t('totbooks_prev'))}">‹</button>
         <span class="count"></span>
-        <button class="next" title="Próxima página">›</button>
+        <button class="next" title="${escapeHtml(t('totbooks_next'))}">›</button>
       </div>
     </div>
   `;
@@ -1379,7 +1463,7 @@ library.addEventListener('dblclick', (e) => {
     hintEl.style.opacity = "0";
     
     setTimeout(() => {
-      hintEl.innerHTML = `<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2h12v2h-1v3c0 1.7-1 3.2-2.6 4l-1.4.8 1.4.8c1.6.8 2.6 2.3 2.6 4v3H7v-3c0-1.7 1-3.2 2.6-4l1.4-.8-1.4-.8C8 9.2 7 7.7 7 6V4H6V2zm3 18h6v-2H9v2z"></path></svg> Aguarde ${remaining}s para criar outro...`;
+      hintEl.innerHTML = `<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 2h12v2h-1v3c0 1.7-1 3.2-2.6 4l-1.4.8 1.4.8c1.6.8 2.6 2.3 2.6 4v3H7v-3c0-1.7 1-3.2 2.6-4l1.4-.8-1.4-.8C8 9.2 7 7.7 7 6V4H6V2zm3 18h6v-2H9v2z"></path></svg> ${format(t('totbooks_cooldown'), { s: remaining })}`;
       hintEl.style.color = "#ef4444"; // Cor de alerta (vermelho suave)
       hintEl.style.transform = "translate(-50%, -50%) scale(1.1)";
       hintEl.style.opacity = "1";

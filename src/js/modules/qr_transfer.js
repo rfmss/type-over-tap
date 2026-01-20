@@ -20,6 +20,10 @@ const qrTransfer = (() => {
   let scanDetector = null;
   let scanSession = null;
   let scanCells = [];
+  let scanCanvas = null;
+  let scanCtx = null;
+  let scanMode = null;
+  let scanLastAt = 0;
 
   let onRestore = null;
 
@@ -144,12 +148,6 @@ const qrTransfer = (() => {
   }
 
   async function startScan() {
-    if (!('BarcodeDetector' in window)) {
-      if (els.scanStatus) {
-        els.scanStatus.textContent = lang.t('qr_no_detector');
-      }
-      return;
-    }
     if (!els.scanVideo) {
       updateScanStatus(lang.t('qr_camera_missing'));
       return;
@@ -163,11 +161,26 @@ const qrTransfer = (() => {
       els.scanVideo.srcObject = scanStream;
       await els.scanVideo.play();
 
-      scanDetector = new BarcodeDetector({ formats: ['qr_code'] });
+      if ('BarcodeDetector' in window) {
+        scanDetector = new BarcodeDetector({ formats: ['qr_code'] });
+        scanMode = 'barcode';
+      } else if (window.jsQR) {
+        scanMode = 'jsqr';
+        scanCanvas = document.createElement('canvas');
+        scanCtx = scanCanvas.getContext('2d', { willReadFrequently: true });
+      } else {
+        updateScanStatus(lang.t('qr_no_detector'));
+        stopScan();
+        return;
+      }
       scanActive = true;
       scanSession = null;
       scanCells = [];
-      updateScanStatus(lang.t('qr_scan_wait'));
+      if (scanMode === 'jsqr') {
+        updateScanStatus(lang.t('qr_using_fallback'));
+      } else {
+        updateScanStatus(lang.t('qr_scan_wait'));
+      }
       scanLoop();
     } catch (err) {
       updateScanStatus(lang.t('qr_camera_blocked'));
@@ -184,6 +197,9 @@ const qrTransfer = (() => {
     if (els.scanVideo) {
       els.scanVideo.srcObject = null;
     }
+    scanCanvas = null;
+    scanCtx = null;
+    scanMode = null;
   }
 
   function updateScanStatus(text) {
@@ -202,9 +218,29 @@ const qrTransfer = (() => {
     }
     scanBusy = true;
     try {
-      const codes = await scanDetector.detect(els.scanVideo);
-      if (codes && codes.length > 0) {
-        handleScanFrame(codes[0].rawValue || '');
+      if (scanMode === 'barcode') {
+        const codes = await scanDetector.detect(els.scanVideo);
+        if (codes && codes.length > 0) {
+          handleScanFrame(codes[0].rawValue || '');
+        }
+      } else if (scanMode === 'jsqr' && scanCtx && scanCanvas) {
+        const now = performance.now();
+        if (now - scanLastAt < 90) {
+          scanBusy = false;
+          requestAnimationFrame(scanLoop);
+          return;
+        }
+        scanLastAt = now;
+        const width = els.scanVideo.videoWidth || 640;
+        const height = els.scanVideo.videoHeight || 480;
+        scanCanvas.width = width;
+        scanCanvas.height = height;
+        scanCtx.drawImage(els.scanVideo, 0, 0, width, height);
+        const imageData = scanCtx.getImageData(0, 0, width, height);
+        const result = window.jsQR(imageData.data, width, height, { inversionAttempts: 'attemptBoth' });
+        if (result && result.data) {
+          handleScanFrame(result.data);
+        }
       }
     } catch (_) {
       // Ignore detection errors; keep scanning.

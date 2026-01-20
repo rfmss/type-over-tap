@@ -1,0 +1,571 @@
+# TâT â Texto visÃ­vel ao usuÃ¡rio
+
+## Idioma: es
+
+- lang_label: ESP
+- lang_title: Idioma
+- manifesto_title: MANIFIESTO TâT
+- manifesto_subtitle: Type over Tap
+- manifesto_body: <p>TâT es un editor offline, portÃ¡til y no rastreable. Lo abres una vez. DespuÃ©s de eso, escribes sin internet.</p><p>Cada computadora es un escenario vacÃ­o. Tu entorno de escritura llega como una cÃ¡psula local, transportada manualmente mediante archivos o Stream QR.</p><div class="manifesto-grid"><div class="manifesto-card"><h3><span class="manifesto-badge">01</span> DESKTOP FIRST</h3><p>Hecho para escribir. Foco total. Salida limpia.</p></div><div class="manifesto-card"><h3><span class="manifesto-badge">02</span> MÃVIL = CLAVE</h3><p>El mÃ³vil escanea QR, guarda notas rÃ¡pidas y transporta tu trabajo. Nada se sincroniza automÃ¡ticamente.</p></div><div class="manifesto-card"><h3><span class="manifesto-badge">03</span> TODO ES LOCAL</h3><p>Tus textos viven dentro de una cÃ¡psula local. La exportaciÃ³n es manual. Siempre offline.</p></div><div class="manifesto-card"><h3><span class="manifesto-badge">04</span> EVIDENCIA MATEMÃTICA</h3><p>Hashes criptogrÃ¡ficos y metadatos verificables demuestran que un texto existÃ­a en un momento determinado. Esto no es una promesa legal. Es matemÃ¡tica.</p></div><div class="manifesto-card"><h3><span class="manifesto-badge">05</span> QUÃ SE REGISTRA</h3><p>Hash, caracteres, ritmo de escritura, primera y Ãºltima pulsaciÃ³n, origen del archivo.</p></div><div class="manifesto-card"><h3><span class="manifesto-badge">06</span> LO QUE NO EXISTE AQUÃ</h3><p>Sin cuenta. Sin nube. Sin rastreo. Sin garantÃ­a legal absoluta.</p></div><div class="manifesto-card"><h3><span class="manifesto-badge">07</span> ANCLA OPCIONAL</h3><p>Publica el hash si quieres. O guÃ¡rdalo. La decisiÃ³n siempre es tuya.</p></div></div><p class="manifesto-note">Al continuar, entiendes los lÃ­mites y aceptas el manifiesto.</p>
+- manifesto_accept: LEÃ Y ENTENDÃ
+- welcome: INICIANDO SISTEMA
+- create_pass: Crear contraseÃ±a de sesiÃ³n
+- repeat_pass: CONFIRMAR CONTRASEÃA
+- start_btn: Crear sesiÃ³n local
+- locked: SISTEMA BLOQUEADO
+- unlock_btn: DESBLOQUEAR
+- wrong_pass: CONTRASEÃA INCORRECTA
+- reset_warn: PELIGRO: ESTO BORRARÃ TODO. Â¿SEGUIR?
+- reset_invalid: CONTRASEÃAS INVÃLIDAS O DIFERENTES.
+- reset_cancel: CONTRASEÃA INCORRECTA. OPERACIÃN CANCELADA.
+- reset_prompt: INGRESE LA CONTRASEÃA PARA CONFIRMAR EL BORRADO:
+- modal_title: CONFIRMACIÃN
+- modal_ok: OK
+- modal_cancel: CANCELAR
+- project_delete_confirm: Borrar archivo
+- stats_chars: CHARS
+- stats_words: WORDS
+- stats_label: CHARS: 0 | WORDS: 0
+- marquee_ready: /// SISTEMA LISTO /// PRESIONE [F1] PARA AYUDA :: ESCRIBA --H EN EL EDITOR
+- font_title: Cambiar Fuente [Alt+F]
+- save_title: Guardar [Ctrl+S]
+- export_btn: EXPORTAR
+- search_ph: Buscar... [Ctrl+F]
+- search_go: IR
+- audio_title: MÃºsica [Alt+M]
+- audio_btn: SONIDO
+- reader_title: Modo Lector
+- reader_btn: LECTOR
+- xray_title: Modo Rayos-X
+- xray_btn: X-RAY
+- lock_title: Bloquear Pantalla [Alt+L]
+- lock_btn: LOCK
+- export_title: PROTOCOLO DE EXPORTACIÃN
+- export_markdown: EXPORTAR MARKDOWN
+- export_report_full: IMPRESIÃN COMPLETA
+- export_qr_stream: STREAM QR
+- export_social_title: REDES FEDERADAS
+- export_social_bigtech: REDES NO FEDERADAS (SIN CONTROL REAL SOBRE TU CONTENIDO)
+- share_title: COMPARTIR TâT
+- share_copy: COPIAR TEXTO
+- share_open: ABRIR RED
+- share_message: Yo escribo en ð¸ TâT - Editor. EscribiÃ³, exportÃ³, borrÃ³. Un bunker offline para escribir con privacidad. https://tot.undo.it/
+- fediverse_help: NO SABES QUÃ ES EL FEDIVERSO?
+- fediverse_title: FEDIVERSO
+- fediverse_body: <p>Piensa en redes sociales como email: puedes elegir proveedor y hablar con cualquiera. El fediverso funciona igual.</p><p>En lugar de una empresa mandando todo, muchas comunidades se conectan. TÃº eliges dÃ³nde estar, mantienes tus datos y sigues conectado.</p><p>Menos vigilancia, mÃ¡s control, mÃ¡s libertad.</p>
+- export_active: activo
+- export_all: todo
+- export_light: luz
+- danger_zone: ZONA DE PELIGRO
+- reset_warn_body: Esto borrarÃ¡ TODOS los archivos y ajustes.
+- reset_proof: VERIFICACIÃN DE CONTENIDO: ESCRIBA UNA PALABRA DEL TEXTO
+- reset_keyword: Palabra del texto
+- reset_validate: Verificar contenido
+- reset_confirm: SÃ, BORRAR
+- reset_password_prompt: INGRESE LA CONTRASEÃA DE SESIÃN PARA AUTORIZAR LA DESTRUCCIÃN:
+- reset_password_ph: ContraseÃ±a de sesiÃ³n
+- reset_destroy: Destruir sesiÃ³n local
+- pomo_locked: CICLO DE ESCRITA ATIVO
+- pomo_break: PAUSA ACTIVA
+- pomo_break_hint: El desbloqueo requiere la contraseÃ±a de sesiÃ³n.
+- pomo_unlock_prompt: INGRESE LA CONTRASEÃA DE SESIÃN PARA DESBLOQUEAR:
+- pomo_choice: ELIGE EL PRÃXIMO BLOQUE:
+- pomo_25: 25 MIN
+- pomo_55: 55 MIN
+- help_title: MANUAL DE COMANDOS
+- help_tab_general: GENERAL
+- help_tab_tools: HERRAMIENTAS
+- help_tab_nav: ESTRUCTURA
+- help_tab_slash: SLASH COMMANDS
+- help_help: Ayuda
+- help_save: Guardar / Exportar
+- help_open: Abrir / Importar
+- help_fullscreen: Pantalla Completa (Zen)
+- help_search: Buscar
+- help_close: Cerrar / Enfocar Editor
+- help_theme: Cambiar Tema
+- help_music: MÃºsica (Play / Stop)
+- help_pomo: Ciclo de escritura
+- help_font: Cambiar Fuente
+- help_files: Abrir Archivos
+- help_nav: Abrir Estructura
+- help_memo: Abrir Memos
+- help_drawer_close: Cerrar CajÃ³n
+- help_slash_hint: Escriba en el editor para activar:
+- help_save_short: Guardar
+- help_open_short: Importar
+- help_theme_short: Cambiar Tema
+- help_fullscreen_short: Pantalla Completa
+- help_music_short: MÃºsica
+- help_pomo_short: Ciclo de escritura
+- tab_files: Archivos [Alt+1]
+- tab_nav: Estructura [Alt+2]
+- tab_memo: Memos [Alt+3]
+- tab_theme: Tema [Alt+T]
+- tab_books: TâTBooks [Alt+4]
+- hard_reset_title: HARD RESET
+- fullscreen_title: Pantalla Completa [F11]
+- drawer_system: SISTEMA
+- drawer_files: ARCHIVOS
+- drawer_nav: ESTRUCTURA
+- drawer_memo: MEMOS
+- btn_new_project: + NUEVO
+- btn_import_title: Importar JSON/TXT
+- btn_open: ABRIR
+- btn_scan_qr: Scan QR
+- btn_scan: SCAN QR
+- nav_structure: Estructura del documento:
+- nav_insert: INSERTAR MARCADOR
+- nav_empty_hint: Usa "Insertar marcador" para navegar.
+- nav_delete_confirm: Borrar marcador
+- memo_ph: Nota rÃ¡pida...
+- files_hint: Controla archivos y copias localmente.
+- nav_hint: Ve la estructura del texto y navega con marcadores.
+- memo_hint: Anota ideas rÃ¡pidas sin tocar el texto principal.
+- mobile_theme: CAMBIAR TEMA
+- mobile_full_enable: ACTIVAR MODO COMPLETO
+- mobile_full_disable: VOLVER A MEMO
+- mobile_memo_ph: Nota rÃ¡pida...
+- mobile_memo_tags: Tags (separa por coma)
+- mobile_memo_add: GUARDAR MEMO
+- mobile_memo_delete: BORRAR
+- mobile_export_memos: EXPORTAR MEMOS
+- mobile_intro_title: MODO MÃVIL
+- mobile_intro_body: <p>El mÃ³vil se reduce a lo esencial: scanner QR y notas rÃ¡pidas.</p><p>Desliza hacia arriba para ocultar el scanner y escribir en memo.</p><p>Exporta JSON e importa en desktop para el proyecto completo.</p>
+- mobile_intro_ok: ENTENDI
+- offline_download: DESCARGAR APP OFFLINE
+- project_github: GITHUB DEL PROYECTO
+- qr_stream_title: STREAM QR
+- qr_stream_active: STREAM ACTIVO
+- qr_stream_pause: PAUSAR
+- qr_stream_hint: Cierre para terminar el envÃ­o.
+- qr_stream_instructions: <p>1) En el celular, abre TâT y ve a Archivos â Scan QR.</p><p>2) Apunta a esta pantalla hasta completar.</p><p>3) Luego borra todo aquÃ­.</p>
+- qr_scan_title: SCAN QR
+- qr_scan_wait: ESPERANDO QR...
+- qr_scan_stop: DETENER SCAN
+- qr_fallback_hint: Sin camara? Importa el archivo .b64 o pega la cadena.
+- qr_fallback_import: IMPORTAR ARCHIVO
+- qr_fallback_paste: Pega la cadena base64
+- qr_fallback_restore: RESTAURAR
+- reader_glossary: GLOSARIO
+- lexicon_title: DICCIONARIO
+- lexicon_trans: TRADUCCIONES
+- goal_label: META
+- goal_done_title: META CUMPLIDA
+- goal_done_body: Felicidades, alcanzaste tu meta de escritura.
+- goal_500_title: 500 PALABRAS
+- goal_500_body: Bien. Sigue hasta 1000 palabras.
+- goal_1000_title: 1000 PALABRAS
+- goal_1000_body: Buen ritmo. Ve por 1500.
+- goal_1500_title: 1500 PALABRAS
+- goal_1500_body: Casi listo. Apunta a 2000.
+- goal_2000_title: 2000 PALABRAS
+- goal_2000_body: Excelente. Meta mÃ¡xima lograda.
+- reader_glossary_title: Glosario
+- reader_ruler_title: Regla
+- reader_font_title: Fuente
+- reader_theme_title: Tema
+- reader_play_title: Play
+- reader_close_title: Cerrar
+- default_project: Borrador Inicial
+- alert_backup_restored: â BACKUP RESTAURADO CON ÃXITO!
+- alert_backup_invalid: Error: Backup invÃ¡lido o corrupto.
+- alert_capsule_restored: â CÃPSULA TâT RESTAURADA CON ÃXITO!
+- alert_capsule_invalid: Error: CÃ¡psula invÃ¡lida o corrupta.
+- alert_backup_json_error: Error al leer el archivo JSON.
+- prompt_file_name: Nombre del Archivo:
+- reset_no_text: SIN TEXTO PARA VALIDAR. CONTINÃE AL PASO 2.
+- reset_proof_ok: VERIFICACIÃN OK.
+- reset_proof_fail: PALABRA INCORRECTA.
+- reset_executing: EJECUTANDO PROTOCOLO...
+- reset_denied: CONTRASEÃA INCORRECTA. ACCESO DENEGADO.
+- pomo_unlocked: ACCESO LIBERADO.
+- pomo_wrong_pass: CONTRASEÃA INCORRECTA.
+- pomo_break_label: PAUSA
+- qr_stream_paused: STREAM PAUSADO
+- qr_stream_resume: REANUDAR
+- qr_stream_empty: SIN DATOS PARA STREAM.
+- qr_no_detector: BarcodeDetector no disponible. Use importaciÃ³n por archivo.
+- qr_using_fallback: Decoder offline activo. Apunte la cÃ¡mara.
+- qr_camera_missing: Elemento de cÃ¡mara ausente.
+- qr_camera_blocked: CÃMARA BLOQUEADA O NO DISPONIBLE.
+- qr_receiving: RECIBIENDO
+- qr_restore_in_progress: BACKUP COMPLETO. RESTAURANDO...
+- qr_decode_fail: FALLO EN LA DECODIFICACIÃN.
+- qr_frame: FRAME
+- confirm_exit: Â¿Desea cerrar el sistema?
+- chapter_title: NUEVO CAPÃTULO
+
+## Idioma: fr
+
+- lang_label: FRAN
+- lang_title: Langue
+- manifesto_title: MANIFESTE TâT
+- manifesto_subtitle: Type over Tap
+- manifesto_body: <p>TâT est un Ã©diteur hors ligne, portable et non traÃ§able. Vous lâouvrez une fois. Ensuite, vous Ã©crivez sans internet.</p><p>Chaque ordinateur est une scÃ¨ne vide. Votre environnement dâÃ©criture arrive sous forme de capsule locale, transportÃ©e manuellement via des fichiers ou le Stream QR.</p><div class="manifesto-grid"><div class="manifesto-card"><h3><span class="manifesto-badge">01</span> DESKTOP FIRST</h3><p>ConÃ§u pour Ã©crire. Concentration totale. Sortie propre.</p></div><div class="manifesto-card"><h3><span class="manifesto-badge">02</span> MOBILE = CLÃ</h3><p>Le mobile scanne les QR, conserve des notes rapides et transporte votre travail. Rien ne se synchronise automatiquement.</p></div><div class="manifesto-card"><h3><span class="manifesto-badge">03</span> TOUT EST LOCAL</h3><p>Vos textes vivent dans une capsule locale. Lâexportation est manuelle. Toujours hors ligne.</p></div><div class="manifesto-card"><h3><span class="manifesto-badge">04</span> PREUVE MATHÃMATIQUE</h3><p>Des hash cryptographiques et des mÃ©tadonnÃ©es vÃ©rifiables montrent quâun texte existait Ã  un moment donnÃ©. Ce nâest pas une promesse lÃ©gale. Câest mathÃ©matique.</p></div><div class="manifesto-card"><h3><span class="manifesto-badge">05</span> CE QUI EST ENREGISTRÃ</h3><p>Hash, caractÃ¨res, rythme de frappe, premiÃ¨re et derniÃ¨re touche, origine du fichier.</p></div><div class="manifesto-card"><h3><span class="manifesto-badge">06</span> CE QUI NâEXISTE PAS ICI</h3><p>Pas de compte. Pas de cloud. Pas de traÃ§age. Aucune garantie lÃ©gale absolue.</p></div><div class="manifesto-card"><h3><span class="manifesto-badge">07</span> ANCRAGE OPTIONNEL</h3><p>Publiez le hash si vous le souhaitez. Ou conservez-le. La dÃ©cision vous appartient toujours.</p></div></div><p class="manifesto-note">En continuant, vous comprenez les limites et acceptez le manifeste.</p>
+- manifesto_accept: J'AI LU ET COMPRIS
+- welcome: DÃMARRAGE DU SYSTÃME
+- create_pass: CrÃ©er un mot de passe de session
+- repeat_pass: CONFIRMER LE MOT DE PASSE
+- start_btn: CrÃ©er la session locale
+- locked: SYSTÃME VERROUILLÃ
+- unlock_btn: DÃVERROUILLER
+- wrong_pass: MOT DE PASSE INCORRECT
+- reset_warn: DANGER : TOUT SERA EFFACÃ. CONTINUER ?
+- reset_invalid: MOTS DE PASSE INVALIDES OU DIFFÃRENTS.
+- reset_cancel: MOT DE PASSE INCORRECT. OPÃRATION ANNULÃE.
+- reset_prompt: ENTREZ LE MOT DE PASSE POUR CONFIRMER L'EFFACEMENT :
+- modal_title: CONFIRMATION
+- modal_ok: OK
+- modal_cancel: ANNULER
+- project_delete_confirm: Supprimer le fichier
+- stats_chars: CHARS
+- stats_words: WORDS
+- stats_label: CHARS: 0 | WORDS: 0
+- marquee_ready: /// SYSTÃME PRÃT /// APPUYEZ SUR [F1] POUR L'AIDE :: TAPEZ --H DANS L'ÃDITEUR
+- font_title: Changer la police [Alt+F]
+- save_title: Enregistrer [Ctrl+S]
+- export_btn: EXPORTER
+- search_ph: Rechercher... [Ctrl+F]
+- search_go: OK
+- audio_title: Musique [Alt+M]
+- audio_btn: SON
+- reader_title: Mode Lecture
+- reader_btn: LECTEUR
+- xray_title: Mode Rayon-X
+- xray_btn: X-RAY
+- lock_title: Verrouiller l'Ã©cran [Alt+L]
+- lock_btn: LOCK
+- export_title: PROTOCOLE D'EXPORT
+- export_markdown: EXPORTER MARKDOWN
+- export_report_full: IMPRESSION COMPLETE
+- export_qr_stream: STREAM QR
+- export_social_title: RÃSEAUX FÃDÃRÃS
+- export_social_bigtech: RÃSEAUX NON FÃDÃRÃS (SANS CONTRÃLE RÃEL DU CONTENU)
+- share_title: PARTAGER TâT
+- share_copy: COPIER LE TEXTE
+- share_open: OUVRIR LE RÃSEAU
+- share_message: J'Ã©cris dans ð¸ TâT - Editor. Ãcrit, exportÃ©, effacÃ©. Un bunker hors ligne pour Ã©crire en privÃ©. https://tot.undo.it/
+- fediverse_help: VOUS NE SAVEZ PAS CE QU'EST LE FEDIVERSE?
+- fediverse_title: FEDIVERSE
+- fediverse_body: <p>Pensez aux rÃ©seaux sociaux comme aux emails : vous choisissez un fournisseur et vous parlez Ã  tout le monde. Le fediverse fonctionne pareil.</p><p>Au lieu d'une entreprise qui contrÃ´le tout, plusieurs communautÃ©s se connectent. Vous choisissez oÃ¹ Ãªtre, gardez vos donnÃ©es et restez connectÃ©.</p><p>Moins de surveillance, plus de contrÃ´le, plus de libertÃ©.</p>
+- export_active: actif
+- export_all: tout
+- export_light: lumiÃ¨re
+- danger_zone: ZONE DE DANGER
+- reset_warn_body: Cela supprimera TOUS les fichiers et rÃ©glages.
+- reset_proof: VÃRIFICATION DU CONTENU : TAPEZ UN MOT DU TEXTE
+- reset_keyword: Mot du texte
+- reset_validate: VÃ©rifier le contenu
+- reset_confirm: OUI, SUPPRIMER
+- reset_password_prompt: ENTREZ LE MOT DE PASSE DE SESSION POUR AUTORISER LA DESTRUCTION :
+- reset_password_ph: Mot de passe de session
+- reset_destroy: DÃ©truire la session locale
+- pomo_locked: CYCLE D'ÃCRITURE ACTIF
+- pomo_break: PAUSE ACTIVE
+- pomo_break_hint: Le dÃ©verrouillage nÃ©cessite le mot de passe de session.
+- pomo_unlock_prompt: ENTREZ LE MOT DE PASSE DE SESSION POUR DÃVERROUILLER :
+- pomo_choice: CHOISISSEZ LE PROCHAIN BLOC :
+- pomo_25: 25 MIN
+- pomo_55: 55 MIN
+- help_title: MANUEL DE COMMANDE
+- help_tab_general: GÃNÃRAL
+- help_tab_tools: OUTILS
+- help_tab_nav: STRUCTURE
+- help_tab_slash: SLASH COMMANDS
+- help_help: Aide
+- help_save: Enregistrer / Exporter
+- help_open: Ouvrir / Importer
+- help_fullscreen: Plein Ã©cran (Zen)
+- help_search: Rechercher
+- help_close: Fermer / Focus Ãditeur
+- help_theme: Changer ThÃ¨me
+- help_music: Musique (Play / Stop)
+- help_pomo: Cycle d'Ã©criture
+- help_font: Changer Police
+- help_files: Ouvrir Fichiers
+- help_nav: Ouvrir Structure
+- help_memo: Ouvrir MÃ©mos
+- help_drawer_close: Fermer le tiroir
+- help_slash_hint: Tapez dans l'Ã©diteur pour activer :
+- help_save_short: Enregistrer
+- help_open_short: Importer
+- help_theme_short: Changer ThÃ¨me
+- help_fullscreen_short: Plein Ã©cran
+- help_music_short: Musique
+- help_pomo_short: Cycle d'Ã©criture
+- tab_files: Fichiers [Alt+1]
+- tab_nav: Structure [Alt+2]
+- tab_memo: MÃ©mos [Alt+3]
+- tab_theme: ThÃ¨me [Alt+T]
+- tab_books: TâTBooks [Alt+4]
+- hard_reset_title: HARD RESET
+- fullscreen_title: Plein Ã©cran [F11]
+- drawer_system: SYSTÃME
+- drawer_files: FICHIERS
+- drawer_nav: NAVIGATION
+- drawer_memo: MÃMOS
+- btn_new_project: + NOUVEAU
+- btn_import_title: Importer JSON/TXT
+- btn_open: OUVRIR
+- btn_scan_qr: Scan QR
+- btn_scan: SCAN QR
+- nav_structure: Structure du document :
+- nav_insert: INSÃRER MARQUEUR
+- nav_empty_hint: Utilisez "InsÃ©rer marqueur" pour naviguer.
+- nav_delete_confirm: Supprimer le marqueur
+- memo_ph: Note rapideâ¦
+- files_hint: GÃ©rez vos fichiers et sauvegardes localement.
+- nav_hint: Voyez la structure du texte et naviguez avec des marqueurs.
+- memo_hint: Notez des idees sans toucher au texte principal.
+- mobile_theme: CHANGER THÃME
+- mobile_full_enable: ACTIVER MODE COMPLET
+- mobile_full_disable: RETOUR AU MÃMO
+- mobile_memo_ph: Note rapideâ¦
+- mobile_memo_tags: Tags (sÃ©parÃ©s par virgule)
+- mobile_memo_add: ENREGISTRER
+- mobile_memo_delete: SUPPRIMER
+- mobile_export_memos: EXPORTER MÃMOS
+- mobile_intro_title: MODE MOBILE
+- mobile_intro_body: <p>Le mobile est rÃ©duit Ã  l'essentiel : scanner QR et notes rapides.</p><p>Glissez vers le haut pour masquer le scanner et Ã©crire en mÃ©mo.</p><p>Exportez JSON et importez sur desktop pour le projet complet.</p>
+- mobile_intro_ok: COMPRIS
+- offline_download: TÃLÃCHARGER L'APP OFFLINE
+- project_github: GITHUB DU PROJET
+- qr_stream_title: STREAM QR
+- qr_stream_active: STREAM ACTIF
+- qr_stream_pause: PAUSE
+- qr_stream_hint: Fermez pour terminer l'envoi.
+- qr_stream_instructions: <p>1) Sur votre tÃ©lÃ©phone, ouvrez TâT puis Fichiers â Scan QR.</p><p>2) Visez cet Ã©cran jusqu'Ã  la fin.</p><p>3) Ensuite, effacez tout ici.</p>
+- qr_scan_title: SCAN QR
+- qr_scan_wait: EN ATTENTE DU QR...
+- qr_scan_stop: ARRÃTER SCAN
+- qr_fallback_hint: Sans camÃ©ra ? Importez le fichier .b64 ou collez la chaÃ®ne.
+- qr_fallback_import: IMPORTER FICHIER
+- qr_fallback_paste: Collez la chaÃ®ne base64
+- qr_fallback_restore: RESTAURER
+- reader_glossary: GLOSSAIRE
+- lexicon_title: DICTIONNAIRE
+- lexicon_trans: TRADUCTIONS
+- goal_label: OBJECTIF
+- goal_done_title: OBJECTIF ATTEINT
+- goal_done_body: Bravo, vous avez atteint votre objectif d'Ã©criture.
+- goal_500_title: 500 MOTS
+- goal_500_body: Bien. Continuez jusqu'Ã  1000 mots.
+- goal_1000_title: 1000 MOTS
+- goal_1000_body: Bon rythme. Visez 1500.
+- goal_1500_title: 1500 MOTS
+- goal_1500_body: Presque. Atteignez 2000.
+- goal_2000_title: 2000 MOTS
+- goal_2000_body: Excellent. Objectif maximal atteint.
+- reader_glossary_title: Glossaire
+- reader_ruler_title: RÃ¨gle
+- reader_font_title: Police
+- reader_theme_title: ThÃ¨me
+- reader_play_title: Play
+- reader_close_title: Fermer
+- default_project: Brouillon Initial
+- alert_backup_restored: â SAUVEGARDE RESTAURÃE AVEC SUCCÃS !
+- alert_backup_invalid: Erreur : sauvegarde invalide ou corrompue.
+- alert_capsule_restored: â CAPSULE TâT RESTAURÃE AVEC SUCCÃS !
+- alert_capsule_invalid: Erreur : capsule invalide ou corrompue.
+- alert_backup_json_error: Erreur de lecture du fichier JSON.
+- prompt_file_name: Nom du fichier :
+- reset_no_text: AUCUN TEXTE Ã VALIDER. CONTINUEZ Ã L'ÃTAPE 2.
+- reset_proof_ok: VÃRIFICATION OK.
+- reset_proof_fail: MOT INCORRECT.
+- reset_executing: EXÃCUTION DU PROTOCOLE...
+- reset_denied: MOT DE PASSE INCORRECT. ACCÃS REFUSÃ.
+- pomo_unlocked: ACCÃS AUTORISÃ.
+- pomo_wrong_pass: MOT DE PASSE INCORRECT.
+- pomo_break_label: PAUSE
+- qr_stream_paused: STREAM EN PAUSE
+- qr_stream_resume: REPRENDRE
+- qr_stream_empty: AUCUNE DONNÃE Ã STREAMER.
+- qr_no_detector: BarcodeDetector indisponible. Utilisez l'import de fichier.
+- qr_using_fallback: DÃ©codage hors ligne actif. Pointez la camÃ©ra.
+- qr_camera_missing: ÃlÃ©ment camÃ©ra manquant.
+- qr_camera_blocked: CAMÃRA BLOQUÃE OU INDISPONIBLE.
+- qr_receiving: RÃCEPTION
+- qr_restore_in_progress: SAUVEGARDE COMPLÃTE. RESTAURATION...
+- qr_decode_fail: ÃCHEC DU DÃCODAGE.
+- qr_frame: FRAME
+- confirm_exit: Voulez-vous fermer le systÃ¨me ?
+- chapter_title: NOUVEAU CHAPITRE
+
+## Textos estÃ¡ticos em index.html
+
+- 🔸 T∅T - Editor
+- INICIALIZANDO SISTEMA
+- 🇧🇷 PT
+- Crie a senha da sessão
+- Criar sessão local
+- BLOQUEADO
+- DESBLOQUEAR
+- MANIFESTO T∅T
+- Type over Tap
+- PTBR
+- LI E ENTENDI
+- /// SYSTEM READY /// PRESS [F1] FOR HELP :: TYPE --H IN EDITOR
+- SISTEMA
+- ×
+- Controle seus arquivos e backups localmente.
+- + NOVO
+- ABRIR
+- SCAN QR
+- BAIXAR APP OFFLINE
+- GITHUB DO PROJETO
+- EXPORTAR MEMOS
+- Veja a estrutura do texto e navegue pelos marcadores.
+- Estrutura do documento:
+- INSERIR MARCADOR
+- Guarde ideias rápidas sem tocar no texto.
+- SALVAR NOTA
+- TROCAR TEMA
+- ATIVAR MODO COMPLETO
+- UNTITLED
+- CHARS: 0 | WORDS: 0
+- EXPORTAR
+- ▲
+- ▼
+- IR
+- SOM
+- LEITOR
+- X-RAY
+- LOCK
+- PROTOCOLO DE EXPORTAÇÃO
+- EXPORTAR MARKDOWN
+- .md
+- IMPRESSAO COMPLETA
+- tudo
+- STREAM QR
+- luz
+- REDES FEDERADAS
+- Mastodon
+- Lemmy
+- Pixelfed
+- Matrix
+- Element
+- PeerTube
+- NAO SABE O QUE E O FEDIVERSO?
+- REDES NAO FEDERADAS (ONDE VOCE NAO TEM CONTROLE SOBRE SEU CONTEUDO)
+- X
+- Instagram
+- Facebook
+- YouTube
+- LinkedIn
+- FEDIVERSO
+- Pense em redes sociais como email: voce pode usar qualquer provedor e falar com qualquer pessoa. O fediverso funciona assim. Em vez de uma empresa mandar em tudo, varias comunidades se conectam. Voce escolhe onde morar, leva seus dados e ainda conversa com todo mundo. E menos vigilancia, mais controle e mais liberdade.
+- DIVULGAR T∅T
+- COPIAR TEXTO
+- ABRIR REDE
+- MODO LEITOR
+- −
+- +
+- DICIONÁRIO
+- STREAM ATIVO
+- FRAME 000 / 000
+- 1) No celular, abra o T∅T e vá em Arquivos → Scan QR.
+- 2) Aponte para esta tela até completar.
+- 3) Depois, apague tudo aqui.
+- PAUSAR
+- Feche para encerrar o envio.
+- AGUARDANDO QR...
+- Sem câmera? Importe o arquivo .b64 ou cole a string.
+- IMPORTAR ARQUIVO
+- RESTAURAR
+- PARAR SCAN
+- MODO MOBILE
+- O mobile é reduzido ao essencial: scanner QR e notas rápidas.
+- Deslize para cima para esconder o scanner e escrever no memo.
+- Exporte JSON e importe no desktop para o projeto completo.
+- ENTENDI
+- ZONA DE PERIGO
+- Isso apagará TODOS os arquivos e configurações.
+- VERIFICAÇÃO DE CONTEÚDO: DIGITE UMA PALAVRA DO TEXTO
+- Verificar conteúdo
+- SIM, QUERO APAGAR
+- Digite a senha da sessão para autorizar a destruição:
+- Destruir sessão local
+- POMODORO BLOQUEADO
+- PAUSA ATIVA
+- 06:00
+- Desbloqueio exige a senha da sessão ao fim.
+- DIGITE SUA SENHA PARA LIBERAR:
+- ESCOLHA O PRÓXIMO CICLO:
+- 25 MIN
+- 55 MIN
+- META CUMPRIDA
+- Parabens, voce atingiu sua meta de escrita.
+- MANUAL DE COMANDO
+- GERAL
+- FERRAMENTAS
+- NAVEGAÇÃO
+- SLASH COMMANDS
+- Ajuda
+- F1
+- Salvar / Exportar
+- Ctrl
+- S
+- Abrir / Importar
+- O
+- Tela Cheia (Zen)
+- F11
+- Buscar
+- F
+- Fechar / Focar Editor
+- Esc
+- Trocar Tema
+- Alt
+- T
+- Música (Play/Stop)
+- M
+- Pomodoro (25m)
+- P
+- Mudar Fonte
+- Abrir Arquivos
+- 1
+- Abrir Navegação
+- 2
+- Abrir Memo
+- 3
+- Fechar Gaveta
+- 0
+- Digite no editor para ativar:
+- --h
+- Salvar
+- --save
+- Importar
+- --open
+- Mudar Tema
+- --theme
+- Tela Cheia
+- --zen
+- Música
+- --music
+- Pomodoro
+- --pomo
+- ALERTA
+- CANCELAR
+- OK
+- B
+- I
+- H1
+- H2
+- L
+- C
+- J
+- DICIONARIO
+- TRADUCOES
+- ★
+- PG
+- 01
+
+## Textos estÃ¡ticos em totbooks.html
+
+- 🔸T∅TBooks
+- Duplo clique para criar • Arraste para organizar
+- Solte para descartar
+- 🔸 T∅TBook novo
+- Cancelar
+- Criar
+

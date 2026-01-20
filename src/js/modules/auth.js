@@ -162,6 +162,10 @@ export const auth = {
         gate.style.display = 'flex';
         document.getElementById('viewSetup').style.display = 'flex';
         document.getElementById('viewLock').style.display = 'none';
+        setTimeout(() => {
+            const input = document.getElementById('setupPass1');
+            if (input) input.focus();
+        }, 100);
     },
 
     shakeInput(el) {

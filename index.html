@@ -9,6 +9,7 @@
     <link rel="manifest" href="manifest.json" />
     <link rel="icon" href="src/assets/icons/icon-512.svg" type="image/svg+xml" />
     <script src="src/assets/js/qrcode.min.js"></script>
+    <script src="src/assets/js/jsqr.min.js"></script>
     <script src="src/assets/js/lz-string.min.js"></script>
     
     <link rel="stylesheet" href="src/css/main.css">
@@ -24,10 +25,10 @@
             <button id="setupLangToggle" class="flag-btn" data-i18n="lang_label">🇧🇷 PT</button>
         </div>
         <div style="width:250px;">
-            <p data-i18n="create_pass" class="help-text">CRIE SUA SENHA</p>
+            <p data-i18n="create_pass" class="help-text">Crie a senha da sessão</p>
             <input type="password" id="setupPass1" class="search-input" style="border:1px solid var(--color-accent); padding:10px; margin-bottom:10px; text-align:center;">
             <input type="password" id="setupPass2" class="search-input" style="border:1px solid var(--color-accent); padding:10px; margin-bottom:10px; text-align:center;" data-i18n-ph="repeat_pass" placeholder="Confirmar">
-            <button id="btnCreateSession" class="btn-full" data-i18n="start_btn">INICIAR</button>
+            <button id="btnCreateSession" class="btn-full" data-i18n="start_btn">Criar sessão local</button>
         </div>
     </div>
 
@@ -56,7 +57,7 @@
             <div class="manifesto-title-row">
                 <div>
                     <h1 data-i18n="manifesto_title">MANIFESTO T∅T</h1>
-                    <p data-i18n="manifesto_subtitle">O editor portatil, transitorio e resistente.</p>
+                    <p data-i18n="manifesto_subtitle">Type over Tap</p>
                 </div>
                 <button id="manifestoLangToggle" class="flag-btn" data-i18n="lang_label">PTBR</button>
             </div>
@@ -112,7 +113,7 @@
         </div>
         
         <div id="panelFiles" class="drawer-content" style="display:none;">
-            <div class="panel-placeholder" data-i18n="files_hint">Gerencie seus arquivos e backups aqui.</div>
+            <div class="panel-placeholder" data-i18n="files_hint">Controle seus arquivos e backups localmente.</div>
             <div class="file-actions">
                 <button class="btn-half" id="btnNewProject" data-i18n="btn_new_project">+ NOVO</button>
                 <button class="btn-half" id="btnImport" title="Importar JSON/TXT" data-i18n-title="btn_import_title"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-upload-simple"></use></svg> <span data-i18n="btn_open">ABRIR</span></button>
@@ -130,14 +131,14 @@
         </div>
 
         <div id="panelNav" class="drawer-content" style="display:none;">
-            <div class="panel-placeholder" data-i18n="nav_hint">Veja a estrutura do documento e navegue pelos capitulos.</div>
+            <div class="panel-placeholder" data-i18n="nav_hint">Veja a estrutura do texto e navegue pelos marcadores.</div>
             <div class="help-text" data-i18n="nav_structure">Estrutura do documento:</div>
             <div id="chapterList" class="list-container"></div>
             <button class="btn-full" id="btnInsertChapter" style="margin-top:10px;" data-i18n="nav_insert">INSERIR MARCADOR</button>
         </div>
 
         <div id="panelMemo" class="drawer-content" style="display:none;">
-            <div class="panel-placeholder" data-i18n="memo_hint">Anote ideias rapidas sem afetar o texto principal.</div>
+            <div class="panel-placeholder" data-i18n="memo_hint">Guarde ideias rápidas sem tocar no texto.</div>
             <div class="desktop-only">
                 <textarea id="memoArea" data-i18n-ph="memo_ph" placeholder="Buffer de memória..."></textarea>
             </div>
@@ -147,8 +148,9 @@
                 <button class="btn-full" id="btnAddMobileMemo" data-i18n="mobile_memo_add">SALVAR NOTA</button>
                 <div id="mobileMemoList" class="mobile-memo-list"></div>
             </div>
-            <div class="mobile-memo-actions">
+            <div class="mobile-memo-actions mobile-only">
                 <button class="btn-full" id="btnMobileTheme" data-i18n="mobile_theme">TROCAR TEMA</button>
+                <button class="btn-full" id="btnMobileFullToggle" data-i18n="mobile_full_enable">ATIVAR MODO COMPLETO</button>
             </div>
         </div>
     </aside>
@@ -202,7 +204,7 @@
 
     <div id="exportModal" class="modal-overlay">
         <div class="modal-box">
-            <div class="modal-header"><span data-i18n="export_title">PROTOCOLO DE EXTRAÇÃO</span><button id="closeModalExport" class="btn-icon">×</button></div>
+            <div class="modal-header"><span data-i18n="export_title">PROTOCOLO DE EXPORTAÇÃO</span><button id="closeModalExport" class="btn-icon">×</button></div>
             <div class="modal-body">
                 <div class="export-grid">
                     <div class="export-card" id="actionDownloadMd"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-file-text"></use></svg><span data-i18n="export_markdown">EXPORTAR MARKDOWN</span><small>.md</small></div>
@@ -404,24 +406,24 @@
                 <p data-i18n="reset_warn_body">Isso apagará TODOS os arquivos e configurações.</p>
 
                 <div id="step0Reset" style="margin-top:15px;">
-                    <p style="font-size:12px; margin-bottom:10px;" data-i18n="reset_proof">PROVA DE AUTORIA: DIGITE A PALAVRA</p>
+                    <p style="font-size:12px; margin-bottom:10px;" data-i18n="reset_proof">VERIFICAÇÃO DE CONTEÚDO: DIGITE UMA PALAVRA DO TEXTO</p>
                     <div id="resetProofWord" style="font-weight:bold; margin-bottom:10px;"></div>
                     <input type="text" id="resetProofInput" class="search-input" style="border:1px solid #ff4444; padding:10px; text-align:center; color:#ff4444; margin-bottom:10px;" data-i18n-ph="reset_keyword" placeholder="Palavra-chave">
-                    <button class="btn-full danger-btn" id="btnConfirmReset0" data-i18n="reset_validate">VALIDAR PROVA</button>
+                    <button class="btn-full danger-btn" id="btnConfirmReset0" data-i18n="reset_validate">Verificar conteúdo</button>
                     <span id="resetProofMsg" style="display:block; margin-top:10px; font-size:11px; color:#ff4444; height:15px;"></span>
                 </div>
 
                 <button class="btn-full danger-btn" id="btnConfirmReset1" style="display:none; margin-top:15px;" data-i18n="reset_confirm">SIM, QUERO APAGAR</button>
                 
                 <div id="step2Reset" style="display:none; margin-top:20px; border-top:1px solid #ff4444; padding-top:20px;">
-                    <p style="font-size:12px; margin-bottom:10px; color:#ff4444;" data-i18n="reset_password_prompt">DIGITE SUA SENHA PARA AUTORIZAR A DESTRUIÇÃO:</p>
+                    <p style="font-size:12px; margin-bottom:10px; color:#ff4444;" data-i18n="reset_password_prompt">Digite a senha da sessão para autorizar a destruição:</p>
                     
                     <input type="password" id="resetPassInput" class="search-input" 
                            style="border:1px solid #ff4444; padding:10px; text-align:center; color:#ff4444; margin-bottom:10px;" 
                            data-i18n-ph="reset_password_ph" placeholder="Senha de Acesso">
                     
                 <button class="btn-full danger-btn" id="btnConfirmReset2" style="background:#ff4444; color:black; font-weight:bold;">
-                        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-bomb"></use></svg> <span data-i18n="reset_destroy">DELETAR PARA SEMPRE</span>
+                        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-bomb"></use></svg> <span data-i18n="reset_destroy">Destruir sessão local</span>
                     </button>
                     
                     <span id="resetMsg" style="display:block; margin-top:10px; font-size:11px; color:#ff4444; height:15px;"></span>
