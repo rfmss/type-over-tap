@@ -53,6 +53,8 @@ document.addEventListener('DOMContentLoaded', () => {
     initMobileMemos();
     initMobileIntro();
     initMobileFullToggle();
+    initMobileTapToEdit();
+    initMobileEdgeHandle();
 
     // TRAVA DE SEGURANÇA (Anti-Close)
     window.addEventListener("beforeunload", (e) => {
@@ -615,6 +617,13 @@ function setupEventListeners() {
     editorEl.addEventListener("input", () => {
         const cursorPos = editorFeatures.getCursorPos();
         store.save(editorEl.innerHTML, document.getElementById("memoArea").value, cursorPos);
+        if (window.innerWidth <= 900) {
+            document.body.classList.add("mobile-typing");
+            clearTimeout(window.__mobileTypingTimer);
+            window.__mobileTypingTimer = setTimeout(() => {
+                document.body.classList.remove("mobile-typing");
+            }, 800);
+        }
     });
     
     editorEl.addEventListener("keyup", () => store.save(undefined, undefined, editorFeatures.getCursorPos()));
@@ -645,10 +654,8 @@ function initMobileFullToggle() {
         const isLite = document.body.classList.contains("mobile-lite");
         btn.textContent = isLite ? lang.t("mobile_full_enable") : lang.t("mobile_full_disable");
     };
-    updateLabel();
-    btn.onclick = () => {
-        const isLite = document.body.classList.contains("mobile-lite");
-        if (isLite) {
+    const setFullMode = (enabled) => {
+        if (enabled) {
             document.body.classList.remove("mobile-lite");
             localStorage.setItem("lit_mobile_full", "true");
         } else {
@@ -657,7 +664,51 @@ function initMobileFullToggle() {
         }
         updateLabel();
     };
+    updateLabel();
+    btn.onclick = () => {
+        const isLite = document.body.classList.contains("mobile-lite");
+        setFullMode(isLite);
+    };
     document.addEventListener("lang:changed", updateLabel);
+    window.setMobileFullMode = setFullMode;
+}
+
+function initMobileTapToEdit() {
+    if (window.innerWidth > 900) return;
+    const panel = document.querySelector(".panel");
+    const editorEl = document.getElementById("editor");
+    if (!panel) return;
+    panel.addEventListener("click", () => {
+        if (!document.body.classList.contains("mobile-lite")) return;
+        if (typeof window.setMobileFullMode === "function") {
+            window.setMobileFullMode(true);
+        } else {
+            document.body.classList.remove("mobile-lite");
+            localStorage.setItem("lit_mobile_full", "true");
+            const btn = document.getElementById("btnMobileFullToggle");
+            if (btn) btn.textContent = lang.t("mobile_full_disable");
+        }
+        if (editorEl) editorEl.focus();
+    });
+}
+
+function initMobileEdgeHandle() {
+    if (window.innerWidth > 900) return;
+    let edgeTimer = null;
+    const showEdge = () => {
+        document.body.classList.add("mobile-edge");
+        if (edgeTimer) clearTimeout(edgeTimer);
+        edgeTimer = setTimeout(() => {
+            document.body.classList.remove("mobile-edge");
+        }, 1200);
+    };
+    document.addEventListener("touchstart", (e) => {
+        const touch = e.touches && e.touches[0];
+        if (!touch) return;
+        if (touch.clientX <= 18) {
+            showEdge();
+        }
+    }, { passive: true });
 }
 
 // Funções auxiliares mantidas iguais

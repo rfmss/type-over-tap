@@ -253,7 +253,8 @@ export const ui = {
         if(this.elements.mobileTrigger) {
             this.elements.mobileTrigger.onclick = (e) => {
                 e.stopPropagation();
-                this.elements.hud.classList.toggle("mobile-open");
+                const isOpen = this.elements.hud.classList.toggle("mobile-open");
+                document.body.classList.toggle("mobile-hud-open", isOpen);
             };
         }
     },
@@ -269,7 +270,11 @@ export const ui = {
 
         panels[panelName].style.display = "block";
         drawer.classList.add("open");
-        if(window.innerWidth <= 900) hud.classList.add("mobile-open");
+        if(window.innerWidth <= 900) {
+            hud.classList.add("mobile-open");
+            document.body.classList.add("mobile-hud-open");
+        }
+        document.body.classList.add("drawer-open");
 
         const titles = {
             files: lang.t("drawer_files"),
@@ -287,7 +292,11 @@ export const ui = {
     closeDrawer() {
         this.elements.drawer.classList.remove("open");
         document.querySelectorAll(".hud-btn").forEach(b => b.classList.remove("active"));
-        if(window.innerWidth <= 900) this.elements.hud.classList.remove("mobile-open");
+        if(window.innerWidth <= 900) {
+            this.elements.hud.classList.remove("mobile-open");
+            document.body.classList.remove("mobile-hud-open");
+        }
+        document.body.classList.remove("drawer-open");
         localStorage.setItem("lit_ui_drawer_open", "false");
     }
     ,
