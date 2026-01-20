@@ -176,12 +176,24 @@ body.mobile-typing .mobile-trigger {
     .logo-area { display: none; }
     .panel { top: 10px; bottom: 70px; padding: 0 14px; }
     .controls { bottom: 10px; }
-    .controls-inner { width: 96vw; max-width: 96vw; padding: 6px 10px; gap: 8px; }
+    .controls-inner {
+        width: 96vw;
+        max-width: 96vw;
+        padding: 6px 10px;
+        gap: 8px 10px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
     .controls-inner .status-label { display: none; }
-    .controls-inner .btn span { display: none; }
-    .controls-inner .btn { padding: 6px; min-width: 30px; }
+    .controls-inner .btn span { display: inline; }
+    .controls-inner .btn { padding: 4px 6px; min-width: 30px; font-size: 9px; }
     .controls-inner .btn-icon { width: 28px; height: 28px; }
-    .controls-inner .search-wrapper { min-width: 120px; max-width: 160px; }
+    .controls-inner .search-wrapper {
+        min-width: 100%;
+        max-width: 100%;
+        flex: 1 1 100%;
+        order: 99;
+    }
     .controls-inner .search-input { font-size: 11px; }
     .mobile-memo-actions { display: block; }
     .mobile-only { display: block; }

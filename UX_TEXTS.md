@@ -150,6 +150,12 @@
 - reader_glossary: GLOSARIO
 - lexicon_title: DICCIONARIO
 - lexicon_trans: TRADUCCIONES
+- inline_data_title: DATOS
+- inline_data_words: Palabras
+- inline_data_chars: Caracteres
+- inline_data_keys: Pulsaciones
+- inline_data_cert: Certificado
+- inline_data_session: SesiÃ³n
 - goal_label: META
 - goal_done_title: META CUMPLIDA
 - goal_done_body: Felicidades, alcanzaste tu meta de escritura.
@@ -346,6 +352,12 @@
 - reader_glossary: GLOSSAIRE
 - lexicon_title: DICTIONNAIRE
 - lexicon_trans: TRADUCTIONS
+- inline_data_title: DONNÃES
+- inline_data_words: Mots
+- inline_data_chars: CaractÃ¨res
+- inline_data_keys: Frappes
+- inline_data_cert: Certificat
+- inline_data_session: Session
 - goal_label: OBJECTIF
 - goal_done_title: OBJECTIF ATTEINT
 - goal_done_body: Bravo, vous avez atteint votre objectif d'Ã©criture.
@@ -554,6 +566,7 @@
 - L
 - C
 - J
+- DADOS
 - DICIONARIO
 - TRADUCOES
 - ★

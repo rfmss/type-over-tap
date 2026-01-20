@@ -149,6 +149,52 @@ body.focus-active #editor .focus-active-block {
     transition: opacity 0.15s ease, transform 0.15s ease;
     z-index: 200;
 }
+.inline-data-toast {
+    position: fixed;
+    left: 50%;
+    top: 14%;
+    transform: translate(-50%, -20px);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 80;
+    background: var(--bg-drawer);
+    border: var(--border-style);
+    box-shadow: var(--shadow-float);
+    border-radius: var(--radius);
+    padding: 14px 18px;
+    min-width: 220px;
+    width: min(88vw, 360px);
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    text-align: center;
+}
+.inline-data-toast.show {
+    opacity: 1;
+    transform: translate(-50%, 0);
+}
+.inline-data-title {
+    font-size: 10px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--color-muted);
+    margin-bottom: 6px;
+}
+.inline-data-body {
+    display: grid;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--color-text);
+}
+.inline-data-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    letter-spacing: 0.3px;
+}
+.inline-data-row strong {
+    font-weight: 700;
+    color: var(--color-accent);
+}
 .selection-toolbar.visible {
     opacity: 1;
     pointer-events: auto;
@@ -291,6 +337,13 @@ body.xray-active #editor *::selection {
 .goal-stars.goal-complete .goal-star {
     color: var(--color-text);
     opacity: 0.95;
+}
+@media (max-width: 900px) {
+    .goal-stars {
+        top: 70px;
+        bottom: auto;
+        right: 10px;
+    }
 }
 
 /* MODAIS */
@@ -925,7 +978,7 @@ body.xray-active #editor {
 @media (max-width: 720px) {
     .qr-stream-layout,
     .qr-scan-layout { grid-template-columns: 1fr; }
-    .qr-canvas { max-width: 260px; }
+    .qr-canvas { max-width: 100%; padding: 10px; box-sizing: border-box; }
 }
 
 /* --- ABAS DE AJUDA FLUIDAS E FOFAS --- */

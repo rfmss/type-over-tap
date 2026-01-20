@@ -119,37 +119,75 @@ export const editorFeatures = {
                     const activeTab = document.querySelector('.help-tab.active');
                     if(activeTab) activeTab.focus();
                 }, 50);
-                return true;
+                return this.flashInlineData();
             case '--save':
                 document.getElementById('exportModal').classList.add('active');
-                return true;
+                return this.flashInlineData();
             case '--open':
                 document.getElementById('btnImport').click();
-                return true;
+                return this.flashInlineData();
             case '--theme':
                 document.getElementById('btnThemeToggle').click();
-                return true;
+                return this.flashInlineData();
             case '--dark':
                 document.body.setAttribute("data-theme", "tva");
                 localStorage.setItem("lit_theme_pref", "tva");
-                return true;
+                return this.flashInlineData();
             case '--light':
                 document.body.setAttribute("data-theme", "ibm-light");
                 localStorage.setItem("lit_theme_pref", "ibm-light");
-                return true;
+                return this.flashInlineData();
             case '--zen':
             case '--fs':
                 this.toggleFullscreen();
-                return true;
+                return this.flashInlineData();
             case '--music':
                 document.getElementById('btnAudio').click();
-                return true;
+                return this.flashInlineData();
             case '--pomo':
                 const pBtn = document.getElementById('pomodoroBtn');
                 if(pBtn) pBtn.click();
-                return true;
+                return this.flashInlineData();
             default: return false; 
         }
+    },
+
+    flashInlineData() {
+        this.showInlineData();
+        return true;
+    },
+
+    showInlineData() {
+        const toast = document.getElementById("inlineDataToast");
+        const body = document.getElementById("inlineDataBody");
+        if (!toast || !body) return;
+        const text = this.editor ? (this.editor.innerText || "") : "";
+        const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+        const chars = text.length;
+        let birth = null;
+        try {
+            birth = JSON.parse(localStorage.getItem("lit_birth_tracker") || "null");
+        } catch (_) {
+            birth = null;
+        }
+        const keys = birth && typeof birth.keystrokeCount === "number" ? birth.keystrokeCount : 0;
+        const cert = birth && birth.cert ? birth.cert : "ENABLED";
+        const first = birth && birth.firstKeyTime ? new Date(birth.firstKeyTime).toLocaleTimeString() : "--";
+        const last = birth && birth.lastKeyTime ? new Date(birth.lastKeyTime).toLocaleTimeString() : "--";
+        body.innerHTML = `
+            <div class="inline-data-row"><span>${this.escapeHtml(lang.t("inline_data_words"))}</span><strong>${words}</strong></div>
+            <div class="inline-data-row"><span>${this.escapeHtml(lang.t("inline_data_chars"))}</span><strong>${chars}</strong></div>
+            <div class="inline-data-row"><span>${this.escapeHtml(lang.t("inline_data_keys"))}</span><strong>${keys}</strong></div>
+            <div class="inline-data-row"><span>${this.escapeHtml(lang.t("inline_data_cert"))}</span><strong>${this.escapeHtml(cert)}</strong></div>
+            <div class="inline-data-row"><span>${this.escapeHtml(lang.t("inline_data_session"))}</span><strong>${this.escapeHtml(first)}–${this.escapeHtml(last)}</strong></div>
+        `;
+        toast.classList.remove("show");
+        void toast.offsetWidth;
+        toast.classList.add("show");
+        clearTimeout(this.inlineDataTimer);
+        this.inlineDataTimer = setTimeout(() => {
+            toast.classList.remove("show");
+        }, 3000);
     },
 
     // --- CLEAN PASTE ---
