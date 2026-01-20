@@ -72,6 +72,14 @@
 #editorView, #editorWrap, #editor, .panel, .reader-content {
     overflow-x: hidden;
 }
+#pageMarkers {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    pointer-events: none;
+    z-index: 2;
+}
 #editorView,
 #editorWrap,
 #editor {
@@ -585,25 +593,28 @@ body.xray-active #editor *::selection {
 }
 .page-marker {
     position: absolute;
-    right: 2px;
+    left: 0;
+    right: 0;
     width: 0;
     height: 0;
     background: transparent;
     border-radius: 2px;
     opacity: 0.9;
+    pointer-events: none;
+    z-index: 2;
 }
 .page-marker-label {
     position: absolute;
-    right: 0;
-    top: 50%;
-    transform: translate(-2px, -50%);
-    font-size: 34px;
-    font-weight: 800;
+    left: 50%;
+    top: 0;
+    transform: translate(-50%, -50%);
+    font-size: 42px;
+    font-weight: 900;
     letter-spacing: 6px;
     color: var(--color-muted);
     background: transparent;
     padding-left: 4px;
-    opacity: 0.35;
+    opacity: 0.3;
     font-family: "Impact", "Arial Black", sans-serif;
     text-transform: uppercase;
 }
