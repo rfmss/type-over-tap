@@ -366,8 +366,11 @@
                 <div class="qr-scan-layout">
                     <video id="qrScanVideo" class="qr-video" autoplay playsinline></video>
                     <div class="qr-scan-panel">
-                        <div id="qrScanStatus" class="help-text" data-i18n="qr_scan_wait">AGUARDANDO QR...</div>
-                        <div id="qrScanGrid" class="qr-grid"></div>
+                    <div id="qrScanStatus" class="help-text" data-i18n="qr_scan_wait">AGUARDANDO QR...</div>
+                    <div class="qr-progress-bar" aria-hidden="true">
+                        <div id="qrScanProgress" class="qr-progress-fill"></div>
+                    </div>
+                    <div id="qrScanGrid" class="qr-grid"></div>
                         <div class="qr-scan-fallback">
                             <div class="help-text" data-i18n="qr_fallback_hint">Sem câmera? Importe o arquivo .b64 ou cole a string.</div>
                             <button class="btn-full" id="qrScanImport" data-i18n="qr_fallback_import">IMPORTAR ARQUIVO</button>

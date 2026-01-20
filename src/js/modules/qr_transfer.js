@@ -4,7 +4,7 @@ import { lang } from './lang.js';
 
 const QR_VERSION = 'v1';
 const CHUNK_SIZE = 250;
-const FRAME_INTERVAL_MS = 200;
+const FRAME_INTERVAL_MS = 380;
 
 const qrTransfer = (() => {
   let streamTimer = null;
@@ -40,6 +40,7 @@ const qrTransfer = (() => {
     els.scanVideo = document.getElementById('qrScanVideo');
     els.scanStatus = document.getElementById('qrScanStatus');
     els.scanGrid = document.getElementById('qrScanGrid');
+    els.scanProgress = document.getElementById('qrScanProgress');
     els.scanStop = document.getElementById('qrScanStop');
     els.scanImport = document.getElementById('qrScanImport');
     els.scanFile = document.getElementById('qrScanFile');
@@ -271,6 +272,10 @@ const qrTransfer = (() => {
 
     const receivedCount = scanSession.received.size;
     updateScanStatus(`${lang.t('qr_receiving')} ${receivedCount}/${scanSession.total}`);
+    if (els.scanProgress) {
+      const pct = Math.max(0, Math.min(100, (receivedCount / scanSession.total) * 100));
+      els.scanProgress.style.width = `${pct}%`;
+    }
 
     if (receivedCount === scanSession.total) {
       finalizeScan();
@@ -283,6 +288,7 @@ const qrTransfer = (() => {
     scanCells = [];
     const columns = Math.ceil(Math.sqrt(total));
     els.scanGrid.style.gridTemplateColumns = `repeat(${columns}, 1fr)`;
+    if (els.scanProgress) els.scanProgress.style.width = '0%';
     for (let i = 0; i < total; i += 1) {
       const cell = document.createElement('div');
       cell.className = 'qr-progress-cell';
