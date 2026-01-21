@@ -1,0 +1,26 @@
+{
+  "version": "pt-chunk-11",
+  "verbs": {
+    "penso": { "lemma": "pensar", "tag": "PRES/1S", "conf": "med" },
+    "pensa": { "lemma": "pensar", "tag": "PRES/3S", "conf": "med" },
+    "pensamos": { "lemma": "pensar", "tag": "PRES/1P", "conf": "med" },
+    "pensam": { "lemma": "pensar", "tag": "PRES/3P", "conf": "med" },
+    "pensar": { "lemma": "pensar", "tag": "INF", "conf": "med" },
+    "pensei": { "lemma": "pensar", "tag": "PRET/1S", "conf": "med" },
+
+    "escolho": { "lemma": "escolher", "tag": "PRES/1S", "conf": "med" },
+    "escolhe": { "lemma": "escolher", "tag": "PRES/3S", "conf": "med" },
+    "escolhemos": { "lemma": "escolher", "tag": "PRES/1P", "conf": "med" },
+    "escolhem": { "lemma": "escolher", "tag": "PRES/3P", "conf": "med" },
+    "escolher": { "lemma": "escolher", "tag": "INF", "conf": "med" }
+  },
+  "adjectives": {
+    "livre": { "lemma": "livre", "tag": "INVAR", "conf": "med" },
+    "livres": { "lemma": "livre", "tag": "PL", "conf": "med" },
+    "curto": { "lemma": "curto", "tag": "MASC.SG", "conf": "med" },
+    "curta": { "lemma": "curto", "tag": "FEM.SG", "conf": "med" },
+    "curtos": { "lemma": "curto", "tag": "MASC.PL", "conf": "med" },
+    "curtas": { "lemma": "curto", "tag": "FEM.PL", "conf": "med" }
+  },
+  "ambiguous": []
+}

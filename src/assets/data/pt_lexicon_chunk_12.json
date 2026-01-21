@@ -1,0 +1,27 @@
+{
+  "version": "pt-chunk-12",
+  "verbs": {
+    "canto": { "lemma": "cantar", "tag": "PRES/1S", "conf": "med" },
+    "canta": { "lemma": "cantar", "tag": "PRES/3S", "conf": "med" },
+    "cantamos": { "lemma": "cantar", "tag": "PRES/1P", "conf": "med" },
+    "cantam": { "lemma": "cantar", "tag": "PRES/3P", "conf": "med" },
+    "cantar": { "lemma": "cantar", "tag": "INF", "conf": "med" },
+
+    "choro": { "lemma": "chorar", "tag": "PRES/1S", "conf": "med" },
+    "chora": { "lemma": "chorar", "tag": "PRES/3S", "conf": "med" },
+    "choramos": { "lemma": "chorar", "tag": "PRES/1P", "conf": "med" },
+    "choram": { "lemma": "chorar", "tag": "PRES/3P", "conf": "med" },
+    "chorar": { "lemma": "chorar", "tag": "INF", "conf": "med" }
+  },
+  "adjectives": {
+    "leve": { "lemma": "leve", "tag": "INVAR", "conf": "med" },
+    "leves": { "lemma": "leve", "tag": "PL", "conf": "med" },
+    "pesado": { "lemma": "pesado", "tag": "MASC.SG", "conf": "med", "ambiguous": true },
+    "pesada": { "lemma": "pesado", "tag": "FEM.SG", "conf": "med", "ambiguous": true },
+    "pesados": { "lemma": "pesado", "tag": "MASC.PL", "conf": "med", "ambiguous": true },
+    "pesadas": { "lemma": "pesado", "tag": "FEM.PL", "conf": "med", "ambiguous": true }
+  },
+  "ambiguous": [
+    "pesado"
+  ]
+}
