@@ -148,6 +148,11 @@ export const editorFeatures = {
                 const pBtn = document.getElementById('pomodoroBtn');
                 if(pBtn) pBtn.click();
                 return this.flashInlineData();
+            case '--roll':
+            case '--dice':
+            case '--dado':
+                this.rollInlineDice();
+                return true;
             default: return false; 
         }
     },
@@ -188,6 +193,50 @@ export const editorFeatures = {
         this.inlineDataTimer = setTimeout(() => {
             toast.classList.remove("show");
         }, 3000);
+    },
+
+    rollInlineDice() {
+        const toast = document.getElementById("inlineDiceToast");
+        const face = document.getElementById("inlineDiceFace");
+        const valueEl = document.getElementById("inlineDiceValue");
+        if (!toast || !face || !valueEl) return;
+        const pips = Array.from(face.querySelectorAll(".pip"));
+        const patterns = {
+            1: [4],
+            2: [0, 8],
+            3: [0, 4, 8],
+            4: [0, 2, 6, 8],
+            5: [0, 2, 4, 6, 8],
+            6: [0, 2, 3, 5, 6, 8]
+        };
+        const setValue = (val) => {
+            pips.forEach((pip, idx) => {
+                pip.classList.toggle("active", patterns[val].includes(idx));
+            });
+            valueEl.textContent = String(val);
+        };
+
+        const start = Date.now();
+        const duration = 700;
+        const tick = () => {
+            const now = Date.now();
+            const val = Math.floor(Math.random() * 6) + 1;
+            setValue(val);
+            if (now - start < duration) {
+                requestAnimationFrame(tick);
+            } else {
+                const finalVal = Math.floor(Math.random() * 6) + 1;
+                setValue(finalVal);
+                toast.classList.remove("show");
+                void toast.offsetWidth;
+                toast.classList.add("show");
+                clearTimeout(this.inlineDiceTimer);
+                this.inlineDiceTimer = setTimeout(() => {
+                    toast.classList.remove("show");
+                }, 3000);
+            }
+        };
+        tick();
     },
 
     // --- CLEAN PASTE ---

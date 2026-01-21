@@ -195,6 +195,44 @@ body.focus-active #editor .focus-active-block {
     font-weight: 700;
     color: var(--color-accent);
 }
+.inline-dice-toast {
+    padding: 16px 20px;
+}
+.inline-dice-body {
+    display: grid;
+    justify-items: center;
+    gap: 10px;
+}
+.dice-face {
+    width: 54px;
+    height: 54px;
+    border-radius: 10px;
+    border: 2px solid var(--color-accent);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 4px;
+    padding: 6px;
+    background: rgba(0, 0, 0, 0.15);
+}
+.dice-face .pip {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    opacity: 0.15;
+    justify-self: center;
+    align-self: center;
+}
+.dice-face .pip.active {
+    opacity: 1;
+    box-shadow: 0 0 6px var(--color-accent-dim);
+}
+.inline-dice-value {
+    font-size: 18px;
+    letter-spacing: 2px;
+    color: var(--color-text);
+}
 .selection-toolbar.visible {
     opacity: 1;
     pointer-events: auto;
