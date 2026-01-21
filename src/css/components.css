@@ -712,27 +712,67 @@ body.xray-active #editor *::selection {
 
 /* RAIO-X */
 #xrayOverlay {
-    position: absolute;
-    inset: 0;
-    padding-bottom: 100px;
-    line-height: 1.85;
-    white-space: pre-wrap;
-    word-break: break-word;
-    overflow-wrap: break-word;
-    color: var(--color-text);
-    pointer-events: none;
     display: none;
-    z-index: 3;
 }
-body.xray-active #xrayOverlay { display: block; }
-body.xray-active #editor {
-    color: transparent;
-    -webkit-text-fill-color: transparent;
-    text-shadow: none;
-    caret-color: var(--color-accent);
+.xray-panel {
+    position: fixed;
+    right: 24px;
+    top: 110px;
+    width: min(240px, 40vw);
+    max-height: 60vh;
+    overflow: hidden;
+    background: var(--bg-drawer);
+    border: var(--border-style);
+    box-shadow: var(--shadow-float);
+    border-radius: var(--radius);
+    padding: 12px 14px;
+    opacity: 0;
+    transform: translateY(8px);
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    z-index: 6;
 }
-.xray-verb { color: #9fe3b3; }
-.xray-adj { color: #f4a3c6; }
+.xray-panel.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+.xray-panel-title {
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--color-muted);
+    margin-bottom: 8px;
+}
+.xray-panel-section {
+    display: grid;
+    gap: 6px;
+    margin-bottom: 10px;
+}
+.xray-panel-heading {
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--color-accent);
+    text-transform: uppercase;
+}
+.xray-panel-list {
+    display: grid;
+    gap: 4px;
+}
+.xray-panel-item {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--color-text);
+}
+.xray-panel-item strong {
+    color: var(--color-accent);
+}
+.xray-panel-empty {
+    font-size: 11px;
+    color: var(--color-muted);
+    text-align: center;
+    margin-top: 6px;
+}
 
 /* MODO LEITOR */
 .reader-modal {

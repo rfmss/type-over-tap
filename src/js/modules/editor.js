@@ -21,6 +21,10 @@ export const editorFeatures = {
     xrayActive: false,
     xrayRaf: null,
     xrayOverlay: null,
+    xrayPanel: null,
+    xrayVerbsEl: null,
+    xrayAdjsEl: null,
+    xrayEmptyEl: null,
     readerModal: null,
     readerBox: null,
     readerContent: null,
@@ -110,9 +114,13 @@ export const editorFeatures = {
         switch(cmd) {
             case '--h': // Agora é --h (Mais rápido)
                 {
-                    const helpModal = document.getElementById('helpModal');
-                    if (!helpModal) return false;
-                    helpModal.classList.add('active');
+                    if (window.totHelpOpen) {
+                        window.totHelpOpen();
+                    } else {
+                        const helpModal = document.getElementById('helpModal');
+                        if (!helpModal) return false;
+                        helpModal.classList.add('active');
+                    }
                 }
                 // Foca na aba ativa para navegação imediata via teclado
                 setTimeout(() => {
@@ -755,18 +763,24 @@ export const editorFeatures = {
 
     initXray() {
         this.xrayOverlay = document.getElementById("xrayOverlay");
+        this.xrayPanel = document.getElementById("xrayPanel");
+        this.xrayVerbsEl = document.getElementById("xrayVerbs");
+        this.xrayAdjsEl = document.getElementById("xrayAdjs");
+        this.xrayEmptyEl = document.getElementById("xrayEmpty");
         const btn = document.getElementById("btnXray");
-        if (!btn || !this.xrayOverlay) return;
+        if (!btn || !this.xrayPanel) return;
         btn.onclick = () => this.setXrayActive(!this.xrayActive);
         this.editor.addEventListener("input", () => this.scheduleXrayUpdate());
         this.editor.addEventListener("keyup", () => this.scheduleXrayUpdate());
-        this.editor.addEventListener("mouseup", () => this.scheduleXrayUpdate());
-        document.addEventListener("selectionchange", () => this.scheduleXrayUpdate());
     },
 
     setXrayActive(active) {
         this.xrayActive = active;
         document.body.classList.toggle("xray-active", active);
+        if (this.xrayPanel) {
+            this.xrayPanel.classList.toggle("show", active);
+            this.xrayPanel.setAttribute("aria-hidden", active ? "false" : "true");
+        }
         if (active) {
             this.clearSelection();
             this.lastSelectionRange = null;
@@ -786,24 +800,111 @@ export const editorFeatures = {
     },
 
     updateXrayOverlay() {
-        if (!this.xrayOverlay || !this.xrayActive || !this.editor) return;
-        const style = window.getComputedStyle(this.editor);
-        this.xrayOverlay.style.fontFamily = style.fontFamily;
-        this.xrayOverlay.style.fontSize = style.fontSize;
-        this.xrayOverlay.style.lineHeight = style.lineHeight;
+        if (!this.xrayPanel || !this.xrayActive || !this.editor) return;
+        if (!this.xrayVerbsEl || !this.xrayAdjsEl || !this.xrayEmptyEl) return;
         const text = this.editor.innerText || "";
-        const html = this.buildXrayHtml(text);
-        this.xrayOverlay.innerHTML = html;
+        const stats = this.buildXrayStats(text);
+        this.renderXrayList(this.xrayVerbsEl, stats.verbs);
+        this.renderXrayList(this.xrayAdjsEl, stats.adjs);
+        const hasData = stats.verbs.length || stats.adjs.length;
+        this.xrayEmptyEl.style.display = hasData ? "none" : "block";
     },
 
-    buildXrayHtml(text) {
-        let html = this.escapeHtml(text);
-        const verbRegex = /\b(?:ser|estar|ter|fazer|ir|ver|dar|dizer|poder|querer|saber|ficar|vir|haver|usar|criar|salvar|ler|escrever|[a-z]{2,}(?:ar|er|ir))\b/gi;
-        const adjRegex = /\b[a-z]{3,}(?:oso|osa|vel|veis|ivo|iva|ico|ica|ente|ante|avel|ivel|ous|able|ible|ive|al|ful|less)\b/gi;
-        html = html.replace(verbRegex, (match) => `<span class="xray-verb">${match}</span>`);
-        html = html.replace(adjRegex, (match) => `<span class="xray-adj">${match}</span>`);
-        html = html.replace(/\n/g, "<br>");
-        return html;
+    buildXrayStats(text) {
+        const tokens = this.getXrayTokens(text);
+        const langCode = lang.current || "pt";
+        const verbCounts = new Map();
+        const adjCounts = new Map();
+        tokens.forEach((word) => {
+            const lower = word.toLowerCase();
+            if (this.isXrayVerb(lower, langCode)) {
+                verbCounts.set(lower, (verbCounts.get(lower) || 0) + 1);
+            }
+            if (this.isXrayAdjective(lower, langCode)) {
+                adjCounts.set(lower, (adjCounts.get(lower) || 0) + 1);
+            }
+        });
+        return {
+            verbs: this.sortXrayCounts(verbCounts),
+            adjs: this.sortXrayCounts(adjCounts)
+        };
+    },
+
+    getXrayTokens(text) {
+        const raw = String(text || "");
+        try {
+            const matches = raw.match(/[\\p{L}]{3,}/gu);
+            return matches || [];
+        } catch (_) {
+            const matches = raw.match(/[A-Za-zÀ-ÖØ-öø-ÿ]{3,}/g);
+            return matches || [];
+        }
+    },
+
+    isXrayVerb(word, langCode) {
+        const verbs = this.getXrayVerbList(langCode);
+        if (verbs.has(word)) return true;
+        const suffixes = this.getXrayVerbSuffixes(langCode);
+        return suffixes.some((suffix) => word.endsWith(suffix) && word.length > suffix.length + 1);
+    },
+
+    isXrayAdjective(word, langCode) {
+        const suffixes = this.getXrayAdjSuffixes(langCode);
+        return suffixes.some((suffix) => word.endsWith(suffix) && word.length > suffix.length + 1);
+    },
+
+    getXrayVerbList(langCode) {
+        const lists = {
+            pt: ["ser", "estar", "ter", "fazer", "ir", "ver", "dar", "dizer", "poder", "querer", "saber", "ficar", "vir", "haver", "usar", "criar", "salvar", "ler", "escrever"],
+            "en-uk": ["be", "have", "do", "make", "go", "see", "give", "say", "can", "want", "know", "stay", "come", "use", "create", "save", "read", "write"],
+            es: ["ser", "estar", "tener", "hacer", "ir", "ver", "dar", "decir", "poder", "querer", "saber", "quedar", "venir", "haber", "usar", "crear", "guardar", "leer", "escribir"],
+            fr: ["etre", "avoir", "faire", "aller", "voir", "donner", "dire", "pouvoir", "vouloir", "savoir", "rester", "venir", "utiliser", "creer", "sauver", "lire", "ecrire"]
+        };
+        const key = lists[langCode] ? langCode : "pt";
+        return new Set(lists[key]);
+    },
+
+    getXrayVerbSuffixes(langCode) {
+        const base = ["ar", "er", "ir"];
+        const english = ["ed", "ing", "ise", "ize", "ate", "ify"];
+        const french = ["er", "ir", "re"];
+        if (langCode === "en-uk") return english;
+        if (langCode === "fr") return french;
+        return base;
+    },
+
+    getXrayAdjSuffixes(langCode) {
+        const romance = ["oso", "osa", "vel", "veis", "ivo", "iva", "ico", "ica", "ente", "ante", "avel", "ivel", "ável", "ível"];
+        const english = ["ous", "able", "ible", "ive", "al", "ful", "less", "ic", "ical"];
+        const french = ["eux", "euse", "able", "ible", "ant", "ente", "if", "ive", "ique"];
+        if (langCode === "en-uk") return english;
+        if (langCode === "fr") return french;
+        return romance;
+    },
+
+    sortXrayCounts(map) {
+        return Array.from(map.entries())
+            .sort((a, b) => {
+                if (b[1] !== a[1]) return b[1] - a[1];
+                return a[0].localeCompare(b[0]);
+            })
+            .slice(0, 10);
+    },
+
+    renderXrayList(target, items) {
+        target.innerHTML = "";
+        if (!items.length) return;
+        items.forEach(([word, count]) => {
+            const row = document.createElement("div");
+            row.className = "xray-panel-item";
+            const label = document.createElement("span");
+            label.textContent = word;
+            const badge = document.createElement("strong");
+            badge.textContent = String(count);
+            row.appendChild(label);
+            row.appendChild(badge);
+            target.appendChild(row);
+        });
     },
 
     escapeHtml(text) {

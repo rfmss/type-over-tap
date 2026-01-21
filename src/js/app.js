@@ -377,7 +377,19 @@ function setupEventListeners() {
 
     // vamos ligar isso no próximo passo, depois que criarmos o módulo export_tot.js
 
-    document.getElementById("closeModalHelp").onclick = () => document.getElementById("helpModal").classList.remove("active");
+    document.getElementById("closeModalHelp").onclick = () => {
+        const overlay = document.getElementById("helpModal");
+        if (!overlay) return;
+        overlay.classList.remove("active");
+        const tabs = overlay.querySelectorAll(".help-tab");
+        const panels = overlay.querySelectorAll(".help-panel");
+        if (tabs.length && panels.length) {
+            tabs.forEach(t => t.classList.remove("active"));
+            panels.forEach(p => p.classList.remove("active"));
+            tabs[0].classList.add("active");
+            panels[0].classList.add("active");
+        }
+    };
 
     // Evento do Botão Lock
     const btnLock = document.getElementById("btnLock");
@@ -421,11 +433,11 @@ function setupEventListeners() {
 
         if (e.key === "F1") { 
             e.preventDefault(); 
-            document.getElementById("helpModal").classList.add("active"); 
-            setTimeout(() => {
-                const activeTab = document.querySelector('.help-tab.active');
-                if(activeTab) activeTab.focus();
-            }, 50);
+            if (window.totHelpOpen) {
+                window.totHelpOpen();
+            } else {
+                document.getElementById("helpModal").classList.add("active");
+            }
         } 
         
         if ((e.ctrlKey && e.shiftKey && e.code === "KeyF") || e.key === "F11") { e.preventDefault(); editorFeatures.toggleFullscreen(); }
@@ -1151,6 +1163,23 @@ function initHelpTabs() {
         const base = (header?.offsetHeight || 0) + (tabsRow?.offsetHeight || 0) + padding;
         helpModal.style.height = `${Math.min(520, panelHeight + base)}px`;
     };
+    const openHelpModal = () => {
+        const overlay = document.getElementById("helpModal");
+        if (!overlay) return;
+        overlay.classList.add("active");
+        if (!tabs.length || !panels.length) return;
+        tabs.forEach(t => t.classList.remove("active"));
+        panels.forEach(p => p.classList.remove("active"));
+        tabs[0].classList.add("active");
+        panels[0].classList.add("active");
+        const activeTab = tabs[0];
+        sizeHelpModal();
+        setTimeout(() => {
+            if (activeTab) activeTab.focus();
+        }, 50);
+    };
+    window.totHelpOpen = openHelpModal;
+
     tabs.forEach((tab, index) => {
         tab.onclick = () => {
             tabs.forEach(t => t.classList.remove('active'));

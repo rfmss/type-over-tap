@@ -160,6 +160,18 @@
         <div id="editorWrap">
             <div id="pageMarkers" aria-hidden="true"></div>
             <div id="xrayOverlay" aria-hidden="true"></div>
+            <aside id="xrayPanel" class="xray-panel" aria-hidden="true">
+                <div class="xray-panel-title" data-i18n="xray_panel_title">RAIO-X</div>
+                <div class="xray-panel-section">
+                    <div class="xray-panel-heading" data-i18n="xray_verbs_title">VERBOS</div>
+                    <div id="xrayVerbs" class="xray-panel-list"></div>
+                </div>
+                <div class="xray-panel-section">
+                    <div class="xray-panel-heading" data-i18n="xray_adjs_title">ADJETIVOS</div>
+                    <div id="xrayAdjs" class="xray-panel-list"></div>
+                </div>
+                <div id="xrayEmpty" class="xray-panel-empty" data-i18n="xray_empty">Sem dados suficientes.</div>
+            </aside>
             <div id="editor" contenteditable="true" spellcheck="false"></div>
         </div>
     </div>
