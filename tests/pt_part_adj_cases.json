@@ -1,0 +1,37 @@
+[
+  {
+    "text": "Eu tinha cansado.",
+    "token": "cansado",
+    "expected": { "label": "verb", "lemma": "cansar", "confidence": "high" }
+  },
+  {
+    "text": "O homem cansado dormiu.",
+    "token": "cansado",
+    "expected": { "label": "adj", "lemma": "cansado" }
+  },
+  {
+    "text": "Ele está cansado.",
+    "token": "cansado",
+    "expected": { "label": "amb", "lemmas": ["cansar", "cansado"] }
+  },
+  {
+    "text": "Foi preso por engano.",
+    "token": "preso",
+    "expected": { "label": "verb", "lemma": "prender" }
+  },
+  {
+    "text": "Um preso pediu água.",
+    "token": "preso",
+    "expected": { "label": "adj", "lemma": "preso" }
+  },
+  {
+    "text": "Carta escrita à mão.",
+    "token": "escrita",
+    "expected": { "label": "verb", "lemma": "escrever" }
+  },
+  {
+    "text": "Uma escrita elegante.",
+    "token": "escrita",
+    "expected": { "label": "amb" }
+  }
+]

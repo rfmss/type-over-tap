@@ -1,4 +1,4 @@
-const CACHE_NAME = "tot-cache-v1";
+const CACHE_NAME = "tot-cache-v5";
 const CACHE_ASSETS = [
   "./",
   "./index.html",
@@ -17,9 +17,15 @@ const CACHE_ASSETS = [
   "./src/js/modules/store.js",
   "./src/js/modules/ui.js",
   "./src/js/modules/qr_transfer.js",
+  "./src/js/modules/pt_dictionary.js",
   "./src/assets/js/qrcode.min.js",
   "./src/assets/js/lz-string.min.js",
   "./src/assets/js/phosphor.js",
+  "./src/assets/lingua/pt_dict_core.json",
+  "./src/assets/lingua/pt_dict_chunk_1.json",
+  "./src/assets/lingua/pt_dict_chunk_2.json",
+  "./src/assets/lingua/pt_duvidas.json",
+  "./src/assets/lingua/pt_regencias.json",
   "./src/assets/data/pt_lexicon_core.json",
   "./src/assets/data/pt_lexicon_chunk_1.json",
   "./src/assets/data/pt_lexicon_chunk_2.json",
@@ -51,6 +57,11 @@ const CACHE_ASSETS = [
   "./src/assets/data/pt_lexicon_chunk_28.json",
   "./src/assets/data/pt_lexicon_chunk_29.json",
   "./src/assets/data/pt_lexicon_chunk_30.json",
+  "./src/assets/data/pt_lexicon_chunk_31.json",
+  "./src/assets/data/pt_lexicon_chunk_32.json",
+  "./src/assets/data/pt_lexicon_chunk_33.json",
+  "./src/assets/data/pt_lexicon_chunk_34.json",
+  "./src/assets/data/pt_lexicon_chunk_35.json",
   "./src/js/modules/xray_tests.js",
   "./src/assets/audio/backspace.wav",
   "./src/assets/audio/enter.wav",

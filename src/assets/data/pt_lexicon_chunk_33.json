@@ -1,0 +1,17 @@
+{
+  "version": "pt-chunk-33",
+  "verbs": {
+    "ajudo": { "lemma": "ajudar", "tag": "PRES/1S", "conf": "med" },
+    "ajuda": { "lemma": "ajudar", "tag": "PRES/3S", "conf": "med" },
+    "ajudamos": { "lemma": "ajudar", "tag": "PRES/1P", "conf": "med" },
+    "ajudam": { "lemma": "ajudar", "tag": "PRES/3P", "conf": "med" },
+    "ajudar": { "lemma": "ajudar", "tag": "INF", "conf": "med" }
+  },
+  "adjectives": {
+    "livre": { "lemma": "livre", "tag": "INVAR", "conf": "med" },
+    "livres": { "lemma": "livre", "tag": "PL", "conf": "med" },
+    "fiel": { "lemma": "fiel", "tag": "INVAR", "conf": "med" },
+    "fiéis": { "lemma": "fiel", "tag": "PL", "conf": "med" }
+  },
+  "ambiguous": []
+}

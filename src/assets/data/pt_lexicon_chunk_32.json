@@ -1,0 +1,19 @@
+{
+  "version": "pt-chunk-32",
+  "verbs": {
+    "perco": { "lemma": "perder", "tag": "PRES/1S", "conf": "med" },
+    "perde": { "lemma": "perder", "tag": "PRES/3S", "conf": "med" },
+    "perdemos": { "lemma": "perder", "tag": "PRES/1P", "conf": "med" },
+    "perdem": { "lemma": "perder", "tag": "PRES/3P", "conf": "med" },
+    "perder": { "lemma": "perder", "tag": "INF", "conf": "med" }
+  },
+  "adjectives": {
+    "inteiro": { "lemma": "inteiro", "tag": "MASC.SG", "conf": "med" },
+    "inteira": { "lemma": "inteiro", "tag": "FEM.SG", "conf": "med" },
+    "inteiros": { "lemma": "inteiro", "tag": "MASC.PL", "conf": "med" },
+    "inteiras": { "lemma": "inteiro", "tag": "FEM.PL", "conf": "med" },
+    "total": { "lemma": "total", "tag": "INVAR", "conf": "med" },
+    "totais": { "lemma": "total", "tag": "PL", "conf": "med" }
+  },
+  "ambiguous": []
+}

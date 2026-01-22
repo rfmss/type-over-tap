@@ -1,0 +1,32 @@
+{
+  "bonito": {
+    "pos": ["ADJ"],
+    "def": "Que tem beleza; agradável aos olhos.",
+    "flexoes": ["bonita", "bonitos", "bonitas"],
+    "observacoes": null
+  },
+  "rápido": {
+    "pos": ["ADJ"],
+    "def": "Que se move com velocidade; veloz.",
+    "flexoes": ["rápida", "rápidos", "rápidas"],
+    "observacoes": null
+  },
+  "triste": {
+    "pos": ["ADJ"],
+    "def": "Que revela ou sente tristeza.",
+    "flexoes": ["tristes"],
+    "observacoes": null
+  },
+  "claro": {
+    "pos": ["ADJ"],
+    "def": "Que tem luz; evidente ou fácil de entender.",
+    "flexoes": ["clara", "claros", "claras"],
+    "observacoes": null
+  },
+  "profundo": {
+    "pos": ["ADJ"],
+    "def": "Que tem grande profundidade; intenso.",
+    "flexoes": ["profunda", "profundos", "profundas"],
+    "observacoes": null
+  }
+}

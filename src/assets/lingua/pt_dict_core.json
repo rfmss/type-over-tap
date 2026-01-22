@@ -1,0 +1,46 @@
+{
+  "amar": {
+    "pos": ["VERB"],
+    "def": "Sentir afeição, carinho ou apego por alguém ou algo.",
+    "regencia": ["amar algo", "amar alguém"],
+    "exemplos": ["Ela ama a literatura brasileira."],
+    "formas": ["amo", "amas", "ama", "amamos", "amam", "amarei", "amando", "amado"],
+    "observacoes": null
+  },
+  "coisa": {
+    "pos": ["NOUN"],
+    "def": "Objeto, fato ou qualquer entidade de que se fala.",
+    "flexoes": ["coisas"],
+    "observacoes": null
+  },
+  "cansado": {
+    "pos": ["ADJ", "PART"],
+    "def": "Que sente cansaço; fatigado.",
+    "flexoes": ["cansada", "cansados", "cansadas"],
+    "observacoes": "Pode ser particípio de 'cansar' ou adjetivo, conforme o contexto."
+  },
+  "escrever": {
+    "pos": ["VERB"],
+    "def": "Registrar palavras por escrito.",
+    "regencia": ["escrever algo", "escrever para alguém"],
+    "exemplos": ["Ele escreve cartas longas."],
+    "formas": ["escrevo", "escreves", "escreve", "escrevemos", "escrevem", "escreverei", "escrevendo", "escrito"],
+    "observacoes": null
+  },
+  "ser": {
+    "pos": ["VERB", "AUX"],
+    "def": "Existir, pertencer ou caracterizar.",
+    "regencia": ["ser algo", "ser de alguém"],
+    "exemplos": ["O texto é claro."],
+    "formas": ["sou", "é", "somos", "são", "era", "fui", "serei", "sendo", "sido"],
+    "observacoes": "Verbo irregular muito frequente."
+  },
+  "estar": {
+    "pos": ["VERB", "AUX"],
+    "def": "Encontrar-se em determinado estado ou lugar.",
+    "regencia": ["estar em", "estar com"],
+    "exemplos": ["Ela está em casa."],
+    "formas": ["estou", "está", "estamos", "estão", "estava", "estive", "estarei", "estando", "estado"],
+    "observacoes": "Verbo irregular muito frequente."
+  }
+}

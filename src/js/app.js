@@ -275,6 +275,47 @@ function setupEventListeners() {
         }
     });
 
+    const drawerExport = document.getElementById("drawerExport");
+    if (drawerExport) drawerExport.onclick = () => document.getElementById("btnSave").click();
+    const drawerReader = document.getElementById("drawerReader");
+    if (drawerReader) drawerReader.onclick = () => document.getElementById("btnReader").click();
+    const drawerXray = document.getElementById("drawerXray");
+    if (drawerXray) drawerXray.onclick = () => document.getElementById("btnXray").click();
+    const drawerAudio = document.getElementById("drawerAudio");
+    if (drawerAudio) drawerAudio.onclick = () => document.getElementById("btnAudio").click();
+    const drawerFont = document.getElementById("drawerFont");
+    if (drawerFont) drawerFont.onclick = () => document.getElementById("btnFontType").click();
+    const drawerLock = document.getElementById("drawerLock");
+    if (drawerLock) drawerLock.onclick = () => document.getElementById("btnLock").click();
+    const drawerPomodoro = document.getElementById("drawerPomodoro");
+    if (drawerPomodoro) drawerPomodoro.onclick = () => ui.togglePomodoro();
+
+    const drawerSearchInput = document.getElementById("drawerSearchInput");
+    const drawerSearchGo = document.getElementById("drawerSearchGo");
+    const drawerSearchPrev = document.getElementById("drawerSearchPrev");
+    const drawerSearchNext = document.getElementById("drawerSearchNext");
+    const drawerSearchClear = document.getElementById("drawerSearchClear");
+    const mainSearchInput = document.getElementById("search");
+    const syncSearch = () => {
+        if (drawerSearchInput && mainSearchInput) {
+            mainSearchInput.value = drawerSearchInput.value;
+        }
+    };
+    if (drawerSearchInput) {
+        drawerSearchInput.addEventListener("input", syncSearch);
+        drawerSearchInput.addEventListener("keydown", (e) => {
+            if (e.key === "Enter") {
+                e.preventDefault();
+                syncSearch();
+                document.getElementById("btnSearch").click();
+            }
+        });
+    }
+    if (drawerSearchGo) drawerSearchGo.onclick = () => { syncSearch(); document.getElementById("btnSearch").click(); };
+    if (drawerSearchPrev) drawerSearchPrev.onclick = () => document.getElementById("btnSearchPrev").click();
+    if (drawerSearchNext) drawerSearchNext.onclick = () => document.getElementById("btnSearchNext").click();
+    if (drawerSearchClear) drawerSearchClear.onclick = () => { document.getElementById("btnClear").click(); if (drawerSearchInput) drawerSearchInput.value = ""; };
+
 
     document.addEventListener('click', (e) => {
         const d = document.getElementById("drawer");

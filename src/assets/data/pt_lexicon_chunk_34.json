@@ -1,0 +1,19 @@
+{
+  "version": "pt-chunk-34",
+  "verbs": {
+    "toco": { "lemma": "tocar", "tag": "PRES/1S", "conf": "med" },
+    "toca": { "lemma": "tocar", "tag": "PRES/3S", "conf": "med" },
+    "tocamos": { "lemma": "tocar", "tag": "PRES/1P", "conf": "med" },
+    "tocam": { "lemma": "tocar", "tag": "PRES/3P", "conf": "med" },
+    "tocar": { "lemma": "tocar", "tag": "INF", "conf": "med" }
+  },
+  "adjectives": {
+    "pouco": { "lemma": "pouco", "tag": "MASC.SG", "conf": "low", "ambiguous": true },
+    "pouca": { "lemma": "pouco", "tag": "FEM.SG", "conf": "low", "ambiguous": true },
+    "poucos": { "lemma": "pouco", "tag": "MASC.PL", "conf": "low", "ambiguous": true },
+    "poucas": { "lemma": "pouco", "tag": "FEM.PL", "conf": "low", "ambiguous": true }
+  },
+  "ambiguous": [
+    "pouco"
+  ]
+}

@@ -43,7 +43,7 @@
         <span id="authMsg" class="help-text"></span>
         
         <div style="margin-top:50px;">
-        <button id="emergencyReset" class="btn-icon danger-trigger" title="HARD RESET" data-i18n-title="hard_reset_title">
+        <button id="emergencyReset" class="btn-icon danger-trigger" title="HARD RESET" data-i18n-title="hard_reset_title" data-i18n-tip="hard_reset_title">
             <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
                 <use href="src/assets/icons/phosphor-sprite.svg#icon-bomb"></use>
             </svg>
@@ -87,24 +87,24 @@
 
     <div class="hud">
         <div class="hud-rail"></div>
-        <button class="hud-btn" id="tabFiles" title="Arquivos [Alt+1]" data-i18n-title="tab_files"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-folder-open"></use></svg></button>
-        <button class="hud-btn" id="tabNav" title="Navegação [Alt+2]" data-i18n-title="tab_nav"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-list-bullets"></use></svg></button>
-        <button class="hud-btn" id="tabMemo" title="Memo [Alt+3]" data-i18n-title="tab_memo"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-pencil"></use></svg></button>
-        <button class="hud-btn" id="btnThemeToggle" title="Tema [Alt+T]" data-i18n-title="tab_theme"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-sun"></use></svg></button>
-        <button class="hud-btn" id="tabBooks" title="T∅TBooks [Alt+4]" data-i18n-title="tab_books"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-notepad"></use></svg></button>
+        <button class="hud-btn" id="tabFiles" title="Arquivos [Alt+1]" data-i18n-title="tab_files" data-i18n-tip="tab_files"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-folder-open"></use></svg></button>
+        <button class="hud-btn" id="tabNav" title="Navegação [Alt+2]" data-i18n-title="tab_nav" data-i18n-tip="tab_nav"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-list-bullets"></use></svg></button>
+        <button class="hud-btn" id="tabMemo" title="Memo [Alt+3]" data-i18n-title="tab_memo" data-i18n-tip="tab_memo"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-pencil"></use></svg></button>
+        <button class="hud-btn" id="btnThemeToggle" title="Tema [Alt+T]" data-i18n-title="tab_theme" data-i18n-tip="tab_theme"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-sun"></use></svg></button>
+        <button class="hud-btn" id="tabBooks" title="T∅TBooks [Alt+4]" data-i18n-title="tab_books" data-i18n-tip="tab_books"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-notepad"></use></svg></button>
 
         
         <div style="flex:1"></div> 
         
-        <button class="hud-btn" id="btnLangToggle" title="Idioma" data-i18n-title="lang_title">
+        <button class="hud-btn" id="btnLangToggle" title="Idioma" data-i18n-title="lang_title" data-i18n-tip="lang_title">
             <span class="lang-badge" data-i18n="lang_label">🇧🇷 PT</span>
         </button>
-        <button class="hud-btn danger-trigger" id="btnHardReset" title="HARD RESET" data-i18n-title="hard_reset_title">
+        <button class="hud-btn danger-trigger" id="btnHardReset" title="HARD RESET" data-i18n-title="hard_reset_title" data-i18n-tip="hard_reset_title">
             <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
                 <use href="src/assets/icons/phosphor-sprite.svg#icon-bomb"></use>
             </svg>
         </button>
-        <button class="hud-btn" id="hudFs" title="Tela Cheia [F11]" data-i18n-title="fullscreen_title"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-corners-out"></use></svg></button>
+        <button class="hud-btn" id="hudFs" title="Tela Cheia [F11]" data-i18n-title="fullscreen_title" data-i18n-tip="fullscreen_title"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-corners-out"></use></svg></button>
     </div>
 
     <aside id="drawer" class="drawer">
@@ -129,13 +129,62 @@
                 <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-notepad"></use></svg>
             </button>
         </div>
+
+        <div id="panelActions" class="drawer-content mobile-only drawer-actions-panel" style="display:none;">
+            <div class="drawer-section-title" data-i18n="drawer_actions">ACOES</div>
+            <div class="drawer-actions-grid">
+                <button class="btn-full" id="drawerExport">
+                    <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-floppy-disk"></use></svg>
+                    <span data-i18n="export_btn">EXPORTAR</span>
+                </button>
+                <button class="btn-full" id="drawerReader">
+                    <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-book-open-text"></use></svg>
+                    <span data-i18n="reader_btn">LEITOR</span>
+                </button>
+                <button class="btn-full" id="drawerXray">
+                    <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-list-bullets"></use></svg>
+                    <span data-i18n="xray_btn">X-RAY</span>
+                </button>
+                <button class="btn-full" id="drawerAudio">
+                    <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-music-notes"></use></svg>
+                    <span data-i18n="audio_btn">SOM</span>
+                </button>
+                <button class="btn-full" id="drawerFont">
+                    <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-text-aa"></use></svg>
+                    <span data-i18n="help_font">MUDAR FONTE</span>
+                </button>
+                <button class="btn-full" id="drawerLock">
+                    <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-lock-key"></use></svg>
+                    <span data-i18n="lock_btn">LOCK</span>
+                </button>
+                <button class="btn-full" id="drawerPomodoro">
+                    <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-tomato"></use></svg>
+                    <span data-i18n="pomo_btn">POMODORO</span>
+                </button>
+            </div>
+            <div class="drawer-search">
+                <div class="drawer-section-title" data-i18n="drawer_search">BUSCA</div>
+                <div class="drawer-search-row">
+                    <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-magnifying-glass"></use></svg>
+                    <input id="drawerSearchInput" class="search-input" data-i18n-ph="search_ph" placeholder="Buscar... [Ctrl+F]" />
+                    <button class="btn-icon" id="drawerSearchGo" data-i18n="search_go">IR</button>
+                </div>
+                <div class="drawer-search-actions">
+                    <button class="btn-icon" id="drawerSearchPrev" title="Anterior">▲</button>
+                    <button class="btn-icon" id="drawerSearchNext" title="Próximo">▼</button>
+                    <button class="btn-icon" id="drawerSearchClear" aria-label="Limpar busca">
+                        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-x"></use></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
         
         <div id="panelFiles" class="drawer-content" style="display:none;">
             <div class="panel-placeholder" data-i18n="files_hint">Controle seus arquivos e backups localmente.</div>
             <div class="file-actions">
                 <button class="btn-half" id="btnNewProject" data-i18n="btn_new_project">+ NOVO</button>
-                <button class="btn-half" id="btnImport" title="Importar JSON/TXT" data-i18n-title="btn_import_title"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-upload-simple"></use></svg> <span data-i18n="btn_open">ABRIR</span></button>
-                <button class="btn-half" id="btnScanQr" title="Scan QR" data-i18n-title="btn_scan_qr"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-magnifying-glass"></use></svg> <span data-i18n="btn_scan">SCAN QR</span></button>
+                <button class="btn-half" id="btnImport" title="Importar JSON/TXT" data-i18n-title="btn_import_title" data-i18n-tip="btn_import_title"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-upload-simple"></use></svg> <span data-i18n="btn_open">ABRIR</span></button>
+                <button class="btn-half" id="btnScanQr" title="Scan QR" data-i18n-title="btn_scan_qr" data-i18n-tip="btn_scan_qr"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-magnifying-glass"></use></svg> <span data-i18n="btn_scan">SCAN QR</span></button>
                 <input type="file" id="fileInput" style="display:none;" accept=".json,.txt,.md,.tot,.b64,.qr">
             </div>
             <div class="file-actions">
@@ -179,23 +228,71 @@
             <div id="pageMarkers" aria-hidden="true"></div>
             <div id="xrayOverlay" aria-hidden="true"></div>
             <aside id="xrayPanel" class="xray-panel" aria-hidden="true">
-                <div class="xray-panel-title" data-i18n="xray_panel_title">RAIO-X</div>
-                <div class="xray-panel-section">
-                    <div class="xray-panel-heading" data-i18n="xray_verbs_title">VERBOS</div>
-                    <div id="xrayVerbs" class="xray-panel-list"></div>
+                <div class="xray-header">
+                    <div class="xray-header-title" data-i18n="xray_panel_title">RAIO-X DO TEXTO</div>
+                    <div class="xray-header-actions">
+                        <button id="xrayHelpBtn" class="btn-icon" aria-label="Ajuda" data-i18n-title="xray_help_title" data-i18n-tip="xray_help_tip">?</button>
+                        <button id="xrayCloseBtn" class="btn-icon" aria-label="Fechar" data-i18n-title="xray_close_title" data-i18n-tip="xray_close_tip">×</button>
+                    </div>
                 </div>
-                <div class="xray-panel-section">
-                    <div class="xray-panel-heading" data-i18n="xray_adjs_title">ADJETIVOS</div>
-                    <div id="xrayAdjs" class="xray-panel-list"></div>
+
+                <div class="xray-summary" id="xraySummary">
+                    <div class="xray-summary-item" id="xraySummaryVerbs">Verbos: 0 ocorrências · 0 lemas</div>
+                    <div class="xray-summary-item" id="xraySummaryAdjs">Adjetivos: 0 ocorrências · 0 lemas</div>
+                    <div class="xray-summary-item xray-summary-click" id="xraySummaryAmb">Ambíguos: 0</div>
                 </div>
+
+                <div class="xray-controls">
+                    <input id="xraySearch" class="xray-search" data-i18n-ph="xray_search_ph" placeholder="Buscar lema ou forma..." />
+                    <select id="xraySort" class="xray-select" aria-label="Ordenar">
+                        <option value="count" data-i18n="xray_sort_count">Ocorrências</option>
+                        <option value="alpha" data-i18n="xray_sort_alpha">A-Z</option>
+                        <option value="conf" data-i18n="xray_sort_conf">Confiança</option>
+                    </select>
+                </div>
+
+                <div class="xray-filters">
+                    <label class="xray-filter"><input type="checkbox" id="xrayFilterHigh" checked> <span data-i18n="xray_conf_high">Alta</span></label>
+                    <label class="xray-filter"><input type="checkbox" id="xrayFilterMed" checked> <span data-i18n="xray_conf_med">Média</span></label>
+                    <label class="xray-filter"><input type="checkbox" id="xrayFilterLow" checked> <span data-i18n="xray_conf_low">Baixa</span></label>
+                    <label class="xray-filter"><input type="checkbox" id="xrayFilterAmb"> <span data-i18n="xray_filter_amb_only">Só ambíguos</span></label>
+                </div>
+
+                <div class="xray-tabs">
+                    <button class="xray-tab active" data-tab="verbs" data-i18n="xray_tab_verbs">Verbos</button>
+                    <button class="xray-tab" data-tab="adjs" data-i18n="xray_tab_adjs">Adjetivos</button>
+                    <button class="xray-tab" data-tab="review" data-i18n="xray_tab_review">Revisar</button>
+                </div>
+
+                <div class="xray-list" id="xrayList"></div>
                 <div id="xrayEmpty" class="xray-panel-empty" data-i18n="xray_empty">Sem dados suficientes.</div>
+
                 <div class="xray-panel-policy" data-i18n="xray_policy">
                     Contabiliza verbos (inclui infinitivo/gerúndio/particípio) e adjetivos. Itens ambíguos aparecem marcados.
                 </div>
+                <div class="xray-legend" id="xrayLegend">
+                    <span class="xray-badge lex" data-i18n="xray_legend_lex" data-i18n-tip="xray_tip_lex">LÉX</span>
+                    <span class="xray-badge heur" data-i18n="xray_legend_heur" data-i18n-tip="xray_tip_heur">HEUR</span>
+                    <span class="xray-badge amb" data-i18n="xray_legend_amb" data-i18n-tip="xray_tip_amb">AMB</span>
+                    <span class="xray-badge high" data-i18n="xray_legend_high" data-i18n-tip="xray_tip_high">ALTA</span>
+                    <span class="xray-badge med" data-i18n="xray_legend_med" data-i18n-tip="xray_tip_med">MÉDIA</span>
+                    <span class="xray-badge low" data-i18n="xray_legend_low" data-i18n-tip="xray_tip_low">BAIXA</span>
+                </div>
+
                 <button id="xrayAuditToggle" class="xray-panel-audit" type="button" data-i18n="xray_audit_toggle">
                     AUDITAR
                 </button>
                 <div id="xrayLexiconStatus" class="xray-panel-status" data-i18n="xray_lexicon_status">Pacote linguístico 0%</div>
+
+                <div id="xrayHelp" class="xray-help" aria-hidden="true">
+                    <div class="xray-help-title" data-i18n="xray_help_heading">Legenda</div>
+                    <div data-i18n-html="xray_help_body">
+                        <p><strong>LEMA</strong> é a forma base (ex.: amar). <strong>FORMA</strong> é o que aparece no texto.</p>
+                        <p><strong>TAG</strong> mostra forma/tempo: INF, GER, PART, PRES, FUT, IMP, COND.</p>
+                        <p><strong>ALTA</strong> = léxico. <strong>MÉDIA</strong> = consenso parcial. <strong>BAIXA</strong> = heurística.</p>
+                        <p><strong>AMB</strong> = forma ambígua (pode ser mais de uma classe).</p>
+                    </div>
+                </div>
             </aside>
             <div id="editor" contenteditable="true" spellcheck="false"></div>
         </div>
@@ -220,11 +317,11 @@
             <button id="mobileControlsClose" class="btn-icon mobile-controls-close" aria-label="Fechar painel">×</button>
             <span id="currentDocLabel" class="status-label">UNTITLED</span>
             <span id="liveStats" class="status-label" data-i18n="stats_label">CHARS: 0 | WORDS: 0</span>
-            <button class="btn" id="btnFontType" title="Mudar Fonte [Alt+F]" data-i18n-title="font_title"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-text-aa"></use></svg></button>
+            <button class="btn" id="btnFontType" title="Mudar Fonte [Alt+F]" data-i18n-title="font_title" data-i18n-tip="font_title"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-text-aa"></use></svg></button>
             <button class="btn" id="fontMinus"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-minus"></use></svg></button>
             <button class="btn" id="fontPlus"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-plus"></use></svg></button>
             <div class="divider"></div>
-            <button class="btn" id="btnSave" title="Salvar [Ctrl+S]" data-i18n-title="save_title"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-floppy-disk"></use></svg> <span data-i18n="export_btn">EXPORTAR</span></button>
+            <button class="btn" id="btnSave" title="Salvar [Ctrl+S]" data-i18n-title="save_title" data-i18n-tip="save_title"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-floppy-disk"></use></svg> <span data-i18n="export_btn">EXPORTAR</span></button>
             <div style="flex:1"></div> 
             <div class="search-wrapper">
                 <svg class="icon search-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-magnifying-glass"></use></svg>
@@ -232,14 +329,16 @@
                 <button class="btn-icon" id="btnSearchPrev" title="Anterior">▲</button>
                 <button class="btn-icon" id="btnSearchNext" title="Próximo">▼</button>
                 <button class="btn-icon" id="btnSearch" data-i18n="search_go">IR</button>
-                <button class="btn-icon" id="btnClear">×</button>
+                <button class="btn-icon" id="btnClear" data-i18n-title="search_clear_title" aria-label="Limpar busca">
+                    <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-x"></use></svg>
+                </button>
             </div>
             <div class="divider"></div>
-            <button class="btn" id="btnAudio" title="Música [Alt+M]" data-i18n-title="audio_title"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-music-notes"></use></svg> <span data-i18n="audio_btn">SOM</span></button>
-            <button class="btn" id="btnReader" title="Modo Leitor" data-i18n-title="reader_title"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-book-open-text"></use></svg> <span data-i18n="reader_btn">LEITOR</span></button>
+            <button class="btn" id="btnAudio" title="Música [Alt+M]" data-i18n-title="audio_title" data-i18n-tip="audio_title"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-music-notes"></use></svg> <span data-i18n="audio_btn">SOM</span></button>
+            <button class="btn" id="btnReader" title="Modo Leitor" data-i18n-title="reader_title" data-i18n-tip="reader_title"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-book-open-text"></use></svg> <span data-i18n="reader_btn">LEITOR</span></button>
             <button class="btn" id="btnXray" title="Modo Raio-X" data-i18n-title="xray_title"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-list-bullets"></use></svg> <span data-i18n="xray_btn">X-RAY</span></button>
             
-            <button class="btn" id="btnLock" title="Bloquear Tela [Alt+L]" data-i18n-title="lock_title"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-lock-key"></use></svg> <span data-i18n="lock_btn">LOCK</span></button>
+            <button class="btn" id="btnLock" title="Bloquear Tela [Alt+L]" data-i18n-title="lock_title" data-i18n-tip="lock_title"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-lock-key"></use></svg> <span data-i18n="lock_btn">LOCK</span></button>
         </div>
     </div>
 
@@ -339,19 +438,19 @@
             <div class="modal-header reader-header">
                 <span data-i18n="reader_title">MODO LEITOR</span>
                 <div class="reader-actions">
-                    <button id="btnReaderGlossary" class="btn-icon" title="Glossário" data-i18n-title="reader_glossary_title">
+                    <button id="btnReaderGlossary" class="btn-icon" title="Glossário" data-i18n-title="reader_glossary_title" data-i18n-tip="reader_glossary_title">
                         <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-list-bullets"></use></svg>
                     </button>
-                    <button id="btnReaderRuler" class="btn-icon" title="Régua" data-i18n-title="reader_ruler_title">
+                    <button id="btnReaderRuler" class="btn-icon" title="Régua" data-i18n-title="reader_ruler_title" data-i18n-tip="reader_ruler_title">
                         <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-eyeglasses"></use></svg>
                     </button>
-                    <button id="btnReaderFont" class="btn-icon" title="Fonte" data-i18n-title="reader_font_title">
+                    <button id="btnReaderFont" class="btn-icon" title="Fonte" data-i18n-title="reader_font_title" data-i18n-tip="reader_font_title">
                         <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-text-aa"></use></svg>
                     </button>
-                    <button id="btnReaderTheme" class="btn-icon" title="Tema" data-i18n-title="reader_theme_title">
+                    <button id="btnReaderTheme" class="btn-icon" title="Tema" data-i18n-title="reader_theme_title" data-i18n-tip="reader_theme_title">
                         <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-sun"></use></svg>
                     </button>
-                    <button id="closeModalReader" class="btn-icon" title="Fechar" data-i18n-title="reader_close_title">×</button>
+                    <button id="closeModalReader" class="btn-icon" title="Fechar" data-i18n-title="reader_close_title" data-i18n-tip="reader_close_title">×</button>
                 </div>
             </div>
             <div class="modal-body reader-body">
@@ -361,8 +460,9 @@
                     <div class="reader-glass-panel reader-glass-bottom"></div>
                 </div>
                 <div class="reader-ruler-controls" aria-hidden="true">
+                    <button id="btnReaderRulerClose" class="btn-icon" title="Fechar régua" data-i18n-title="reader_ruler_close_title" data-i18n-tip="reader_ruler_close_title">×</button>
                     <button id="btnReaderSpeedDown" class="btn-icon" title="Lento">−</button>
-                    <button id="btnReaderPlay" class="btn-icon" title="Play" data-i18n-title="reader_play_title">
+                    <button id="btnReaderPlay" class="btn-icon" title="Play" data-i18n-title="reader_play_title" data-i18n-tip="reader_play_title">
                         <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-play-circle"></use></svg>
                     </button>
                     <button id="btnReaderSpeedUp" class="btn-icon" title="Rápido">+</button>
@@ -593,6 +693,60 @@
     <button class="selection-btn" data-cmd="justifyLeft" title="Alinhar à esquerda">L</button>
     <button class="selection-btn" data-cmd="justifyCenter" title="Centralizar">C</button>
     <button class="selection-btn" data-cmd="justifyFull" title="Justificar">J</button>
+    <button class="selection-btn" data-cmd="consult" data-i18n-title="consult_title"><span data-i18n="consult_button">CONSULTAR</span></button>
+</div>
+
+<div id="consultModal" class="modal-overlay consult-modal" aria-hidden="true">
+    <div class="modal-box consult-box">
+        <div class="modal-header">
+            <span data-i18n="consult_title">CONSULTAR</span>
+            <button class="modal-close" id="consultClose" aria-label="Fechar" data-i18n-title="consult_close_title">×</button>
+        </div>
+        <div class="consult-body">
+            <div class="consult-title">
+                <span class="consult-word" id="consultWord">—</span>
+                <span class="consult-lemma" id="consultLemma">—</span>
+            </div>
+            <div class="consult-row">
+                <span class="consult-label" data-i18n="consult_pos">Classe</span>
+                <span id="consultPos">—</span>
+            </div>
+            <div class="consult-section">
+                <div class="consult-label" data-i18n="consult_def">Definição</div>
+                <div id="consultDef" class="consult-text">—</div>
+            </div>
+            <div class="consult-section">
+                <div class="consult-label" data-i18n="consult_flex">Flexões</div>
+                <div id="consultFlex" class="consult-text">—</div>
+            </div>
+            <div class="consult-section">
+                <div class="consult-label" data-i18n="consult_regency">Regência</div>
+                <div id="consultRegency" class="consult-text">—</div>
+            </div>
+            <div class="consult-section">
+                <div class="consult-label" data-i18n="consult_examples">Exemplos</div>
+                <div id="consultExamples" class="consult-text">—</div>
+            </div>
+            <div class="consult-section">
+                <div class="consult-label" data-i18n="consult_notes">Observações</div>
+                <div id="consultNotes" class="consult-text">—</div>
+            </div>
+            <div class="consult-section consult-doubt" id="consultDoubtWrap">
+                <div class="consult-label" data-i18n="consult_doubt">Dúvida comum</div>
+                <div id="consultDoubt" class="consult-text">—</div>
+            </div>
+            <div class="consult-section consult-notfound" id="consultNotFound" data-i18n="consult_not_found">
+                Palavra não encontrada no dicionário offline.
+            </div>
+            <div class="consult-section consult-scope" id="consultOutScope" data-i18n="consult_out_scope">
+                Fora do escopo do dicionário offline (por enquanto).
+            </div>
+            <div class="consult-actions">
+                <button class="btn-full" id="consultAddPersonal" data-i18n="consult_add_personal">Adicionar ao dicionário pessoal</button>
+                <div class="consult-status" id="consultStatus" data-i18n="consult_status_idle">—</div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div id="inlineDataToast" class="inline-data-toast" aria-hidden="true">

@@ -16,7 +16,8 @@ export const ui = {
             panels: {
                 files: document.getElementById("panelFiles"),
                 nav: document.getElementById("panelNav"),
-                memo: document.getElementById("panelMemo")
+                memo: document.getElementById("panelMemo"),
+                actions: document.getElementById("panelActions")
             }
         };
         this.initTheme();
@@ -265,16 +266,22 @@ export const ui = {
 
     openDrawer(panelName, callbacks) {
         const { drawer, panels, hud } = this.elements;
-        if (drawer.classList.contains("open") && panels[panelName].style.display === "block") {
+        if (drawer.classList.contains("open") && panels[panelName] && panels[panelName].style.display === "block") {
             this.closeDrawer();
             return;
         }
-        Object.values(panels).forEach(p => p.style.display = "none");
+        Object.values(panels).forEach(p => { if (p) p.style.display = "none"; });
         document.querySelectorAll(".hud-btn").forEach(b => b.classList.remove("active"));
-
-        panels[panelName].style.display = "block";
+        const isMobile = window.innerWidth <= 900;
+        if (isMobile) {
+            Object.values(panels).forEach(p => { if (p) p.style.display = "block"; });
+            drawer.classList.add("mobile-all");
+        } else if (panels[panelName]) {
+            panels[panelName].style.display = "block";
+            drawer.classList.remove("mobile-all");
+        }
         drawer.classList.add("open");
-        if(window.innerWidth <= 900) {
+        if(isMobile) {
             document.body.classList.add("mobile-drawer-open");
         }
         document.body.classList.add("drawer-open");
@@ -284,7 +291,7 @@ export const ui = {
             nav: lang.t("drawer_nav"),
             memo: lang.t("drawer_memo")
         };
-        this.elements.drawerTitle.innerText = titles[panelName] || "";
+        this.elements.drawerTitle.innerText = isMobile ? lang.t("drawer_system") : (titles[panelName] || "");
 
         if(panelName === 'files' && callbacks.renderFiles) callbacks.renderFiles();
         if(panelName === 'nav' && callbacks.renderNav) callbacks.renderNav();
@@ -294,11 +301,13 @@ export const ui = {
 
     closeDrawer() {
         this.elements.drawer.classList.remove("open");
+        this.elements.drawer.classList.remove("mobile-all");
         document.querySelectorAll(".hud-btn").forEach(b => b.classList.remove("active"));
         if(window.innerWidth <= 900) {
             document.body.classList.remove("mobile-drawer-open");
         }
         document.body.classList.remove("drawer-open");
+        Object.values(this.elements.panels || {}).forEach(p => { if (p) p.style.display = "none"; });
         localStorage.setItem("lit_ui_drawer_open", "false");
     }
     ,

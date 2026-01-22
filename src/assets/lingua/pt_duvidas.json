@@ -1,0 +1,38 @@
+{
+  "porque": {
+    "tipo": "duvida",
+    "explicacao": "Usado em respostas e explicações.",
+    "exemplos": {
+      "correto": ["Não fui porque estava doente."],
+      "incorreto": ["Não fui por que estava doente."]
+    },
+    "patterns": ["\\bporque\\b", "\\bpor que\\b", "\\bporquê\\b", "\\bpor que\\b"]
+  },
+  "mal_mau": {
+    "tipo": "duvida",
+    "explicacao": "‘mal’ é advérbio (oposto de bem); ‘mau’ é adjetivo (oposto de bom).",
+    "exemplos": {
+      "correto": ["Ele se sentiu mal.", "Ele é um mau aluno."],
+      "incorreto": ["Ele se sentiu mau."]
+    },
+    "patterns": ["\\bmal\\b", "\\bmau\\b"]
+  },
+  "ha_a": {
+    "tipo": "duvida",
+    "explicacao": "‘há’ indica tempo passado; ‘a’ indica tempo futuro.",
+    "exemplos": {
+      "correto": ["Chegou há dois dias.", "Chega daqui a dois dias."],
+      "incorreto": ["Chegou a dois dias."]
+    },
+    "patterns": ["\\bhá\\b", "\\ba\\b"]
+  },
+  "onde_aonde": {
+    "tipo": "duvida",
+    "explicacao": "‘onde’ indica permanência; ‘aonde’ indica movimento.",
+    "exemplos": {
+      "correto": ["Onde você está?", "Aonde você vai?"],
+      "incorreto": ["Aonde você está?"]
+    },
+    "patterns": ["\\bonde\\b", "\\baonde\\b"]
+  }
+}

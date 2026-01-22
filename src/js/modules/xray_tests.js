@@ -37,6 +37,11 @@ export const xrayTests = [
   { type: "verb", form: "devo", lemma: "dever", tag: "PRES/1S" },
   { type: "verb", form: "levo", lemma: "levar", tag: "PRES/1S" },
   { type: "verb", form: "trabalho", lemma: "trabalhar", tag: "PRES/1S" },
+  { type: "verb", form: "olho", lemma: "olhar", tag: "PRES/1S" },
+  { type: "verb", form: "perco", lemma: "perder", tag: "PRES/1S" },
+  { type: "verb", form: "ajudo", lemma: "ajudar", tag: "PRES/1S" },
+  { type: "verb", form: "toco", lemma: "tocar", tag: "PRES/1S" },
+  { type: "verb", form: "tento", lemma: "tentar", tag: "PRES/1S" },
   { type: "adj", form: "bonito", lemma: "bonito", tag: "MASC.SG" },
   { type: "adj", form: "bonitas", lemma: "bonito", tag: "FEM.PL" },
   { type: "adj", form: "cansado", lemma: "cansado", tag: "MASC.SG" },
@@ -55,5 +60,8 @@ export const xrayTests = [
   { type: "adj", form: "maior", lemma: "grande", tag: "COMP", ambiguous: true },
   { type: "adj", form: "fraco", lemma: "fraco", tag: "MASC.SG" },
   { type: "adj", form: "forte", lemma: "forte", tag: "INVAR" },
-  { type: "adj", form: "puro", lemma: "puro", tag: "MASC.SG" }
+  { type: "adj", form: "puro", lemma: "puro", tag: "MASC.SG" },
+  { type: "adj", form: "pouco", lemma: "pouco", tag: "MASC.SG", ambiguous: true },
+  { type: "adj", form: "mesmo", lemma: "mesmo", tag: "MASC.SG", ambiguous: true },
+  { type: "adj", form: "claro", lemma: "claro", tag: "MASC.SG", ambiguous: true }
 ];

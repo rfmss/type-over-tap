@@ -1,0 +1,22 @@
+{
+  "assistir": {
+    "sentidos": {
+      "ver": {
+        "regencia": "assistir a algo",
+        "exemplo": "Assistiu ao filme."
+      },
+      "dar_assistencia": {
+        "regencia": "assistir alguém",
+        "exemplo": "O médico assistiu o paciente."
+      }
+    }
+  },
+  "preferir": {
+    "sentidos": {
+      "escolher": {
+        "regencia": "preferir algo a outro",
+        "exemplo": "Prefere chá a café."
+      }
+    }
+  }
+}

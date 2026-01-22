@@ -1,6 +1,7 @@
 import { lang } from './lang.js';
 import { lexicon } from './lexicon.js';
 import { xrayTests } from './xray_tests.js';
+import { ptDictionary } from './pt_dictionary.js';
 
 export const editorFeatures = {
     editor: null,
@@ -36,6 +37,22 @@ export const editorFeatures = {
     xrayAuditToggle: null,
     xrayAuditActive: false,
     xrayAuditState: new Map(),
+    xrayCloseBtn: null,
+    xrayHelpBtn: null,
+    xrayHelp: null,
+    xraySearch: null,
+    xraySort: null,
+    xrayFilterHigh: null,
+    xrayFilterMed: null,
+    xrayFilterLow: null,
+    xrayFilterAmb: null,
+    xrayTabs: null,
+    xrayList: null,
+    xraySummaryVerbs: null,
+    xraySummaryAdjs: null,
+    xraySummaryAmb: null,
+    xrayActiveTab: "verbs",
+    xrayData: null,
     readerModal: null,
     readerBox: null,
     readerContent: null,
@@ -46,6 +63,22 @@ export const editorFeatures = {
     lexiconDef: null,
     lexiconTrans: null,
     lexiconRaf: null,
+    consultModal: null,
+    consultClose: null,
+    consultWord: null,
+    consultLemma: null,
+    consultPos: null,
+    consultDef: null,
+    consultFlex: null,
+    consultRegency: null,
+    consultExamples: null,
+    consultNotes: null,
+    consultDoubtWrap: null,
+    consultDoubt: null,
+    consultNotFound: null,
+    consultOutScope: null,
+    consultAddPersonal: null,
+    consultStatus: null,
     goalStars: null,
     goalModal: null,
     goalTitle: null,
@@ -85,6 +118,7 @@ export const editorFeatures = {
         this.initReaderMode();
         this.initSelectionToolbar();
         this.initLexicon();
+        this.initDictionary();
         this.initGoal();
     },
 
@@ -778,11 +812,26 @@ export const editorFeatures = {
     initXray() {
         this.xrayOverlay = document.getElementById("xrayOverlay");
         this.xrayPanel = document.getElementById("xrayPanel");
+        this.xrayHeader = this.xrayPanel ? this.xrayPanel.querySelector(".xray-header") : null;
         this.xrayVerbsEl = document.getElementById("xrayVerbs");
         this.xrayAdjsEl = document.getElementById("xrayAdjs");
         this.xrayEmptyEl = document.getElementById("xrayEmpty");
         this.ptLexiconStatusEl = document.getElementById("xrayLexiconStatus");
         this.xrayAuditToggle = document.getElementById("xrayAuditToggle");
+        this.xrayCloseBtn = document.getElementById("xrayCloseBtn");
+        this.xrayHelpBtn = document.getElementById("xrayHelpBtn");
+        this.xrayHelp = document.getElementById("xrayHelp");
+        this.xraySearch = document.getElementById("xraySearch");
+        this.xraySort = document.getElementById("xraySort");
+        this.xrayFilterHigh = document.getElementById("xrayFilterHigh");
+        this.xrayFilterMed = document.getElementById("xrayFilterMed");
+        this.xrayFilterLow = document.getElementById("xrayFilterLow");
+        this.xrayFilterAmb = document.getElementById("xrayFilterAmb");
+        this.xrayTabs = this.xrayPanel ? Array.from(this.xrayPanel.querySelectorAll(".xray-tab")) : [];
+        this.xrayList = document.getElementById("xrayList");
+        this.xraySummaryVerbs = document.getElementById("xraySummaryVerbs");
+        this.xraySummaryAdjs = document.getElementById("xraySummaryAdjs");
+        this.xraySummaryAmb = document.getElementById("xraySummaryAmb");
         const btn = document.getElementById("btnXray");
         if (!btn || !this.xrayPanel) return;
         btn.onclick = () => this.setXrayActive(!this.xrayActive);
@@ -793,16 +842,51 @@ export const editorFeatures = {
                 this.xrayAuditState.clear();
             };
         }
+        if (this.xrayCloseBtn) this.xrayCloseBtn.onclick = () => this.setXrayActive(false);
+        if (this.xrayHelpBtn && this.xrayHelp) {
+            this.xrayHelpBtn.onclick = () => {
+                this.xrayHelp.classList.toggle("active");
+            };
+        }
+        if (this.xrayHeader && this.xrayPanel) {
+            this.bindXrayDrag();
+        }
+        if (this.xraySearch) {
+            this.xraySearch.addEventListener("input", () => this.renderXrayPanel());
+        }
+        if (this.xraySort) {
+            this.xraySort.addEventListener("change", () => this.renderXrayPanel());
+        }
+        [this.xrayFilterHigh, this.xrayFilterMed, this.xrayFilterLow, this.xrayFilterAmb].forEach((el) => {
+            if (el) el.addEventListener("change", () => this.renderXrayPanel());
+        });
+        if (this.xrayTabs && this.xrayTabs.length) {
+            this.xrayTabs.forEach((tab) => {
+                tab.addEventListener("click", () => {
+                    this.xrayTabs.forEach(t => t.classList.remove("active"));
+                    tab.classList.add("active");
+                    this.xrayActiveTab = tab.getAttribute("data-tab") || "verbs";
+                    this.renderXrayPanel();
+                });
+            });
+        }
+        if (this.xraySummaryAmb && this.xrayFilterAmb) {
+            this.xraySummaryAmb.addEventListener("click", () => {
+                this.xrayFilterAmb.checked = !this.xrayFilterAmb.checked;
+                this.renderXrayPanel();
+            });
+        }
         this.editor.addEventListener("input", () => this.scheduleXrayUpdate());
         this.editor.addEventListener("keyup", () => this.scheduleXrayUpdate());
         this.editor.addEventListener("compositionend", () => this.scheduleXrayUpdate());
         this.editor.addEventListener("click", () => this.scheduleXrayUpdate());
         document.addEventListener("lang:changed", () => this.scheduleXrayUpdate());
-        document.addEventListener("click", (e) => {
-            if (!this.xrayActive) return;
-            if (!this.xrayPanel) return;
-            if (this.xrayPanel.contains(e.target)) return;
-            if (btn && btn.contains(e.target)) return;
+        document.addEventListener("keydown", (e) => {
+            if (e.key !== "Escape" || !this.xrayActive) return;
+            if (this.xrayHelp && this.xrayHelp.classList.contains("active")) {
+                this.xrayHelp.classList.remove("active");
+                return;
+            }
             this.setXrayActive(false);
         });
         if (this.editor && !this.xrayObserver) {
@@ -823,6 +907,11 @@ export const editorFeatures = {
         if (this.xrayPanel) {
             this.xrayPanel.classList.toggle("show", active);
             this.xrayPanel.setAttribute("aria-hidden", active ? "false" : "true");
+            if (active && !this.xrayDragged) {
+                this.xrayPanel.style.left = "";
+                this.xrayPanel.style.top = "";
+                this.xrayPanel.style.transform = "";
+            }
         }
         if (active) {
             this.clearSelection();
@@ -834,9 +923,63 @@ export const editorFeatures = {
             this.xrayAdjsEl.innerHTML = "";
             this.xrayEmptyEl.style.display = "block";
         }
+        if (this.xrayList) this.xrayList.innerHTML = "";
         this.xrayAuditState.clear();
         this.updateSelectionToolbar();
         this.scheduleFocusBlockUpdate();
+    },
+
+    bindXrayDrag() {
+        let dragging = false;
+        let offsetX = 0;
+        let offsetY = 0;
+
+        const startDrag = (clientX, clientY) => {
+            if (!this.xrayPanel) return;
+            const rect = this.xrayPanel.getBoundingClientRect();
+            dragging = true;
+            offsetX = clientX - rect.left;
+            offsetY = clientY - rect.top;
+            this.xrayDragged = true;
+            this.xrayPanel.classList.add("dragging");
+            this.xrayPanel.style.transform = "translate(0, 0)";
+        };
+
+        const moveDrag = (clientX, clientY) => {
+            if (!dragging || !this.xrayPanel) return;
+            const maxX = window.innerWidth - this.xrayPanel.offsetWidth - 8;
+            const maxY = window.innerHeight - this.xrayPanel.offsetHeight - 8;
+            const nextLeft = Math.max(8, Math.min(maxX, clientX - offsetX));
+            const nextTop = Math.max(8, Math.min(maxY, clientY - offsetY));
+            this.xrayPanel.style.left = `${nextLeft}px`;
+            this.xrayPanel.style.top = `${nextTop}px`;
+        };
+
+        const endDrag = () => {
+            if (!dragging) return;
+            dragging = false;
+            if (this.xrayPanel) this.xrayPanel.classList.remove("dragging");
+        };
+
+        this.xrayHeader.addEventListener("mousedown", (e) => {
+            if (e.button !== 0) return;
+            e.preventDefault();
+            startDrag(e.clientX, e.clientY);
+        });
+        window.addEventListener("mousemove", (e) => moveDrag(e.clientX, e.clientY));
+        window.addEventListener("mouseup", endDrag);
+
+        this.xrayHeader.addEventListener("touchstart", (e) => {
+            const touch = e.touches && e.touches[0];
+            if (!touch) return;
+            startDrag(touch.clientX, touch.clientY);
+        }, { passive: true });
+        window.addEventListener("touchmove", (e) => {
+            const touch = e.touches && e.touches[0];
+            if (!touch) return;
+            moveDrag(touch.clientX, touch.clientY);
+        }, { passive: true });
+        window.addEventListener("touchend", endDrag);
     },
 
     scheduleXrayUpdate() {
@@ -882,7 +1025,12 @@ export const editorFeatures = {
             "src/assets/data/pt_lexicon_chunk_27.json",
             "src/assets/data/pt_lexicon_chunk_28.json",
             "src/assets/data/pt_lexicon_chunk_29.json",
-            "src/assets/data/pt_lexicon_chunk_30.json"
+            "src/assets/data/pt_lexicon_chunk_30.json",
+            "src/assets/data/pt_lexicon_chunk_31.json",
+            "src/assets/data/pt_lexicon_chunk_32.json",
+            "src/assets/data/pt_lexicon_chunk_33.json",
+            "src/assets/data/pt_lexicon_chunk_34.json",
+            "src/assets/data/pt_lexicon_chunk_35.json"
         ];
         this.updateLexiconStatus(0);
         fetch(this.ptLexiconChunks[0])
@@ -943,13 +1091,10 @@ export const editorFeatures = {
 
     updateXrayOverlay() {
         if (!this.xrayPanel || !this.xrayActive || !this.editor) return;
-        if (!this.xrayVerbsEl || !this.xrayAdjsEl || !this.xrayEmptyEl) return;
+        if (!this.xrayList || !this.xrayEmptyEl) return;
         const text = this.editor.innerText || "";
-        const stats = this.buildXrayStats(text);
-        this.renderXrayList(this.xrayVerbsEl, stats.verbs);
-        this.renderXrayList(this.xrayAdjsEl, stats.adjs);
-        const hasData = stats.verbs.length || stats.adjs.length;
-        this.xrayEmptyEl.style.display = hasData ? "none" : "block";
+        this.xrayData = this.buildXrayGroups(text);
+        this.renderXrayPanel();
     },
 
     buildXrayStats(text) {
@@ -981,6 +1126,395 @@ export const editorFeatures = {
         };
     },
 
+    buildXrayGroups(text) {
+        const tokens = this.getXrayTokenStream(text);
+        const langCode = lang.current || "pt";
+        const occurrences = [];
+        tokens.forEach((token, index) => {
+            if (!token || token.norm.length < 3) return;
+            const verb = this.analyzeVerb(token.norm, token.raw, langCode);
+            const adj = this.analyzeAdjective(token.norm, token.raw, langCode);
+            const isPartCandidate = this.isPtParticipleCandidate(token.norm, verb, adj);
+            if (isPartCandidate && (verb || adj)) {
+                const classified = this.classifyParticipleVsAdjective(index, tokens, verb, adj);
+                if (classified) {
+                    const chosen = classified.label === "verb" ? verb : adj;
+                    if (chosen) {
+                        occurrences.push({
+                            type: classified.label,
+                            form: chosen.form,
+                            lemma: chosen.lemma,
+                            tag: chosen.tag,
+                            conf: classified.confidence,
+                            amb: classified.ambiguous,
+                            source: chosen.source || "heur",
+                            lemmaCandidates: classified.lemmaCandidates || chosen.lemmaCandidates || null,
+                            rationale: classified.rationale || null,
+                            alternatives: classified.alternatives || null
+                        });
+                    }
+                    return;
+                }
+            }
+            if (verb) {
+                occurrences.push({
+                    type: "verb",
+                    form: verb.form,
+                    lemma: verb.lemma,
+                    tag: verb.tag,
+                    conf: verb.conf,
+                    amb: verb.ambiguous,
+                    source: verb.source || "heur",
+                    lemmaCandidates: verb.lemmaCandidates || null
+                });
+            }
+            if (adj) {
+                occurrences.push({
+                    type: "adj",
+                    form: adj.form,
+                    lemma: adj.lemma,
+                    tag: adj.tag,
+                    conf: adj.conf,
+                    amb: adj.ambiguous,
+                    source: adj.source || "heur",
+                    lemmaCandidates: adj.lemmaCandidates || null
+                });
+            }
+        });
+        const groups = { verbs: new Map(), adjs: new Map(), review: new Map() };
+        const addToGroup = (bucket, item) => {
+            const lemmaInfo = this.resolveLemmaDisplay(item);
+            const key = `${item.type}|${lemmaInfo.display}`;
+            if (!groups[bucket].has(key)) {
+                groups[bucket].set(key, {
+                    type: item.type,
+                    lemma: lemmaInfo.display,
+                    lemmaCandidates: lemmaInfo.candidates,
+                    lemmaUnknown: lemmaInfo.unknown,
+                    conf: item.conf,
+                    amb: item.amb || lemmaInfo.ambiguous,
+                    count: 0,
+                    forms: new Map()
+                });
+            }
+            const g = groups[bucket].get(key);
+            g.count += 1;
+            g.amb = g.amb || item.amb;
+            g.conf = this.mergeConf(g.conf, item.conf);
+            const fKey = `${item.form}|${item.tag}|${item.source}|${item.amb ? "1" : "0"}`;
+            if (!g.forms.has(fKey)) {
+                g.forms.set(fKey, {
+                    form: item.form,
+                    tag: item.tag,
+                    source: item.source,
+                    amb: item.amb,
+                    count: 0,
+                    rationale: item.rationale || null,
+                    alternatives: item.alternatives || null
+                });
+            }
+            g.forms.get(fKey).count += 1;
+        };
+        occurrences.forEach((item) => {
+            const bucket = item.type === "verb" ? "verbs" : "adjs";
+            addToGroup(bucket, item);
+            if (item.amb || item.conf === "low" || item.source === "heur") {
+                addToGroup("review", item);
+            }
+        });
+        const doubtAlerts = ptDictionary.findDoubtsSync(text).map((entry) => ({
+            title: `${lang.t("xray_alert_doubt")}: ${entry.key.replace(/_/g, " ")}`,
+            detail: entry.item.explicacao,
+            count: entry.count,
+            conf: "med"
+        }));
+        const regencyAlerts = ptDictionary.findRegenciaAlertsSync(text).map((entry) => ({
+            title: `${lang.t("xray_alert_regency")}: ${entry.verb}`,
+            detail: entry.message,
+            count: entry.count,
+            conf: "med"
+        }));
+        const styleAlerts = this.buildEditorialAlerts(text);
+        const alerts = doubtAlerts.concat(regencyAlerts, styleAlerts);
+        alerts.forEach((alert) => {
+            const key = `alert|${alert.title}`;
+            if (!groups.review.has(key)) {
+                groups.review.set(key, {
+                    type: "alert",
+                    lemma: alert.title,
+                    conf: alert.conf || "med",
+                    amb: false,
+                    count: alert.count || 1,
+                    forms: new Map()
+                });
+            }
+            const g = groups.review.get(key);
+            g.count = Math.max(g.count, alert.count || 1);
+            const fKey = `${alert.detail}|ALERT`;
+            if (!g.forms.has(fKey)) {
+                g.forms.set(fKey, {
+                    form: alert.detail,
+                    tag: lang.t("xray_alert_tag"),
+                    source: "heur",
+                    amb: false,
+                    count: alert.count || 1
+                });
+            }
+        });
+        return {
+            verbs: Array.from(groups.verbs.values()),
+            adjs: Array.from(groups.adjs.values()),
+            review: Array.from(groups.review.values()),
+            totals: {
+                verbs: occurrences.filter(o => o.type === "verb").length,
+                adjs: occurrences.filter(o => o.type === "adj").length,
+                amb: occurrences.filter(o => o.amb).length,
+                verbLemmas: groups.verbs.size,
+                adjLemmas: groups.adjs.size
+            }
+        };
+    },
+
+    resolveLemmaDisplay(item) {
+        const unknownLabel = lang.t("xray_lemma_unknown");
+        const candidates = Array.isArray(item.lemmaCandidates) ? item.lemmaCandidates : null;
+        const ambiguous = Boolean(candidates && candidates.length > 1);
+        if (item.source !== "lex" && item.conf === "low") {
+            return { display: unknownLabel, candidates: null, unknown: true, ambiguous: false };
+        }
+        if (ambiguous) {
+            return { display: candidates.join(" / "), candidates, unknown: false, ambiguous: true };
+        }
+        return { display: item.lemma, candidates: null, unknown: false, ambiguous: false };
+    },
+
+    buildEditorialAlerts(text) {
+        const alerts = [];
+        const paragraphs = text.split(/\n{2,}/).filter(Boolean);
+        const langCode = lang.current || "pt";
+        paragraphs.forEach((para, idx) => {
+            const tokens = this.getXrayTokens(para);
+            const adjCounts = new Map();
+            const verbTags = new Map();
+            tokens.forEach((word) => {
+                const lower = word.toLowerCase();
+                const norm = this.normalizeXrayToken(lower);
+                const adj = this.analyzeAdjective(norm, lower, langCode);
+                if (adj) {
+                    adjCounts.set(adj.lemma, (adjCounts.get(adj.lemma) || 0) + 1);
+                }
+                const verb = this.analyzeVerb(norm, lower, langCode);
+                if (verb && verb.tag) {
+                    verbTags.set(verb.tag, (verbTags.get(verb.tag) || 0) + 1);
+                }
+            });
+            adjCounts.forEach((count, lemma) => {
+                if (count >= 3) {
+                    alerts.push({
+                        title: lang.t("xray_alert_style_adj"),
+                        detail: `${lemma} (${count}) — ${lang.t("xray_alert_paragraph")} ${idx + 1}`,
+                        count,
+                        conf: "low"
+                    });
+                }
+            });
+            verbTags.forEach((count, tag) => {
+                if (count >= 6) {
+                    alerts.push({
+                        title: lang.t("xray_alert_style_tense"),
+                        detail: `${tag} (${count}) — ${lang.t("xray_alert_paragraph")} ${idx + 1}`,
+                        count,
+                        conf: "low"
+                    });
+                }
+            });
+        });
+        const tokensAll = this.getXrayTokens(text);
+        let serEstar = 0;
+        tokensAll.forEach((word) => {
+            const lower = word.toLowerCase();
+            const norm = this.normalizeXrayToken(lower);
+            const verb = this.analyzeVerb(norm, lower, langCode);
+            if (verb && (verb.lemma === "ser" || verb.lemma === "estar")) serEstar += 1;
+        });
+        if (serEstar >= 10) {
+            alerts.push({
+                title: lang.t("xray_alert_style_serestar"),
+                detail: `${lang.t("xray_alert_occurrences")}: ${serEstar}`,
+                count: serEstar,
+                conf: "low"
+            });
+        }
+        return alerts;
+    },
+
+    mergeConf(current, next) {
+        const rank = { high: 3, med: 2, low: 1 };
+        return rank[next] < rank[current] ? next : current;
+    },
+
+    renderXrayPanel() {
+        if (!this.xrayList || !this.xrayData) return;
+        const data = this.xrayData;
+        const verbLabel = lang.t("xray_label_verbs");
+        const adjLabel = lang.t("xray_label_adjs");
+        const occLabel = lang.t("xray_label_occurrences");
+        const lemmaLabel = lang.t("xray_label_lemmas");
+        const ambLabel = lang.t("xray_label_amb");
+        if (this.xraySummaryVerbs) {
+            this.xraySummaryVerbs.textContent = `${verbLabel}: ${data.totals.verbs} ${occLabel} · ${data.totals.verbLemmas} ${lemmaLabel}`;
+        }
+        if (this.xraySummaryAdjs) {
+            this.xraySummaryAdjs.textContent = `${adjLabel}: ${data.totals.adjs} ${occLabel} · ${data.totals.adjLemmas} ${lemmaLabel}`;
+        }
+        if (this.xraySummaryAmb) this.xraySummaryAmb.textContent = `${ambLabel}: ${data.totals.amb}`;
+
+        const list = data[this.xrayActiveTab] || [];
+        const query = (this.xraySearch?.value || "").trim().toLowerCase();
+        const sort = this.xraySort?.value || "count";
+        const confFilters = new Set();
+        if (this.xrayFilterHigh?.checked) confFilters.add("high");
+        if (this.xrayFilterMed?.checked) confFilters.add("med");
+        if (this.xrayFilterLow?.checked) confFilters.add("low");
+        const onlyAmb = this.xrayFilterAmb?.checked;
+
+        let filtered = list.filter((g) => {
+            if (!confFilters.has(g.conf)) return false;
+            if (onlyAmb && !g.amb) return false;
+            if (!query) return true;
+            if (g.lemma.toLowerCase().includes(query)) return true;
+            return Array.from(g.forms.values()).some(f => f.form.toLowerCase().includes(query));
+        });
+
+        if (sort === "alpha") {
+            filtered = filtered.sort((a, b) => a.lemma.localeCompare(b.lemma));
+        } else if (sort === "conf") {
+            const rank = { high: 3, med: 2, low: 1 };
+            filtered = filtered.sort((a, b) => rank[b.conf] - rank[a.conf]);
+        } else {
+            filtered = filtered.sort((a, b) => b.count - a.count);
+        }
+
+        this.xrayList.innerHTML = "";
+        if (!filtered.length) {
+            if (this.xrayEmptyEl) this.xrayEmptyEl.style.display = "block";
+            return;
+        }
+        if (this.xrayEmptyEl) this.xrayEmptyEl.style.display = "none";
+        filtered.forEach((group) => {
+            const card = document.createElement("div");
+            card.className = "xray-group";
+            const header = document.createElement("div");
+            header.className = "xray-group-header";
+            const lemma = document.createElement("div");
+            lemma.className = "xray-lemma";
+            lemma.textContent = group.lemma;
+            lemma.title = lang.t("xray_lemma_tooltip");
+            const badges = document.createElement("div");
+            badges.className = "xray-badges";
+            const typeBadge = document.createElement("span");
+            typeBadge.className = "xray-badge";
+            if (group.type === "verb") {
+                typeBadge.textContent = lang.t("xray_badge_verb");
+            } else if (group.type === "adj") {
+                typeBadge.textContent = lang.t("xray_badge_adj");
+            } else {
+                typeBadge.textContent = lang.t("xray_badge_alert");
+            }
+            const count = document.createElement("span");
+            count.className = "xray-count";
+            count.textContent = `${group.count}`;
+            const confBadge = document.createElement("span");
+            confBadge.className = `xray-badge ${group.conf}`;
+            confBadge.textContent = group.conf === "high"
+                ? lang.t("xray_conf_high").toUpperCase()
+                : group.conf === "med"
+                    ? lang.t("xray_conf_med").toUpperCase()
+                    : lang.t("xray_conf_low").toUpperCase();
+            confBadge.setAttribute("data-tip", group.conf === "high"
+                ? lang.t("xray_tip_high")
+                : group.conf === "med"
+                    ? lang.t("xray_tip_med")
+                    : lang.t("xray_tip_low"));
+            badges.appendChild(typeBadge);
+            if (group.lemmaUnknown) {
+                const unkBadge = document.createElement("span");
+                unkBadge.className = "xray-badge low";
+                unkBadge.textContent = lang.t("xray_lemma_unknown_badge");
+                unkBadge.setAttribute("data-tip", lang.t("xray_tip_uncertain"));
+                badges.appendChild(unkBadge);
+            }
+            if (group.amb) {
+                const ambBadge = document.createElement("span");
+                ambBadge.className = "xray-badge amb";
+                ambBadge.textContent = lang.t("xray_legend_amb");
+                ambBadge.setAttribute("data-tip", lang.t("xray_tip_amb"));
+                badges.appendChild(ambBadge);
+            }
+            badges.appendChild(confBadge);
+            badges.appendChild(count);
+            header.appendChild(lemma);
+            header.appendChild(badges);
+
+            const forms = document.createElement("div");
+            forms.className = "xray-forms";
+            const formList = Array.from(group.forms.values()).sort((a, b) => b.count - a.count);
+            formList.forEach((form) => {
+                const row = document.createElement("div");
+                row.className = "xray-form-row";
+                const formLabel = document.createElement("div");
+                formLabel.textContent = form.form;
+                const meta = document.createElement("div");
+                meta.className = "xray-form-meta";
+                if (form.tag) {
+                    const tag = document.createElement("span");
+                    tag.textContent = form.tag;
+                    meta.appendChild(tag);
+                }
+                const src = document.createElement("span");
+                src.className = `xray-badge ${form.source === "lex" ? "lex" : "heur"}`;
+                src.textContent = form.source === "lex" ? lang.t("xray_legend_lex") : lang.t("xray_legend_heur");
+                src.setAttribute("data-tip", form.source === "lex" ? lang.t("xray_tip_lex") : lang.t("xray_tip_heur"));
+                meta.appendChild(src);
+                if (form.amb) {
+                    const ambBadge = document.createElement("span");
+                    ambBadge.className = "xray-badge amb";
+                    ambBadge.textContent = lang.t("xray_legend_amb");
+                    ambBadge.setAttribute("data-tip", lang.t("xray_tip_amb"));
+                    meta.appendChild(ambBadge);
+                }
+                const countSpan = document.createElement("span");
+                countSpan.textContent = String(form.count);
+                meta.appendChild(countSpan);
+                row.appendChild(formLabel);
+                row.appendChild(meta);
+                if (form.rationale) {
+                    const reason = document.createElement("div");
+                    reason.className = "xray-form-rationale";
+                    reason.textContent = form.rationale;
+                    row.appendChild(reason);
+                }
+                if (form.alternatives) {
+                    const alt = document.createElement("div");
+                    alt.className = "xray-form-rationale";
+                    alt.textContent = `${lang.t("xray_part_alternatives")}: ${form.alternatives.join(" | ")}`;
+                    row.appendChild(alt);
+                }
+                row.addEventListener("click", () => {
+                    if (this.xrayAuditActive) this.auditHighlight(form.form);
+                });
+                forms.appendChild(row);
+            });
+            header.addEventListener("click", () => {
+                card.classList.toggle("open");
+                if (this.xrayAuditActive) this.auditHighlight(group.lemma);
+            });
+            card.appendChild(header);
+            card.appendChild(forms);
+            this.xrayList.appendChild(card);
+        });
+    },
+
     normalizeXrayToken(word) {
         try {
             return word.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
@@ -1000,68 +1534,265 @@ export const editorFeatures = {
         }
     },
 
+    getXrayTokenStream(text) {
+        const raw = String(text || "");
+        const tokens = [];
+        try {
+            const re = /[\p{L}]+/gu;
+            let match;
+            while ((match = re.exec(raw)) !== null) {
+                const word = match[0];
+                const lower = word.toLowerCase();
+                tokens.push({
+                    raw: word,
+                    lower,
+                    norm: this.normalizeXrayToken(lower),
+                    index: tokens.length
+                });
+            }
+        } catch (_) {
+            const re = /[A-Za-zÀ-ÖØ-öø-ÿ]+/g;
+            let match;
+            while ((match = re.exec(raw)) !== null) {
+                const word = match[0];
+                const lower = word.toLowerCase();
+                tokens.push({
+                    raw: word,
+                    lower,
+                    norm: this.normalizeXrayToken(lower),
+                    index: tokens.length
+                });
+            }
+        }
+        return tokens;
+    },
+
     isXrayVerb(word, langCode) {
         const verbs = this.getXrayVerbList(langCode);
         if (verbs.has(word)) return true;
+        if (langCode === "pt" && this.ptLexiconReady && this.ptLexicon && this.ptLexicon.verbs) {
+            if (this.ptLexicon.verbs[word]) return true;
+        }
         const suffixes = this.getXrayVerbSuffixes(langCode);
         return suffixes.some((suffix) => word.endsWith(suffix) && word.length > suffix.length + 1);
     },
 
     isXrayAdjective(word, langCode) {
+        if (langCode === "pt" && this.ptLexiconReady && this.ptLexicon && this.ptLexicon.adjectives) {
+            if (this.ptLexicon.adjectives[word]) return true;
+        }
         const suffixes = this.getXrayAdjSuffixes(langCode);
         return suffixes.some((suffix) => word.endsWith(suffix) && word.length > suffix.length + 1);
+    },
+
+    isPtParticipleCandidate(word, verbEntry, adjEntry) {
+        if (verbEntry && verbEntry.tag && verbEntry.tag.includes("PART")) return true;
+        if (adjEntry && adjEntry.tag && /MASC|FEM|PL|INVAR/.test(adjEntry.tag)) return true;
+        const irregulars = new Set([
+            "feito", "dita", "dito", "visto", "posto",
+            "escrito", "aberto", "preso", "solto", "morto"
+        ]);
+        if (irregulars.has(word)) return true;
+        return /(ado|ada|ados|adas|ido|ida|idos|idas|to|ta|tos|tas|so|sa|sos|sas|cho|cha|chos|chas|sto|sta|stos|stas)$/.test(word);
+    },
+
+    classifyParticipleVsAdjective(index, tokens, verbEntry, adjEntry) {
+        if (!tokens[index]) return null;
+        const token = tokens[index];
+        const auxStrong = new Set(["ter", "tinha", "tinham", "tenho", "tem", "temos", "teve", "tiveram", "haver", "havia", "houve", "haviam"]);
+        const auxWeak = new Set(["ser", "estar", "ficar", "foi", "era", "estava", "foram", "sendo", "ficou"]);
+        const intensifiers = new Set(["muito", "tão", "mais", "menos", "bem", "super", "quase"]);
+        const determiners = new Set(["o", "a", "os", "as", "um", "uma", "uns", "umas", "este", "esta", "esse", "essa", "aquele", "aquela"]);
+        const stop = new Set(["de", "do", "da", "dos", "das", "em", "no", "na", "nos", "nas", "por", "para", "com", "sem"]);
+        let verbScore = 0;
+        let adjScore = 0;
+        const reasons = [];
+
+        const prev = tokens[index - 1]?.norm || "";
+        const prev2 = tokens[index - 2]?.norm || "";
+        const next = tokens[index + 1]?.norm || "";
+        const next2 = tokens[index + 2]?.norm || "";
+
+        const prevAux = auxStrong.has(prev) || auxStrong.has(prev2);
+        const prevAuxWeak = auxWeak.has(prev) || auxWeak.has(prev2);
+        if (prevAux) {
+            verbScore += 3;
+            reasons.push(lang.t("xray_part_reason_aux"));
+        } else if (prevAuxWeak) {
+            verbScore += 2;
+            reasons.push(lang.t("xray_part_reason_aux_weak"));
+            if (adjEntry) adjScore += 1;
+        }
+        if (next === "por" || next2 === "por") {
+            verbScore += 2;
+            reasons.push(lang.t("xray_part_reason_passive"));
+        }
+        if (intensifiers.has(prev)) {
+            adjScore += 2;
+            reasons.push(lang.t("xray_part_reason_intensifier"));
+        }
+        if (prev2 && determiners.has(prev2) && prev && !stop.has(prev) && prev.length > 2) {
+            adjScore += 2;
+            reasons.push(lang.t("xray_part_reason_noun"));
+        }
+        if (next === "e" && next2 && this.lookupPtLexiconAdj(next2)) {
+            adjScore += 2;
+            reasons.push(lang.t("xray_part_reason_coord"));
+        }
+        if (verbEntry && !adjEntry) verbScore += 3;
+        if (adjEntry && !verbEntry) adjScore += 3;
+        if (verbEntry && adjEntry) {
+            verbScore += 2;
+            adjScore += 2;
+        }
+
+        const diff = Math.abs(verbScore - adjScore);
+        let label = "adj";
+        if (verbScore > adjScore) label = "verb";
+        if (diff <= 1) label = "amb";
+
+        const alternatives = [];
+        const pushAlt = (label, entry) => {
+            if (!entry) return;
+            const conf = entry.conf === "high"
+                ? lang.t("xray_conf_high").toUpperCase()
+                : entry.conf === "med"
+                    ? lang.t("xray_conf_med").toUpperCase()
+                    : lang.t("xray_conf_low").toUpperCase();
+            const tag = entry.tag ? ` · ${entry.tag}` : "";
+            alternatives.push(`${label}: ${entry.lemma}${tag} · ${conf}`);
+        };
+        pushAlt(lang.t("xray_badge_adj"), adjEntry);
+        pushAlt(lang.t("xray_badge_verb"), verbEntry);
+        const lemmaCandidates = alternatives
+            .filter((alt) => alt.source === "lex" && alt.lemma)
+            .map((alt) => alt.lemma);
+
+        let confidence = "low";
+        if (label !== "amb") {
+            const primary = label === "verb" ? verbEntry : adjEntry;
+            if (primary && primary.source === "lex" && diff >= 2) confidence = "high";
+            else if (primary && primary.source === "lex") confidence = "med";
+            else confidence = "low";
+        } else {
+            confidence = verbEntry && adjEntry ? "med" : "low";
+        }
+
+        const rationale = diff <= 1 ? lang.t("xray_part_reason_amb") : reasons[0] || null;
+
+        return {
+            label: label === "amb" ? (adjScore >= verbScore ? "adj" : "verb") : label,
+            ambiguous: label === "amb",
+            confidence,
+            lemmaCandidates: lemmaCandidates.length > 1 ? lemmaCandidates : null,
+            rationale,
+            alternatives: alternatives.length ? alternatives : null
+        };
     },
 
     analyzeVerb(normWord, rawWord, langCode) {
         if (!this.isXrayVerb(normWord, langCode)) return null;
         if (langCode !== "pt") {
-            return { form: rawWord, lemma: normWord, tag: "", conf: "med", ambiguous: false };
+            return { form: rawWord, lemma: normWord, tag: "", conf: "low", ambiguous: false, source: "heur", lemmaCandidates: null };
         }
         const cleaned = this.stripPtClitics(normWord);
         const lex = this.lookupPtLexiconVerb(cleaned);
         if (lex) {
+            const lemmaCandidates = this.getLemmaCandidates(lex.lemma, cleaned, "verb");
             return {
                 form: rawWord,
                 lemma: lex.lemma,
                 tag: lex.tag || "",
                 conf: lex.conf || "high",
-                ambiguous: !!lex.ambiguous
+                ambiguous: !!lex.ambiguous,
+                source: "lex",
+                lemmaCandidates
             };
         }
         const analysis = this.inferPtVerb(cleaned);
         if (!analysis) return null;
+        const ambiguous = analysis.ambiguous || this.isPtAmbiguousToken(cleaned);
         return {
             form: rawWord,
             lemma: analysis.lemma,
             tag: analysis.tag,
-            conf: analysis.conf,
-            ambiguous: analysis.ambiguous
+            conf: "low",
+            ambiguous,
+            source: "heur",
+            lemmaCandidates: null
         };
     },
 
     analyzeAdjective(normWord, rawWord, langCode) {
         if (!this.isXrayAdjective(normWord, langCode)) return null;
         if (langCode !== "pt") {
-            return { form: rawWord, lemma: normWord, tag: "", conf: "med", ambiguous: false };
+            return { form: rawWord, lemma: normWord, tag: "", conf: "low", ambiguous: false, source: "heur", lemmaCandidates: null };
         }
         const lex = this.lookupPtLexiconAdj(normWord);
         if (lex) {
+            const lemmaCandidates = this.getLemmaCandidates(lex.lemma, normWord, "adj");
             return {
                 form: rawWord,
                 lemma: lex.lemma,
                 tag: lex.tag || "",
                 conf: lex.conf || "high",
-                ambiguous: !!lex.ambiguous
+                ambiguous: !!lex.ambiguous,
+                source: "lex",
+                lemmaCandidates
             };
         }
         const analysis = this.inferPtAdjective(normWord);
+        const ambiguous = analysis.ambiguous || this.isPtAmbiguousToken(normWord);
         return {
             form: rawWord,
             lemma: analysis.lemma,
             tag: analysis.tag,
-            conf: analysis.conf,
-            ambiguous: analysis.ambiguous
+            conf: "low",
+            ambiguous,
+            source: "heur",
+            lemmaCandidates: null
         };
+    },
+
+    getLemmaCandidates(primary, form, type) {
+        const list = [];
+        const add = (lemma) => {
+            if (!lemma) return;
+            if (!list.includes(lemma)) list.push(lemma);
+        };
+        if (primary && primary.includes("/")) {
+            primary.split("/").map(s => s.trim()).forEach(add);
+        } else {
+            add(primary);
+        }
+        if (type === "verb") {
+            const adj = this.lookupPtLexiconAdj(form);
+            if (adj) add(adj.lemma);
+            const part = this.getPtParticipleLemma(form);
+            if (part) add(part);
+        } else {
+            const verb = this.lookupPtLexiconVerb(form);
+            if (verb) add(verb.lemma);
+            const part = this.getPtParticipleLemma(form);
+            if (part) add(part);
+        }
+        return list.length > 1 ? list : null;
+    },
+
+    getPtParticipleLemma(form) {
+        if (!this.ptLexiconReady || !this.ptLexicon || !this.ptLexicon.verbs) return null;
+        const cleaned = this.normalizeXrayToken(form);
+        const patterns = [
+            { re: /(ados|adas|ado|ada)$/, lemma: "ar" },
+            { re: /(idos|idas|ido|ida)$/, lemma: "er" }
+        ];
+        for (const pattern of patterns) {
+            if (pattern.re.test(cleaned)) {
+                const base = cleaned.replace(pattern.re, pattern.lemma);
+                if (this.ptLexicon.verbs[base]) return base;
+            }
+        }
+        return null;
     },
 
     stripPtClitics(word) {
@@ -1376,6 +2107,7 @@ export const editorFeatures = {
         const close = document.getElementById("closeModalReader");
         const btnGlossary = document.getElementById("btnReaderGlossary");
         const btnRuler = document.getElementById("btnReaderRuler");
+        const btnRulerClose = document.getElementById("btnReaderRulerClose");
         const btnFont = document.getElementById("btnReaderFont");
         const btnTheme = document.getElementById("btnReaderTheme");
         if (btn) btn.onclick = () => this.openReaderMode();
@@ -1396,6 +2128,12 @@ export const editorFeatures = {
                     this.readerRuler.style.top = `${targetTop}px`;
                     this.syncReaderRuler();
                 }
+            };
+        }
+        if (btnRulerClose) {
+            btnRulerClose.onclick = () => {
+                if (!this.readerBox) return;
+                this.readerBox.classList.remove("show-ruler");
             };
         }
         if (btnFont) {
@@ -1635,6 +2373,10 @@ export const editorFeatures = {
                 const cmd = btn.getAttribute("data-cmd");
                 if (!cmd) return;
                 const range = this.captureSelection();
+                if (cmd === "consult") {
+                    this.openConsult();
+                    return;
+                }
                 if (cmd === "h1" || cmd === "h2") {
                     this.applyHeading(cmd, range);
                 } else {
@@ -1697,6 +2439,189 @@ export const editorFeatures = {
         if (!this.editor.contains(range.commonAncestorContainer)) return null;
         this.lastSelectionRange = range.cloneRange();
         return this.lastSelectionRange;
+    },
+
+    initDictionary() {
+        this.consultModal = document.getElementById("consultModal");
+        this.consultClose = document.getElementById("consultClose");
+        this.consultWord = document.getElementById("consultWord");
+        this.consultLemma = document.getElementById("consultLemma");
+        this.consultPos = document.getElementById("consultPos");
+        this.consultDef = document.getElementById("consultDef");
+        this.consultFlex = document.getElementById("consultFlex");
+        this.consultRegency = document.getElementById("consultRegency");
+        this.consultExamples = document.getElementById("consultExamples");
+        this.consultNotes = document.getElementById("consultNotes");
+        this.consultDoubtWrap = document.getElementById("consultDoubtWrap");
+        this.consultDoubt = document.getElementById("consultDoubt");
+        this.consultNotFound = document.getElementById("consultNotFound");
+        this.consultOutScope = document.getElementById("consultOutScope");
+        this.consultAddPersonal = document.getElementById("consultAddPersonal");
+        this.consultStatus = document.getElementById("consultStatus");
+        if (!this.consultModal) return;
+        if (this.consultClose) {
+            this.consultClose.addEventListener("click", () => this.closeConsult());
+        }
+        this.consultModal.addEventListener("click", (e) => {
+            if (e.target === this.consultModal) this.closeConsult();
+        });
+        document.addEventListener("keydown", (e) => {
+            if (e.key === "Escape" && this.consultModal.classList.contains("active")) {
+                this.closeConsult();
+            }
+        });
+        if (this.consultAddPersonal) {
+            this.consultAddPersonal.addEventListener("click", () => this.addToPersonalDictionary());
+        }
+        ptDictionary.preload().catch(() => {});
+    },
+
+    getSelectedWord() {
+        const sel = window.getSelection();
+        if (!sel || sel.rangeCount === 0 || sel.isCollapsed) return null;
+        const range = sel.getRangeAt(0);
+        if (!this.editor.contains(range.commonAncestorContainer)) return null;
+        const raw = sel.toString().trim();
+        if (!raw || raw.length > 40) return null;
+        if (/\s/.test(raw)) return null;
+        const clean = raw.replace(/^[^\p{L}]+|[^\p{L}]+$/gu, "");
+        if (!clean) return null;
+        return { raw, clean };
+    },
+
+    async openConsult() {
+        if (!this.consultModal) return;
+        const selection = this.getSelectedWord();
+        if (!selection) return;
+        const word = selection.clean;
+        const lookupKey = ptDictionary.normalizeLookupKey(selection.raw || word);
+        let entry = null;
+        let doubt = null;
+        let lookupMeta = null;
+        try {
+            await ptDictionary.preload();
+            lookupMeta = await ptDictionary.lookupDetailed(lookupKey);
+            entry = lookupMeta.entry;
+        } catch (_) {
+            entry = null;
+        }
+        try {
+            doubt = await ptDictionary.getDoubt(word);
+        } catch (_) {
+            doubt = null;
+        }
+        const norm = this.normalizeXrayToken(word.toLowerCase());
+        const langCode = lang.current || "pt";
+        const verb = this.analyzeVerb(norm, word.toLowerCase(), langCode);
+        const adj = this.analyzeAdjective(norm, word.toLowerCase(), langCode);
+        const analysis = verb || adj;
+        const analysisType = verb ? "VERB" : adj ? "ADJ" : null;
+        if (this.lexiconPopup) this.hideLexicon();
+
+        if (this.consultWord) this.consultWord.textContent = word.toUpperCase();
+        if (this.consultLemma) {
+            const lemma = entry?.lemma
+                || (analysis && analysis.source === "lex" ? analysis.lemma : null)
+                || null;
+            const label = lemma ? lemma.toUpperCase() : lang.t("xray_lemma_unknown");
+            this.consultLemma.textContent = label;
+        }
+        if (this.consultPos) {
+            const pos = entry?.pos?.length
+                ? entry.pos.join(", ")
+                : analysisType || "—";
+            this.consultPos.textContent = pos;
+        }
+        if (this.consultDef) this.consultDef.textContent = entry?.def || "—";
+        if (this.consultFlex) {
+            const flex = []
+                .concat(entry?.formas || [])
+                .concat(entry?.flexoes || []);
+            this.consultFlex.textContent = flex.length ? flex.join(", ") : "—";
+        }
+        if (this.consultRegency) {
+            const lemma = entry?.lemma || (analysis && analysis.source === "lex" ? analysis.lemma : word);
+            let regData = null;
+            try {
+                regData = await ptDictionary.getRegencia(lemma);
+            } catch (_) {
+                regData = null;
+            }
+            const reg = []
+                .concat(entry?.regencia || [])
+                .concat(regData ? Object.values(regData.sentidos || {}).map((s) => s.regencia) : []);
+            const unique = Array.from(new Set(reg.filter(Boolean)));
+            this.consultRegency.textContent = unique.length ? unique.join(" · ") : "—";
+        }
+        if (this.consultExamples) {
+            const examples = entry?.exemplos || [];
+            this.consultExamples.textContent = examples.length ? examples.join(" | ") : "—";
+        }
+        if (this.consultNotes) {
+            const notes = entry?.observacoes || (analysis?.ambiguous ? lang.t("consult_amb_note") : null);
+            this.consultNotes.textContent = notes || "—";
+        }
+        if (this.consultDoubtWrap && this.consultDoubt) {
+            if (doubt) {
+                this.consultDoubtWrap.style.display = "grid";
+                const examples = doubt.exemplos || {};
+                const correct = (examples.correto || []).join(" ");
+                const wrong = (examples.incorreto || []).join(" ");
+                const parts = [doubt.explicacao, correct && `✔ ${correct}`, wrong && `✕ ${wrong}`].filter(Boolean);
+                this.consultDoubt.textContent = parts.join(" ");
+            } else {
+                this.consultDoubtWrap.style.display = "none";
+                this.consultDoubt.textContent = "";
+            }
+        }
+        if (this.consultNotFound || this.consultOutScope) {
+            const found = Boolean(entry);
+            const outScope = !found && !analysisType;
+            if (this.consultNotFound) this.consultNotFound.style.display = found || outScope ? "none" : "block";
+            if (this.consultOutScope) this.consultOutScope.style.display = outScope ? "block" : "none";
+        }
+        if (this.consultStatus) {
+            const tried = lookupMeta && lookupMeta.tried && lookupMeta.tried.length
+                ? `${lang.t("consult_status_tried")} ${lookupMeta.tried.slice(0, 6).join(", ")}`
+                : lang.t("consult_status_idle");
+            const statusMeta = lookupMeta?.status
+                ? ` · ${Math.round(((lookupMeta.status.chunksLoaded + (lookupMeta.status.coreLoaded ? 1 : 0)) / (lookupMeta.status.chunksTotal + 1)) * 100)}%`
+                : "";
+            const status = `${tried}${statusMeta}`;
+            this.consultStatus.textContent = status;
+        }
+
+        if (lookupMeta) {
+            console.info("[CONSULT]", {
+                raw: selection.raw,
+                normalized: lookupKey,
+                lemma: entry?.lemma || null,
+                tried: lookupMeta.tried,
+                status: lookupMeta.status,
+                error: lookupMeta.error ? String(lookupMeta.error) : null
+            });
+        }
+
+        this.consultModal.classList.add("active");
+        this.consultModal.setAttribute("aria-hidden", "false");
+        document.body.classList.add("consult-open");
+    },
+
+    closeConsult() {
+        if (!this.consultModal) return;
+        this.consultModal.classList.remove("active");
+        this.consultModal.setAttribute("aria-hidden", "true");
+        document.body.classList.remove("consult-open");
+    },
+
+    addToPersonalDictionary() {
+        const selection = this.getSelectedWord();
+        if (!selection || !this.consultStatus) return;
+        const word = selection.clean.toLowerCase();
+        const stored = JSON.parse(localStorage.getItem("tot_personal_dict") || "[]");
+        if (!stored.includes(word)) stored.push(word);
+        localStorage.setItem("tot_personal_dict", JSON.stringify(stored));
+        this.consultStatus.textContent = lang.t("consult_status_added");
     },
 
     applyHeading(tag, range) {

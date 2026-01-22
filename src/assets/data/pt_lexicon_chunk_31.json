@@ -1,0 +1,25 @@
+{
+  "version": "pt-chunk-31",
+  "verbs": {
+    "olho": { "lemma": "olhar", "tag": "PRES/1S", "conf": "med" },
+    "olha": { "lemma": "olhar", "tag": "PRES/3S", "conf": "med" },
+    "olhamos": { "lemma": "olhar", "tag": "PRES/1P", "conf": "med" },
+    "olham": { "lemma": "olhar", "tag": "PRES/3P", "conf": "med" },
+    "olhar": { "lemma": "olhar", "tag": "INF", "conf": "med" },
+
+    "sigo": { "lemma": "seguir", "tag": "PRES/1S", "conf": "med" },
+    "segue": { "lemma": "seguir", "tag": "PRES/3S", "conf": "med" },
+    "seguimos": { "lemma": "seguir", "tag": "PRES/1P", "conf": "med" },
+    "seguem": { "lemma": "seguir", "tag": "PRES/3P", "conf": "med" }
+  },
+  "adjectives": {
+    "claro": { "lemma": "claro", "tag": "MASC.SG", "conf": "med", "ambiguous": true },
+    "escuro": { "lemma": "escuro", "tag": "MASC.SG", "conf": "med" },
+    "escura": { "lemma": "escuro", "tag": "FEM.SG", "conf": "med" },
+    "escuros": { "lemma": "escuro", "tag": "MASC.PL", "conf": "med" },
+    "escuras": { "lemma": "escuro", "tag": "FEM.PL", "conf": "med" }
+  },
+  "ambiguous": [
+    "claro"
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "assistir": {
+    "pos": ["VERB"],
+    "def": "Ver, presenciar ou dar assistência.",
+    "regencia": ["assistir a algo", "assistir alguém"],
+    "exemplos": ["Assistiu ao filme.", "O médico assistiu o paciente."],
+    "formas": ["assisto", "assistes", "assiste", "assistimos", "assistem", "assisti", "assistirá", "assistindo", "assistido"],
+    "observacoes": "Com sentido de ver, pede preposição 'a'."
+  },
+  "preferir": {
+    "pos": ["VERB"],
+    "def": "Escolher algo em detrimento de outra coisa.",
+    "regencia": ["preferir algo a outro"],
+    "exemplos": ["Prefere chá a café."],
+    "formas": ["prefiro", "preferes", "prefere", "preferimos", "preferem", "preferi", "preferirá", "preferindo", "preferido"],
+    "observacoes": null
+  },
+  "mau": {
+    "pos": ["ADJ"],
+    "def": "Que tem má qualidade; oposto de bom.",
+    "flexoes": ["má", "maus", "más"],
+    "observacoes": "Não confundir com 'mal' (advérbio)."
+  },
+  "mal": {
+    "pos": ["ADV", "NOUN"],
+    "def": "De modo inadequado; oposto de bem.",
+    "observacoes": "Também pode ser substantivo: 'o mal'."
+  }
+}

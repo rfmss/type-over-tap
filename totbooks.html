@@ -279,6 +279,7 @@ body:hover .bg-hint { opacity: 0.4; }
   opacity:.22;
   pointer-events:none;
 }
+.totbook:not(.open)::after { opacity: 0.08; }
 
 .totbook.open{
   width: var(--open-w);
@@ -314,6 +315,7 @@ body:hover .bg-hint { opacity: 0.4; }
   opacity:.7;
   z-index: 4;
 }
+.totbook:not(.open) .cover .sheen { opacity: 0.18; }
 
 /* Tarja + ícone (FINAL: Altura 90px) */
 .strap {
@@ -657,7 +659,7 @@ const i18n = {
     totbooks_modal_ph: "Nome do projeto...",
     totbooks_cancel: "Cancelar",
     totbooks_create: "Criar",
-    totbooks_open: "clique para abrir",
+    totbooks_open: "arraste",
     totbooks_cooldown: "Aguarde {s}s para criar outro...",
     totbooks_drag: "Arrastar",
     totbooks_prev: "Página anterior",
@@ -672,7 +674,7 @@ const i18n = {
     totbooks_modal_ph: "Project name...",
     totbooks_cancel: "Cancel",
     totbooks_create: "Create",
-    totbooks_open: "click to open",
+    totbooks_open: "drag",
     totbooks_cooldown: "Wait {s}s to create another...",
     totbooks_drag: "Drag",
     totbooks_prev: "Previous page",
@@ -687,7 +689,7 @@ const i18n = {
     totbooks_modal_ph: "Nombre del proyecto...",
     totbooks_cancel: "Cancelar",
     totbooks_create: "Crear",
-    totbooks_open: "clic para abrir",
+    totbooks_open: "arrastra",
     totbooks_cooldown: "Espera {s}s para crear otro...",
     totbooks_drag: "Arrastrar",
     totbooks_prev: "Página anterior",
@@ -702,7 +704,7 @@ const i18n = {
     totbooks_modal_ph: "Nom du projet...",
     totbooks_cancel: "Annuler",
     totbooks_create: "Créer",
-    totbooks_open: "cliquer pour ouvrir",
+    totbooks_open: "glisser",
     totbooks_cooldown: "Attendez {s}s pour en créer un autre...",
     totbooks_drag: "Glisser",
     totbooks_prev: "Page précédente",

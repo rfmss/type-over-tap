@@ -108,6 +108,37 @@ body.mobile-typing .mobile-trigger {
     border-radius: 10px;
     margin-bottom: 10px;
 }
+.controls-inner .mobile-controls-close { display: none !important; }
+
+.drawer-actions-panel {
+    display: grid;
+    gap: 14px;
+}
+.drawer-section-title {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--color-muted);
+}
+.drawer-actions-grid {
+    display: grid;
+    gap: 8px;
+}
+.drawer-search {
+    display: grid;
+    gap: 8px;
+}
+.drawer-search-row {
+    display: grid;
+    grid-template-columns: 20px 1fr auto;
+    gap: 8px;
+    align-items: center;
+}
+.drawer-search-actions {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+}
 .drawer-tabs-mobile {
     display: none;
 }
@@ -214,16 +245,16 @@ body.mobile-typing .mobile-trigger {
 /* MOBILE */
 @media (max-width: 900px) {
     .hud { transform: translateX(-100%); background: var(--bg-drawer); border-right: var(--border-style); height: 100%; top: 0; bottom: 0; left: 0; width: 56px; }
-    .mobile-trigger { display: flex; }
+    .mobile-trigger { display: flex; opacity: 0.6; pointer-events: auto; }
     .hud.mobile-open { transform: translateX(0); box-shadow: 5px 0 50px rgba(0,0,0,0.5); }
     .drawer { left: 0; width: 0; top: 0; bottom: 0; border-radius: 0; }
     .drawer.open { width: 100vw; }
     #editorWrap { width: 92vw; margin-top: 8px; }
     #booksView { left: 0; }
     .logo-area { display: none; }
-    .panel { top: 10px; bottom: 70px; padding: 0 14px; }
-    .controls { bottom: 10px; height: 44px; }
-    .mobile-controls-trigger { display: inline-flex; align-items: center; justify-content: center; }
+    .panel { top: 10px; bottom: 10px; padding: 0 14px; }
+    .controls { display: none; }
+    .mobile-controls-trigger { display: none; }
     .controls-inner { display: none; }
     body.mobile-controls-open .controls-inner {
         display: flex;
@@ -240,7 +271,7 @@ body.mobile-typing .mobile-trigger {
         overflow-y: auto;
     }
     body.mobile-controls-open .mobile-controls-trigger { opacity: 0; pointer-events: none; }
-    body.mobile-controls-open .mobile-controls-close { display: inline-flex; }
+    body.mobile-controls-open .mobile-controls-close { display: inline-flex !important; }
     body.mobile-controls-open .controls-inner .status-label { display: block; }
     body.mobile-controls-open .controls-inner .search-wrapper {
         min-width: 100%;
@@ -252,6 +283,12 @@ body.mobile-typing .mobile-trigger {
     body.mobile-controls-open .controls-inner .btn { padding: 8px 10px; min-width: 44px; font-size: 11px; }
     body.mobile-controls-open .controls-inner .btn-icon { width: 34px; height: 34px; }
     body.mobile-controls-open .controls-inner .search-input { font-size: 13px; }
+    .drawer.mobile-all { width: 100vw; top: 0; bottom: 0; border-radius: 0; }
+    .drawer.mobile-all .drawer-tabs-mobile { display: none; }
+    .drawer.mobile-all .drawer-content { display: block !important; opacity: 1; }
+    .drawer.mobile-all .drawer-content + .drawer-content { border-top: var(--border-style); }
+    .drawer.mobile-all { overflow-y: auto; }
+    .drawer.mobile-all .drawer-header { position: sticky; top: 0; background: var(--bg-drawer); z-index: 2; }
     .mobile-memo-actions { display: block; }
     .mobile-only { display: block; }
     .desktop-only { display: none; }
