@@ -723,12 +723,16 @@ body.consult-open .selection-toolbar {
 }
 .modal-header { padding: 15px; border-bottom: var(--border-style); display: flex; justify-content: space-between; align-items: center; font-weight: bold; letter-spacing: 1px; }
 .modal-body { padding: 20px; }
-.export-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; justify-items: center; text-align: center; }
+.export-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; justify-items: center; text-align: center; }
 .export-card { 
     border: var(--border-style); 
     background: rgba(255,255,255,0.02);
     border-radius: var(--radius); 
     padding: 20px 5px; text-align: center; cursor: pointer; transition: 0.3s; display: flex; flex-direction: column; align-items: center; gap: 10px; 
+}
+
+@media (max-width: 900px) {
+    .export-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 .export-card { width: 100%; max-width: 190px; }
 .export-card:hover { background: var(--color-accent-dim); border-color: var(--color-accent); transform: translateY(-1px); box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
@@ -738,7 +742,7 @@ body.consult-open .selection-toolbar {
 
 /* PAGINACAO A4 */
 #pageMarkers {
-    display: none;
+    display: block;
 }
 
 /* PAGE OVERLAY */
@@ -780,26 +784,35 @@ body.consult-open .selection-toolbar {
     position: absolute;
     left: 0;
     right: 0;
-    width: 0;
-    height: 0;
-    background: transparent;
-    border-radius: 2px;
+    width: 100%;
+    height: calc(1.85em * 2);
+    transform: translateY(-50%);
+    background: var(--bg-panel);
     opacity: 0.9;
     pointer-events: none;
     z-index: 2;
 }
+.page-marker::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 50%;
+    border-top: 1px dashed var(--color-muted);
+    opacity: 0.35;
+}
 .page-marker-label {
     position: absolute;
     left: 50%;
-    top: 0;
+    top: 50%;
     transform: translate(-50%, -50%);
-    font-size: 42px;
+    font-size: 28px;
     font-weight: 900;
-    letter-spacing: 6px;
+    letter-spacing: 4px;
     color: var(--color-muted);
-    background: transparent;
-    padding-left: 4px;
-    opacity: 0.3;
+    background: var(--bg-panel);
+    padding: 0 10px;
+    opacity: 0.35;
     font-family: "Impact", "Arial Black", sans-serif;
     text-transform: uppercase;
 }
@@ -811,15 +824,15 @@ body.consult-open .selection-toolbar {
 .xray-panel {
     position: fixed;
     left: 50%;
-    top: 50%;
-    width: min(520px, 70vw);
+    top: 46%;
+    width: min(640px, 78vw);
     max-height: calc(100vh - var(--controls-h) - 140px);
     overflow: hidden;
     background: var(--bg-xray);
     border: var(--xray-border);
     box-shadow: var(--shadow-float);
     border-radius: var(--radius);
-    padding: 18px 20px;
+    padding: 20px 22px;
     display: flex;
     flex-direction: column;
     color: var(--color-text);
@@ -830,31 +843,6 @@ body.consult-open .selection-toolbar {
     z-index: 80;
     backdrop-filter: none;
 }
-.xray-drag-handle {
-    position: absolute;
-    top: -12px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 54px;
-    height: 10px;
-    border-radius: 999px;
-    border: var(--border-style);
-    background: rgba(255, 255, 255, 0.12);
-    box-shadow: var(--shadow-float);
-    cursor: grab;
-}
-.xray-drag-handle::after {
-    content: "";
-    position: absolute;
-    top: 3px;
-    left: 12px;
-    right: 12px;
-    height: 2px;
-    border-radius: 999px;
-    background: var(--color-muted);
-    opacity: 0.7;
-}
-.xray-panel.dragging .xray-drag-handle { cursor: grabbing; }
 .xray-panel.show {
     opacity: 1;
     transform: translate(-50%, -50%);
@@ -872,13 +860,28 @@ body.consult-open .selection-toolbar {
     color: var(--color-text);
 }
 .xray-header-actions { display: flex; gap: 8px; }
+.xray-header-actions .btn-icon {
+    width: 24px;
+    height: 24px;
+    padding: 0;
+    border-radius: 6px;
+    background: var(--xray-surface);
+    border: var(--xray-border);
+    font-size: 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+.xray-header-actions .btn-icon .icon { width: 14px; height: 14px; }
+.xray-drag-btn { cursor: grab; }
+.xray-panel.dragging .xray-drag-btn { cursor: grabbing; }
 
 .xray-summary {
     display: grid;
     gap: 4px;
     font-size: 12px;
     color: var(--color-muted);
-    margin-bottom: 10px;
+    margin-bottom: 14px;
 }
 .xray-summary-click { cursor: pointer; color: var(--color-accent); }
 
@@ -971,9 +974,10 @@ body.consult-open .selection-toolbar {
 }
 .xray-panel .xray-badges [data-tip]::after {
     left: auto;
-    right: 0;
+    right: 6px;
     transform: translateX(0);
     text-align: right;
+    max-width: min(200px, calc(100% - 16px));
 }
 .xray-panel .xray-badges [data-tip]:hover::after,
 .xray-panel .xray-badges [data-tip]:focus::after {
@@ -1006,7 +1010,9 @@ body.consult-open .selection-toolbar {
     bottom: auto;
     transform: translateX(0);
     text-align: right;
-    max-width: min(220px, calc(100vw - 32px));
+    min-width: 0;
+    max-width: min(160px, calc(100vw - 32px));
+    padding: 4px 6px;
 }
 .xray-panel [data-tip]:hover::after,
 .xray-panel [data-tip]:focus::after,
@@ -1029,7 +1035,7 @@ body.consult-open .selection-toolbar {
 
 .xray-list {
     flex: 1;
-    min-height: 220px;
+    min-height: 260px;
     overflow-y: auto;
     overflow-x: hidden;
     padding-right: 6px;
@@ -1121,11 +1127,11 @@ body.consult-open .selection-toolbar {
 }
 .xray-panel-policy {
     font-size: 10px;
-    line-height: 1.4;
+    line-height: 1.5;
     color: var(--color-muted);
     border-top: 1px solid rgba(255, 255, 255, 0.08);
-    padding-top: 8px;
-    margin-top: 6px;
+    padding-top: 10px;
+    margin-top: 14px;
 }
 .xray-panel-audit {
     margin-top: 8px;

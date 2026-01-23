@@ -7,7 +7,7 @@ import { ui } from './modules/ui.js';
 import { editorFeatures } from './modules/editor.js';
 import { lang } from './modules/lang.js';
 import { auth } from './modules/auth.js';
-import { exportTot, importTot } from './modules/export_tot.js';
+import { exportTot, importTot, buildTotPayload } from './modules/export_tot.js';
 import { birthTracker } from './modules/birth_tracker.js';
 import { qrTransfer } from './modules/qr_transfer.js';
 
@@ -435,6 +435,19 @@ function setupEventListeners() {
             );
             const text = buildReportText();
             printRawText(text, "T∅T Writer - RELATORIO");
+            document.getElementById("exportModal").classList.remove("active");
+        };
+    }
+
+    const btnJson = document.getElementById("actionDownloadJson");
+    if (btnJson) {
+        btnJson.onclick = () => {
+            store.save(
+                document.getElementById("editor").innerHTML,
+                document.getElementById("memoArea").value
+            );
+            const payload = buildTotPayload(store);
+            downloadText(JSON.stringify(payload, null, 2), `TOT_EXPORT_${Date.now()}.json`, "application/json");
             document.getElementById("exportModal").classList.remove("active");
         };
     }
@@ -1196,7 +1209,14 @@ function buildReportText() {
 
 function printRawText(text, title) {
     const w = window.open("", "_blank", "noopener,noreferrer");
-    if (!w) return;
+    if (!w) {
+        if (window.totModal && typeof window.totModal.alert === "function") {
+            window.totModal.alert(lang.t("print_popup_blocked"));
+        } else {
+            alert(lang.t("print_popup_blocked"));
+        }
+        return;
+    }
     const doc = w.document;
     doc.open();
     doc.write(`<!doctype html>
@@ -1215,15 +1235,6 @@ pre { white-space: pre-wrap; font-size: 14px; line-height: 1.6; }
 </html>`);
     doc.close();
     w.focus();
-    const triggerPrint = () => {
-        w.focus();
-        w.print();
-    };
-    if (w.document.readyState === "complete") {
-        triggerPrint();
-    } else {
-        w.addEventListener("load", triggerPrint, { once: true });
-    }
 }
 function initHelpTabs() {
     const tabs = document.querySelectorAll('.help-tab');

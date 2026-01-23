@@ -776,7 +776,7 @@ export const editorFeatures = {
 
             const label = document.createElement("div");
             label.className = "page-marker-label";
-            label.textContent = `PG - ${String(i).padStart(2, "0")}`;
+            label.textContent = `PG ${String(i).padStart(2, "0")}`;
             marker.appendChild(label);
 
             this.pageMarkers.appendChild(marker);
@@ -813,7 +813,7 @@ export const editorFeatures = {
         this.xrayOverlay = document.getElementById("xrayOverlay");
         this.xrayPanel = document.getElementById("xrayPanel");
         this.xrayHeader = this.xrayPanel ? this.xrayPanel.querySelector(".xray-header") : null;
-        this.xrayDragHandle = document.getElementById("xrayDragHandle");
+        this.xrayDragHandle = document.getElementById("xrayDragBtn");
         this.xrayVerbsEl = document.getElementById("xrayVerbs");
         this.xrayAdjsEl = document.getElementById("xrayAdjs");
         this.xrayEmptyEl = document.getElementById("xrayEmpty");
