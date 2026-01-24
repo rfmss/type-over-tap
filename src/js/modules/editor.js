@@ -2,13 +2,14 @@ import { lang } from './lang.js';
 import { lexicon } from './lexicon.js';
 import { xrayTests } from './xray_tests.js';
 import { ptDictionary } from './pt_dictionary.js';
+import { ptPosLexicon } from './pt_pos_lexicon.js';
 
 export const editorFeatures = {
     editor: null,
     fontList: [
-        { family: '"IBM-Font", monospace', baseSize: 22, lineHeight: "1.7" },
-        { family: '"Georgia", "Times New Roman", serif', baseSize: 20, lineHeight: "1.75" },
-        { family: '"Terminal-Font", "IBM-Font", monospace', baseSize: 22, lineHeight: "1.7" }
+        { className: "font-inter", baseSize: 20 },
+        { className: "font-serif", baseSize: 21 },
+        { className: "font-plex", baseSize: 20 }
     ],
     lastSearchValue: "",
     statsRaf: null,
@@ -80,6 +81,12 @@ export const editorFeatures = {
     consultOutScope: null,
     consultAddPersonal: null,
     consultStatus: null,
+    consultFallback: null,
+    consultFallbackClass: null,
+    consultFallbackForm: null,
+    consultFallbackCount: null,
+    consultFallbackPara: null,
+    consultFallbackRepeat: null,
     goalStars: null,
     goalModal: null,
     goalTitle: null,
@@ -184,12 +191,12 @@ export const editorFeatures = {
                 document.getElementById('btnThemeToggle').click();
                 return this.flashInlineData();
             case '--dark':
-                document.body.setAttribute("data-theme", "tva");
-                localStorage.setItem("lit_theme_pref", "tva");
+                document.body.setAttribute("data-theme", "mist");
+                localStorage.setItem("lit_theme_pref", "mist");
                 return this.flashInlineData();
             case '--light':
-                document.body.setAttribute("data-theme", "eink");
-                localStorage.setItem("lit_theme_pref", "eink");
+                document.body.setAttribute("data-theme", "paper");
+                localStorage.setItem("lit_theme_pref", "paper");
                 return this.flashInlineData();
             case '--zen':
             case '--fs':
@@ -652,6 +659,7 @@ export const editorFeatures = {
             localStorage.setItem("lit_pref_font", i);
             this.applyFont();
         };
+        document.addEventListener("lang:changed", () => this.applyFont());
         document.getElementById("fontPlus").onclick = () => {
             let s = parseInt(window.getComputedStyle(this.editor).fontSize);
             const next = s + 2;
@@ -673,10 +681,21 @@ export const editorFeatures = {
         let i = parseInt(localStorage.getItem("lit_pref_font")) || 0;
         if (i < 0 || i >= this.fontList.length) i = 0;
         const entry = this.fontList[i];
-        this.editor.style.fontFamily = entry.family;
+        this.editor.classList.remove("font-inter", "font-serif", "font-plex");
+        if (entry.className) this.editor.classList.add(entry.className);
         const size = Number.isFinite(storedSize) ? storedSize : entry.baseSize;
         this.editor.style.fontSize = `${size}px`;
-        this.editor.style.lineHeight = entry.lineHeight || "1.7";
+        this.editor.style.lineHeight = "";
+        const btn = document.getElementById("btnFontType");
+        if (btn) {
+            const states = [
+                lang.t("font_mode_neutral"),
+                lang.t("font_mode_literary"),
+                lang.t("font_mode_author")
+            ];
+            const label = states[i] || states[0];
+            btn.setAttribute("data-tip", label);
+        }
         this.schedulePaginationUpdate();
         this.scheduleXrayUpdate();
     },
@@ -763,6 +782,27 @@ export const editorFeatures = {
                     i.blur();
                 }
             });
+        }
+        if (this.editor) {
+            const cancelIfEditingMark = () => {
+                if (!this.searchMarks || this.searchMarks.length === 0) return;
+                const sel = window.getSelection();
+                const node = sel && sel.anchorNode;
+                if (!node) return;
+                const el = node.nodeType === 1 ? node : node.parentElement;
+                if (!el) return;
+                if (el.closest && el.closest("mark")) {
+                    this.clearSearchHighlight();
+                    localStorage.setItem("lit_search_value", "");
+                    localStorage.setItem("lit_search_active", "false");
+                }
+            };
+            this.editor.addEventListener("keydown", (e) => {
+                if (e.key.length === 1 || e.key === "Backspace" || e.key === "Delete" || e.key === "Enter") {
+                    cancelIfEditingMark();
+                }
+            });
+            this.editor.addEventListener("input", () => cancelIfEditingMark());
         }
         c.onclick = () => {
             this.clearSearchHighlight();
@@ -993,6 +1033,8 @@ export const editorFeatures = {
             offsetY = clientY - rect.top;
             this.xrayDragged = true;
             this.xrayPanel.classList.add("dragging");
+            this.xrayPanel.style.left = `${rect.left}px`;
+            this.xrayPanel.style.top = `${rect.top}px`;
             this.xrayPanel.style.transform = "translate(0, 0)";
         };
 
@@ -2509,6 +2551,12 @@ export const editorFeatures = {
         this.consultOutScope = document.getElementById("consultOutScope");
         this.consultAddPersonal = document.getElementById("consultAddPersonal");
         this.consultStatus = document.getElementById("consultStatus");
+        this.consultFallback = document.getElementById("consultFallback");
+        this.consultFallbackClass = document.getElementById("consultFallbackClass");
+        this.consultFallbackForm = document.getElementById("consultFallbackForm");
+        this.consultFallbackCount = document.getElementById("consultFallbackCount");
+        this.consultFallbackPara = document.getElementById("consultFallbackPara");
+        this.consultFallbackRepeat = document.getElementById("consultFallbackRepeat");
         if (!this.consultModal) return;
         if (this.consultClose) {
             this.consultClose.addEventListener("click", () => this.closeConsult());
@@ -2545,16 +2593,44 @@ export const editorFeatures = {
         const selection = this.getSelectedWord();
         if (!selection) return;
         const word = selection.clean;
+        const editorText = this.editor ? this.editor.innerText || "" : "";
+        const paragraphText = (() => {
+            const sel = window.getSelection();
+            const range = sel && sel.rangeCount ? sel.getRangeAt(0) : null;
+            const node = range ? range.commonAncestorContainer : null;
+            const el = node && node.nodeType === 1 ? node : node && node.parentElement ? node.parentElement : null;
+            const block = el ? el.closest("p, div, li, blockquote") : null;
+            return block ? block.innerText || "" : "";
+        })();
         const lookupKey = ptDictionary.normalizeLookupKey(selection.raw || word);
         let entry = null;
         let doubt = null;
         let lookupMeta = null;
+        let posLex = null;
+        let posGuess = null;
+        let posContext = null;
         try {
             await ptDictionary.preload();
             lookupMeta = await ptDictionary.lookupDetailed(lookupKey);
             entry = lookupMeta.entry;
         } catch (_) {
             entry = null;
+        }
+        try {
+            posLex = await ptPosLexicon.lookup(selection.raw || word);
+        } catch (_) {
+            posLex = null;
+        }
+        const contextTokens = paragraphText
+            ? (paragraphText.match(/\p{L}+(?:[\p{Mn}\p{L}]+)?|\d+/gu) || []).map(t => t.toLowerCase())
+            : [];
+        try {
+            posContext = await ptPosLexicon.disambiguate(selection.raw || word, contextTokens);
+        } catch (_) {
+            posContext = null;
+        }
+        if (!posLex) {
+            posGuess = ptPosLexicon.guess(selection.raw || word);
         }
         try {
             doubt = await ptDictionary.getDoubt(word);
@@ -2570,25 +2646,40 @@ export const editorFeatures = {
         if (this.lexiconPopup) this.hideLexicon();
 
         if (this.consultWord) this.consultWord.textContent = word.toUpperCase();
+        let lemmaLabel = "";
         if (this.consultLemma) {
             const lemma = entry?.lemma
                 || (analysis && analysis.source === "lex" ? analysis.lemma : null)
                 || null;
-            const label = lemma ? lemma.toUpperCase() : lang.t("xray_lemma_unknown");
-            this.consultLemma.textContent = label;
+            lemmaLabel = lemma ? lemma.toUpperCase() : "";
+            this.consultLemma.textContent = lemmaLabel;
         }
+        const probableLabel = lang.t("consult_class_probable");
+        const contextLabel = lang.t("consult_class_context");
+        const formatPos = (posList, probable, contextual) => {
+            if (!posList || !posList.length) return "";
+            const text = posList.join(", ");
+            if (contextual) return `${text} (${contextLabel})`;
+            return probable ? `${text} (${probableLabel})` : text;
+        };
         if (this.consultPos) {
             const pos = entry?.pos?.length
-                ? entry.pos.join(", ")
-                : analysisType || "—";
+                ? formatPos(entry.pos, false, false)
+                : posLex?.pos?.length
+                    ? formatPos(posLex.pos, false, false)
+                    : posContext?.pos?.length
+                        ? formatPos(posContext.pos, false, true)
+                        : posGuess?.pos?.length
+                            ? formatPos(posGuess.pos, true, false)
+                            : analysisType || lang.t("consult_class_unknown");
             this.consultPos.textContent = pos;
         }
         if (this.consultDef) this.consultDef.textContent = entry?.def || "—";
+        const flexItems = []
+            .concat(entry?.formas || [])
+            .concat(entry?.flexoes || []);
         if (this.consultFlex) {
-            const flex = []
-                .concat(entry?.formas || [])
-                .concat(entry?.flexoes || []);
-            this.consultFlex.textContent = flex.length ? flex.join(", ") : "—";
+            this.consultFlex.textContent = flexItems.length ? flexItems.join(", ") : "—";
         }
         if (this.consultRegency) {
             const lemma = entry?.lemma || (analysis && analysis.source === "lex" ? analysis.lemma : word);
@@ -2604,14 +2695,46 @@ export const editorFeatures = {
             const unique = Array.from(new Set(reg.filter(Boolean)));
             this.consultRegency.textContent = unique.length ? unique.join(" · ") : "—";
         }
+        const exampleItems = entry?.exemplos || [];
         if (this.consultExamples) {
-            const examples = entry?.exemplos || [];
-            this.consultExamples.textContent = examples.length ? examples.join(" | ") : "—";
+            this.consultExamples.textContent = exampleItems.length ? exampleItems.join(" | ") : "—";
         }
         if (this.consultNotes) {
             const notes = entry?.observacoes || (analysis?.ambiguous ? lang.t("consult_amb_note") : null);
             this.consultNotes.textContent = notes || "—";
         }
+        const escaped = word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+        const wordRegex = new RegExp(`\\b${escaped}\\b`, "gi");
+        const matches = editorText.match(wordRegex) || [];
+        const totalCount = matches.length;
+        const paraCount = paragraphText ? (paragraphText.match(wordRegex) || []).length : 0;
+        const nearbyRepeat = (() => {
+            const cleanText = editorText.toLowerCase();
+            const idx = cleanText.indexOf(word.toLowerCase());
+            if (idx < 0) return "—";
+            const windowText = cleanText.slice(Math.max(0, idx - 80), idx + 80);
+            const windowMatches = (windowText.match(wordRegex) || []).length;
+            return windowMatches > 1 ? lang.t("consult_fallback_yes") : lang.t("consult_fallback_no");
+        })();
+        const formLabel = (() => {
+            const lower = word.toLowerCase();
+            if (lower.endsWith("s") && lower.length > 3) return lang.t("consult_fallback_plural");
+            return lang.t("consult_fallback_singular");
+        })();
+        const defSection = this.consultDef ? this.consultDef.closest(".consult-section") : null;
+        const flexSection = this.consultFlex ? this.consultFlex.closest(".consult-section") : null;
+        const regSection = this.consultRegency ? this.consultRegency.closest(".consult-section") : null;
+        const exSection = this.consultExamples ? this.consultExamples.closest(".consult-section") : null;
+        const notesSection = this.consultNotes ? this.consultNotes.closest(".consult-section") : null;
+        const hasEntry = Boolean(entry);
+        const posRow = this.consultPos ? this.consultPos.closest(".consult-row") : null;
+        if (posRow) posRow.style.display = hasEntry || analysisType || posLex?.pos?.length || posContext?.pos?.length || posGuess?.pos?.length ? "flex" : "none";
+        if (this.consultLemma) this.consultLemma.style.display = hasEntry && lemmaLabel ? "inline" : "none";
+        if (defSection) defSection.style.display = hasEntry && entry?.def ? "grid" : "none";
+        if (flexSection) flexSection.style.display = hasEntry && flexItems.length ? "grid" : "none";
+        if (regSection) regSection.style.display = hasEntry ? "grid" : "none";
+        if (exSection) exSection.style.display = hasEntry && exampleItems.length ? "grid" : "none";
+        if (notesSection) notesSection.style.display = hasEntry && (entry?.observacoes || analysis?.ambiguous) ? "grid" : "none";
         if (this.consultDoubtWrap && this.consultDoubt) {
             if (doubt) {
                 this.consultDoubtWrap.style.display = "grid";
@@ -2625,12 +2748,35 @@ export const editorFeatures = {
                 this.consultDoubt.textContent = "";
             }
         }
-        if (this.consultNotFound || this.consultOutScope) {
-            const found = Boolean(entry);
-            const outScope = !found && !analysisType;
-            if (this.consultNotFound) this.consultNotFound.style.display = found || outScope ? "none" : "block";
-            if (this.consultOutScope) this.consultOutScope.style.display = outScope ? "block" : "none";
+        if (this.consultFallback) {
+            const showFallback = !hasEntry;
+            this.consultFallback.style.display = showFallback ? "grid" : "none";
+            if (showFallback) {
+                if (this.consultFallbackClass) {
+                    this.consultFallbackClass.textContent = posLex?.pos?.length
+                        ? formatPos(posLex.pos, false, false)
+                        : posContext?.pos?.length
+                            ? formatPos(posContext.pos, false, true)
+                            : posGuess?.pos?.length
+                                ? formatPos(posGuess.pos, true, false)
+                                : analysisType || lang.t("consult_class_unknown");
+                }
+                if (this.consultFallbackForm) {
+                    this.consultFallbackForm.textContent = formLabel;
+                }
+                if (this.consultFallbackCount) {
+                    this.consultFallbackCount.textContent = totalCount ? String(totalCount) : "—";
+                }
+                if (this.consultFallbackPara) {
+                    this.consultFallbackPara.textContent = paraCount ? String(paraCount) : "—";
+                }
+                if (this.consultFallbackRepeat) {
+                    this.consultFallbackRepeat.textContent = totalCount ? nearbyRepeat : "—";
+                }
+            }
         }
+        if (this.consultNotFound) this.consultNotFound.style.display = "none";
+        if (this.consultOutScope) this.consultOutScope.style.display = "none";
         if (this.consultStatus) {
             const tried = lookupMeta && lookupMeta.tried && lookupMeta.tried.length
                 ? `${lang.t("consult_status_tried")} ${lookupMeta.tried.slice(0, 6).join(", ")}`

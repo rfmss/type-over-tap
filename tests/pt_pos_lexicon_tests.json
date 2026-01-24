@@ -1,0 +1,12 @@
+{
+  "SUBST": ["amor", "casa", "tempo", "livro", "noite", "homem", "mulher", "cidade", "coisa", "mar"],
+  "ADJ": ["triste", "feliz", "grande", "pequeno", "claro", "escuro", "rápido", "lento", "novo", "velho"],
+  "ART": ["o", "a", "os", "as", "um", "uma", "uns", "umas", "ao", "à"],
+  "PRON": ["eu", "tu", "ele", "ela", "nós", "vos", "eles", "elas", "isso", "aquilo"],
+  "NUM": ["um", "dois", "três", "quatro", "cinco", "dez", "primeiro", "segundo", "terceiro", "quarto"],
+  "VERB": ["amar", "ser", "estar", "fazer", "dizer", "ver", "ouvir", "escrever", "ler", "andar"],
+  "ADV": ["aqui", "ali", "assim", "sempre", "nunca", "hoje", "ontem", "amanhã", "bem", "mal"],
+  "PREP": ["de", "em", "para", "por", "com", "sem", "entre", "até", "sobre", "contra"],
+  "CONJ": ["e", "mas", "ou", "porque", "pois", "quando", "como", "embora", "logo", "nem"],
+  "INTJ": ["ah", "ai", "ei", "ô", "opa", "olá", "ufa", "eh", "ixi", "puxa"]
+}

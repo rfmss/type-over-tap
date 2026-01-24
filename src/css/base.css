@@ -65,156 +65,189 @@
 
 /* --- VARIÁVEIS GERAIS --- */
 :root {
-  --hud-w: 72px;
+  --hud-w: 60px;
   --drawer-w: 300px;
-  --gap: 24px;
-  --controls-h: 48px;
+  --gap: 20px;
+  --controls-h: 42px;
   --transition-speed: 0.3s;
   --glass-blur: blur(12px);
-  --shadow-float: 0 8px 32px rgba(0, 0, 0, 0.3);
+  --shadow-float: 0 6px 20px rgba(0, 0, 0, 0.18);
   --page-height: 1120px;
-  --font-display: "Space Grotesk", "IBM-Font", sans-serif;
-  --font-body: "Inter", "Main-Text", "IBM-Font", sans-serif;
-  --font-quote: "Literata", "Georgia", serif;
-  --font-ui: "JetBrains Mono", "Main-Text", "IBM-Font", monospace;
+  --font-display: "Journal-Font", "Main-Text", serif;
+  --font-body: "Journal-Font", "Main-Text", serif;
+  --font-quote: "Journal-Font", "Georgia", serif;
+  --font-ui: "Main-Text", "IBM-Font", monospace;
 }
 
-/* 1. DEFAULT THEME (Deep Bronze) */
+/* 1. TEMA PAPEL EDITORIAL (default) */
 :root {
-  --bg-core: #24160f;
+  --bg-core: #ecf0ff;
   --bg-panel: transparent;
-  --bg-drawer: rgba(43, 26, 18, 0.92);
-  --bg-xray: #2b1a12;
-  --bg-controls: rgba(43, 26, 18, 0.86);
-  --xray-surface: rgba(255, 255, 255, 0.04);
-  --xray-border: 1px solid rgba(255, 255, 255, 0.12);
-  --color-accent: #f2a43b;
-  --color-accent-dim: rgba(242, 164, 59, 0.18);
-  --color-text: #f2a43b;
-  --color-muted: rgba(242, 164, 59, 0.5);
-  --border-style: 1px solid rgba(242, 164, 59, 0.18);
-  --grid-opacity: 0.12;
-  --font-ui: 'IBM-Font', monospace;
-  --font-main: 'IBM-Font', monospace;
-  --font-mono: 'IBM-Font', monospace;
-  --radius: 4px;
-  --selection-bg: var(--color-accent);
-  --selection-text: var(--bg-core);
+  --bg-drawer: rgba(236, 240, 255, 0.92);
+  --bg-xray: #e7eaf5;
+  --bg-controls: rgba(236, 240, 255, 0.78);
+  --xray-surface: rgba(40, 42, 61, 0.04);
+  --xray-border: 1px solid rgba(40, 42, 61, 0.12);
+  --color-accent: #61667a;
+  --color-accent-dim: rgba(97, 102, 122, 0.16);
+  --color-text: #282a3d;
+  --color-muted: rgba(40, 42, 61, 0.55);
+  --border-style: 1px solid rgba(40, 42, 61, 0.12);
+  --grid-opacity: 0.03;
+  --font-ui: 'Main-Text', monospace;
+  --font-main: 'Journal-Font', serif;
+  --font-mono: 'Main-Text', monospace;
+  --radius: 6px;
+  --selection-bg: rgba(97, 102, 122, 0.22);
+  --selection-text: #f7f8ff;
 }
 
-/* 2. EINK */
-[data-theme="eink"] {
-  --bg-core: #d8d8d2;
+[data-theme="paper"] {
+  --bg-core: #ecf0ff;
   --bg-panel: transparent;
-  --bg-drawer: rgba(222, 222, 214, 0.85);
-  --bg-xray: #e6e6df;
-  --bg-controls: rgba(230, 230, 224, 0.72);
-  --xray-surface: rgba(0, 0, 0, 0.04);
-  --xray-border: 1px solid rgba(0, 0, 0, 0.12);
-  --color-text: #2a2724;
-  --color-accent: #4b4b46;
-  --color-accent-dim: rgba(75, 75, 70, 0.12);
-  --color-muted: #6b6762;
-  --border-style: 1px solid rgba(75, 75, 70, 0.18);
+  --bg-drawer: rgba(236, 240, 255, 0.92);
+  --bg-xray: #e7eaf5;
+  --bg-controls: rgba(236, 240, 255, 0.78);
+  --xray-surface: rgba(40, 42, 61, 0.04);
+  --xray-border: 1px solid rgba(40, 42, 61, 0.12);
+  --color-accent: #61667a;
+  --color-accent-dim: rgba(97, 102, 122, 0.16);
+  --color-text: #282a3d;
+  --color-muted: rgba(40, 42, 61, 0.55);
+  --border-style: 1px solid rgba(40, 42, 61, 0.12);
+  --grid-opacity: 0.03;
+  --selection-bg: rgba(97, 102, 122, 0.22);
+  --selection-text: #f7f8ff;
+}
+
+/* 2. NÉVOA SILENCIOSA */
+[data-theme="mist"] {
+  --bg-core: #282a3d;
+  --bg-panel: transparent;
+  --bg-drawer: rgba(40, 42, 61, 0.88);
+  --bg-xray: #242638;
+  --bg-controls: rgba(40, 42, 61, 0.82);
+  --xray-surface: rgba(230, 232, 240, 0.06);
+  --xray-border: 1px solid rgba(230, 232, 240, 0.16);
+  --color-text: #e6e8f0;
+  --color-accent: #9aa3c2;
+  --color-accent-dim: rgba(154, 163, 194, 0.22);
+  --color-muted: rgba(230, 232, 240, 0.6);
+  --border-style: 1px solid rgba(230, 232, 240, 0.16);
+  --grid-opacity: 0.05;
+  --selection-bg: rgba(154, 163, 194, 0.28);
+  --selection-text: #1b1c28;
+}
+
+/* 3. VERDE DE ESTUDO */
+[data-theme="study"] {
+  --bg-core: #2b1c12;
+  --bg-panel: transparent;
+  --bg-drawer: rgba(43, 28, 18, 0.88);
+  --bg-xray: #2f1f14;
+  --bg-controls: rgba(43, 28, 18, 0.82);
+  --xray-surface: rgba(240, 166, 74, 0.08);
+  --xray-border: 1px solid rgba(240, 166, 74, 0.18);
+  --color-text: #f0a64a;
+  --color-accent: #e08f3a;
+  --color-accent-dim: rgba(224, 143, 58, 0.22);
+  --color-muted: rgba(240, 166, 74, 0.58);
+  --border-style: 1px solid rgba(240, 166, 74, 0.18);
   --grid-opacity: 0.06;
-  --font-ui: 'IBM-Font', monospace;
-  --font-main: 'IBM-Font', monospace;
-  --font-mono: 'IBM-Font', monospace;
-  --radius: 2px;
-  --selection-bg: rgba(75, 75, 70, 0.22);
-  --selection-text: #f2f2f2;
+  --selection-bg: rgba(224, 143, 58, 0.28);
+  --selection-text: #1f140d;
 }
 
 /* 3. IBM DARK */
 [data-theme="ibm-dark"] {
-  --bg-core: #1e3a66;            
+  --bg-core: #222429;            
   --bg-panel: transparent; 
-  --bg-drawer: rgba(13, 24, 41, 0.85);
-  --bg-xray: #0d1829;
-  --bg-controls: rgba(13, 24, 41, 0.70);
-  --xray-surface: rgba(255, 255, 255, 0.05);
-  --xray-border: 1px solid rgba(255, 255, 255, 0.14);
-  --color-text: #d0e2ff;         
-  --color-accent: #4589ff;       
-  --color-accent-dim: rgba(69, 137, 255, 0.15);
-  --color-muted: #8fa3c4;        
-  --border-style: 1px solid rgba(160, 200, 255, 0.15);
-  --grid-opacity: 0.08;
-  --font-ui: 'IBM-Font', monospace;
-  --font-main: 'IBM-Font', monospace;
-  --font-mono: 'IBM-Font', monospace;
-  --radius: 2px; 
-  --selection-bg: rgba(69, 137, 255, 0.35);
-  --selection-text: #ffffff;
+  --bg-drawer: rgba(29, 31, 36, 0.9);
+  --bg-xray: #1b1d21;
+  --bg-controls: rgba(29, 31, 36, 0.78);
+  --xray-surface: rgba(255, 255, 255, 0.06);
+  --xray-border: 1px solid rgba(255, 255, 255, 0.12);
+  --color-text: #e7e2da;         
+  --color-accent: #b7a89a;       
+  --color-accent-dim: rgba(183, 168, 154, 0.18);
+  --color-muted: #a59a90;        
+  --border-style: 1px solid rgba(183, 168, 154, 0.18);
+  --grid-opacity: 0.05;
+  --font-ui: 'Main-Text', monospace;
+  --font-main: 'Journal-Font', serif;
+  --font-mono: 'Main-Text', monospace;
+  --radius: 4px; 
+  --selection-bg: rgba(183, 168, 154, 0.3);
+  --selection-text: #1c1a18;
 }
 
 /* 4. IBM BLUE */
 [data-theme="ibm-blue"] {
-  --bg-core: #294D81;            
+  --bg-core: #2a2e33;            
   --bg-panel: transparent; 
-  --bg-drawer: rgba(30, 60, 110, 0.85);
-  --bg-xray: #1e3c6e;
-  --bg-controls: rgba(30, 60, 110, 0.70);
+  --bg-drawer: rgba(30, 33, 38, 0.9);
+  --bg-xray: #1c2026;
+  --bg-controls: rgba(30, 33, 38, 0.78);
   --xray-surface: rgba(255, 255, 255, 0.06);
-  --xray-border: 1px solid rgba(255, 255, 255, 0.16);
-  --color-text: #ffffff;      
-  --color-accent: #64b5f6;      
-  --color-accent-dim: rgba(100, 181, 246, 0.2);
-  --color-muted: #aab6ce;        
-  --border-style: 1px solid rgba(255, 255, 255, 0.15);
-  --grid-opacity: 0.1;
-  --font-ui: 'IBM-Font', monospace;
-  --font-main: 'IBM-Font', monospace;
-  --font-mono: 'IBM-Font', monospace;
-  --radius: 2px; 
-  --selection-bg: rgba(255, 255, 255, 0.35);
-  --selection-text: #294D81;
+  --xray-border: 1px solid rgba(255, 255, 255, 0.12);
+  --color-text: #e7e2da;      
+  --color-accent: #b7a89a;      
+  --color-accent-dim: rgba(183, 168, 154, 0.18);
+  --color-muted: #a59a90;        
+  --border-style: 1px solid rgba(183, 168, 154, 0.18);
+  --grid-opacity: 0.05;
+  --font-ui: 'Main-Text', monospace;
+  --font-main: 'Journal-Font', serif;
+  --font-mono: 'Main-Text', monospace;
+  --radius: 4px; 
+  --selection-bg: rgba(183, 168, 154, 0.3);
+  --selection-text: #1c1a18;
 }
 
 /* 5. JORNAL THEME */
 [data-theme="journal"] {
-  --bg-core: #cfcfcf;
+  --bg-core: #f1eee6;
   --bg-panel: transparent;
-  --bg-drawer: rgba(236, 236, 236, 0.92);
-  --bg-xray: #f4f4f4;
-  --bg-controls: rgba(236, 236, 236, 0.82);
+  --bg-drawer: rgba(241, 238, 230, 0.92);
+  --bg-xray: #f4f1ea;
+  --bg-controls: rgba(241, 238, 230, 0.82);
   --xray-surface: rgba(0, 0, 0, 0.04);
   --xray-border: 1px solid rgba(0, 0, 0, 0.12);
-  --color-text: #2a2622; 
-  --color-accent: #2a2622; 
-  --color-accent-dim: rgba(42, 38, 34, 0.08);
-  --color-muted: rgba(42, 38, 34, 0.55);
-  --border-style: 1px solid rgba(42, 38, 34, 0.12);
-  --grid-opacity: 0.0;
-  --font-ui: 'IBM-Font', monospace;
-  --font-main: 'IBM-Font', monospace;
-  --font-mono: 'IBM-Font', monospace;
-  --radius: 2px; 
-  --selection-bg: rgba(42, 38, 34, 0.25);
-  --selection-text: #ffffff;
+  --color-text: #2b2622; 
+  --color-accent: #6d6155; 
+  --color-accent-dim: rgba(109, 97, 85, 0.12);
+  --color-muted: rgba(43, 38, 34, 0.5);
+  --border-style: 1px solid rgba(109, 97, 85, 0.18);
+  --grid-opacity: 0.02;
+  --font-ui: 'Main-Text', monospace;
+  --font-main: 'Journal-Font', serif;
+  --font-mono: 'Main-Text', monospace;
+  --radius: 4px; 
+  --selection-bg: rgba(109, 97, 85, 0.22);
+  --selection-text: #f7f4ee;
 }
 
 /* 6. TERMINAL THEME */
 [data-theme="terminal"] {
-  --bg-core: #000000;
+  --bg-core: #0b0f0b;
   --bg-panel: transparent;
-  --bg-drawer: rgba(0, 20, 0, 0.90);
-  --bg-xray: #001400;
-  --bg-controls: rgba(0, 20, 0, 0.80);
+  --bg-drawer: rgba(9, 14, 9, 0.92);
+  --bg-xray: #0b120b;
+  --bg-controls: rgba(9, 14, 9, 0.82);
   --xray-surface: rgba(255, 255, 255, 0.04);
-  --xray-border: 1px solid rgba(255, 255, 255, 0.14);
-  --color-text: #00ff41; 
-  --color-accent: #00ff41;
-  --color-accent-dim: rgba(0, 255, 65, 0.15);
-  --color-muted: #008f11;
-  --border-style: 1px solid rgba(0, 255, 65, 0.25);
-  --grid-opacity: 0.15;
-  --font-ui: 'IBM-Font', monospace;
-  --font-main: 'IBM-Font', monospace;
-  --font-mono: 'IBM-Font', monospace;
-  --radius: 0px;
-  --selection-bg: rgba(0, 255, 65, 0.3);
-  --selection-text: #000000;
+  --xray-border: 1px solid rgba(255, 255, 255, 0.12);
+  --color-text: #b8e2b6; 
+  --color-accent: #9fd6a1;
+  --color-accent-dim: rgba(159, 214, 161, 0.14);
+  --color-muted: #6f9a73;
+  --border-style: 1px solid rgba(159, 214, 161, 0.2);
+  --grid-opacity: 0.08;
+  --font-ui: 'Main-Text', monospace;
+  --font-main: 'Journal-Font', serif;
+  --font-mono: 'Main-Text', monospace;
+  --radius: 4px;
+  --selection-bg: rgba(159, 214, 161, 0.28);
+  --selection-text: #0b0f0b;
 }
 
 /* 7. AMBER INVERT */
@@ -312,15 +345,26 @@ body.booting::after {
 
 mark { background-color: var(--color-accent); color: var(--bg-core); padding: 2px 4px; border-radius: 2px; }
 mark.search-active { box-shadow: 0 0 0 2px var(--color-accent-dim); }
-[data-theme="eink"] mark { color: #f2f2f2; }
-[data-theme="ibm-dark"] mark { color: #fff; }
-[data-theme="ibm-blue"] mark { background-color: #fff; color: #294D81; }
-[data-theme="journal"] mark { background-color: #555; color: #fff; }
+[data-theme="paper"] mark { color: #f4f6ff; }
+[data-theme="mist"] mark { background-color: #e6e8f0; color: #282a3d; }
+[data-theme="study"] mark { background-color: #fff0e5; color: #2f372c; }
 
 #editor {
     -webkit-hyphens: auto; -moz-hyphens: auto; -ms-hyphens: auto; hyphens: auto;
     text-align: left;
     font-family: var(--font-main);
+}
+#editor.font-inter {
+    font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.65;
+}
+#editor.font-serif {
+    font-family: "Source Serif 4", "Georgia", "Times New Roman", serif;
+    line-height: 1.8;
+}
+#editor.font-plex {
+    font-family: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
+    line-height: 1.7;
 }
 
 .hud, .controls, .logo-area, .drawer { opacity: 1; transition: opacity 3s ease; }

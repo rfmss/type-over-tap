@@ -1,0 +1,14 @@
+{
+  "porque": { "pos": ["CONJ"] },
+  "porém": { "pos": ["CONJ"] },
+  "todavia": { "pos": ["CONJ"] },
+  "entretanto": { "pos": ["CONJ"] },
+  "contudo": { "pos": ["CONJ"] },
+  "ainda": { "pos": ["ADV"] },
+  "talvez": { "pos": ["ADV"] },
+  "quase": { "pos": ["ADV"] },
+  "bem": { "pos": ["ADV"] },
+  "mal": { "pos": ["ADV"] },
+  "hoje": { "pos": ["ADV"] },
+  "ontem": { "pos": ["ADV"] }
+}

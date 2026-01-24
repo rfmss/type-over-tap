@@ -1,0 +1,22 @@
+{
+  "amor": { "pos": ["SUBST"] },
+  "casa": { "pos": ["SUBST"] },
+  "tempo": { "pos": ["SUBST"] },
+  "livro": { "pos": ["SUBST"] },
+  "noite": { "pos": ["SUBST"] },
+  "homem": { "pos": ["SUBST"] },
+  "mulher": { "pos": ["SUBST"] },
+  "cidade": { "pos": ["SUBST"] },
+  "coisa": { "pos": ["SUBST"] },
+  "mar": { "pos": ["SUBST"] },
+  "triste": { "pos": ["ADJ"] },
+  "feliz": { "pos": ["ADJ"] },
+  "grande": { "pos": ["ADJ"] },
+  "pequeno": { "pos": ["ADJ"] },
+  "claro": { "pos": ["ADJ"] },
+  "escuro": { "pos": ["ADJ"] },
+  "rápido": { "pos": ["ADJ"] },
+  "lento": { "pos": ["ADJ"] },
+  "novo": { "pos": ["ADJ"] },
+  "velho": { "pos": ["ADJ"] }
+}

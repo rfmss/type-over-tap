@@ -1,4 +1,5 @@
 /* LIT OS v3.0 - Main Stylesheet */
+@import 'fonts.css';
 @import 'base.css';
 @import 'layout.css';
 @import 'components.css';

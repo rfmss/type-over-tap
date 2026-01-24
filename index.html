@@ -226,14 +226,16 @@
             <div id="pageMarkers" aria-hidden="true"></div>
             <div id="xrayOverlay" aria-hidden="true"></div>
             <aside id="xrayPanel" class="xray-panel" aria-hidden="true">
+                <div class="xray-drag-strip">
+                    <button id="xrayDragBtn" class="btn-icon xray-drag-btn" aria-label="Mover Rastro" data-i18n-title="xray_drag_title" data-i18n-tip="xray_drag_tip">
+                        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M11 2l-3.5 3.5h2.2v3.2h2.6V5.5h2.2L11 2zm2 20l3.5-3.5h-2.2v-3.2h-2.6v3.2H9.5L13 22zM2 11l3.5-3.5v2.2h3.2v2.6H5.5v2.2L2 11zm20 2l-3.5 3.5v-2.2h-3.2v-2.6h3.2V9.5L22 13z" fill="currentColor"/>
+                        </svg>
+                    </button>
+                </div>
                 <div class="xray-header">
                     <div class="xray-header-title" data-i18n="xray_panel_title">RASTRO DO TEXTO</div>
                     <div class="xray-header-actions">
-                        <button id="xrayDragBtn" class="btn-icon xray-drag-btn" aria-label="Mover Rastro">
-                            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
-                                <path d="M12 3l2.2 2.2-.9.9-1.3-1.3v4.2h4.2l-1.3-1.3.9-.9L18 9l-2.2 2.2-.9-.9 1.3-1.3h-4.2v4.2l1.3-1.3.9.9L12 15l-2.2-2.2.9-.9 1.3 1.3V9.2H7.8l1.3 1.3-.9.9L6 9l2.2-2.2.9.9-1.3 1.3H12V4.8L10.7 6.1l-.9-.9L12 3z" fill="currentColor"/>
-                            </svg>
-                        </button>
                         <button id="xrayHelpBtn" class="btn-icon" aria-label="Ajuda" data-i18n-title="xray_help_title" data-i18n-tip="xray_help_tip">?</button>
                         <button id="xrayCloseBtn" class="btn-icon" aria-label="Fechar" data-i18n-title="xray_close_title" data-i18n-tip="xray_close_tip">×</button>
                     </div>
@@ -735,6 +737,16 @@
             <div class="consult-section">
                 <div class="consult-label" data-i18n="consult_notes">Observações</div>
                 <div id="consultNotes" class="consult-text">—</div>
+            </div>
+            <div class="consult-section consult-fallback" id="consultFallback">
+                <div class="consult-label" data-i18n="consult_fallback_title">Observações no texto</div>
+                <ul class="consult-fallback-list">
+                    <li><span data-i18n="consult_fallback_class">Classe</span>: <span id="consultFallbackClass">—</span></li>
+                    <li><span data-i18n="consult_fallback_form">Forma</span>: <span id="consultFallbackForm">—</span></li>
+                    <li><span data-i18n="consult_fallback_count">Ocorrências no texto</span>: <span id="consultFallbackCount">—</span></li>
+                    <li><span data-i18n="consult_fallback_para">Ocorrências no parágrafo</span>: <span id="consultFallbackPara">—</span></li>
+                    <li><span data-i18n="consult_fallback_repeat">Repetição próxima</span>: <span id="consultFallbackRepeat">—</span></li>
+                </ul>
             </div>
             <div class="consult-section consult-doubt" id="consultDoubtWrap">
                 <div class="consult-label" data-i18n="consult_doubt">Dúvida comum</div>

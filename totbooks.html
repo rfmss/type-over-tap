@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>🔸TΦTBooks</title>
+<title>TΦTBooks</title>
 
 <style>
 html, body {
@@ -653,7 +653,7 @@ let pendingSpawn = null;
 const langCode = localStorage.getItem('lit_lang') || 'pt';
 const i18n = {
   pt: {
-    totbooks_hint: "Duplo clique cria um TΦTBook. Arraste para organizar e clique para abrir.",
+    totbooks_hint: "Duplo clique cria um TΦTBook. Ao criar, arraste e clique para abrir.",
     totbooks_drop: "Solte para descartar",
     totbooks_modal_title: "Φ TΦTBook novo",
     totbooks_modal_ph: "Nome do projeto...",
@@ -666,7 +666,7 @@ const i18n = {
     totbooks_cover_label: "Capa {title}"
   },
   "en-uk": {
-    totbooks_hint: "Double-click creates a TΦTBook. Drag to organise and click to open.",
+    totbooks_hint: "Double-click creates a TΦTBook. After creating, drag to organise and click to open.",
     totbooks_drop: "Drop to discard",
     totbooks_modal_title: "Φ New TΦTBook",
     totbooks_modal_ph: "Project name...",
@@ -679,7 +679,7 @@ const i18n = {
     totbooks_cover_label: "Cover {title}"
   },
   es: {
-    totbooks_hint: "Doble clic crea un TΦTBook. Arrastra para organizar y toca para abrir.",
+    totbooks_hint: "Doble clic crea un TΦTBook. Al crear, arrastra y toca para abrir.",
     totbooks_drop: "Suelta para descartar",
     totbooks_modal_title: "Φ Nuevo TΦTBook",
     totbooks_modal_ph: "Nombre del proyecto...",
@@ -692,7 +692,7 @@ const i18n = {
     totbooks_cover_label: "Portada {title}"
   },
   fr: {
-    totbooks_hint: "Double-cliquez crée un TΦTBook. Glissez pour organiser et cliquez pour ouvrir.",
+    totbooks_hint: "Double-cliquez crée un TΦTBook. Après créer, glissez et cliquez pour ouvrir.",
     totbooks_drop: "Déposez pour supprimer",
     totbooks_modal_title: "Φ Nouveau TΦTBook",
     totbooks_modal_ph: "Nom du projet...",
@@ -1026,7 +1026,6 @@ function createBook(title, x, y, opts = {}){
 
   const cover = book.querySelector('.cover');
   const handle = book.querySelector('.drag-handle');
-  const hint = book.querySelector('.hint');
 
   const pagesEl = book.querySelector('.pages');
   const prevBtn = book.querySelector('.prev');
@@ -1366,8 +1365,6 @@ function createBook(title, x, y, opts = {}){
           // SALVAR POSIÇÃO
           const p = clampToViewport(book);
           savePos(id, p.x, p.y);
-          hint.classList.add('show');
-          setTimeout(()=> hint.classList.remove('show'), 1200);
         }
 
       } else {

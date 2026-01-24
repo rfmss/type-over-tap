@@ -1,0 +1,12 @@
+[
+  { "token": "muito", "context": "muito belo", "expected": "ADV" },
+  { "token": "muito", "context": "muito amor", "expected": "ADJ" },
+  { "token": "meio", "context": "meio cansado", "expected": "ADV" },
+  { "token": "meio", "context": "meio termo", "expected": "ADJ" },
+  { "token": "só", "context": "só saiu", "expected": "ADV" },
+  { "token": "só", "context": "homem só", "expected": "ADJ" },
+  { "token": "que", "context": "o que disse", "expected": "PRON" },
+  { "token": "que", "context": "disse que voltou", "expected": "CONJ" },
+  { "token": "como", "context": "tão como antes", "expected": "ADV" },
+  { "token": "como", "context": "como cheguei aqui", "expected": "CONJ" }
+]

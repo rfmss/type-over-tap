@@ -34,6 +34,11 @@ export const ui = {
             const btn = document.createElement("button");
             btn.className = "btn"; btn.id = "pomodoroBtn";
             btn.innerHTML = `<svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-tomato"></use></svg> 25:00`;
+            const pomoHint = lang.t("help_pomo_short") || lang.t("pomo_btn") || "Pomodoro";
+            btn.setAttribute("data-i18n-title", "help_pomo_short");
+            btn.setAttribute("data-i18n-tip", "help_pomo_short");
+            btn.setAttribute("aria-label", pomoHint);
+            btn.setAttribute("data-tip", pomoHint);
             btn.onclick = () => this.togglePomodoro();
             controls.appendChild(btn);
         }
@@ -188,9 +193,14 @@ export const ui = {
         if (unlockPrompt) unlockPrompt.style.display = "";
         if (this.pomoPassInput) this.pomoPassInput.style.display = "";
         if (this.pomoUnlockBtn) this.pomoUnlockBtn.style.display = "";
-        if (this.pomoChoice) this.pomoChoice.style.display = "none";
+        if (this.pomoChoice) this.pomoChoice.style.display = "block";
         if (this.pomoPassInput) this.pomoPassInput.value = "";
         if (this.pomoMsg) this.pomoMsg.innerText = "";
+        if (this.pomoChoice) {
+            this.pomoChoice.querySelectorAll("[data-duration]").forEach((btn) => {
+                btn.disabled = true;
+            });
+        }
         setTimeout(() => { if (this.pomoPassInput) this.pomoPassInput.focus(); }, 50);
     },
 
@@ -205,6 +215,11 @@ export const ui = {
         if (this.pomoUnlockBtn) this.pomoUnlockBtn.style.display = "none";
         if (this.pomoChoice) this.pomoChoice.style.display = "block";
         if (this.pomoMsg) this.pomoMsg.innerText = "";
+        if (this.pomoChoice) {
+            this.pomoChoice.querySelectorAll("[data-duration]").forEach((btn) => {
+                btn.disabled = false;
+            });
+        }
     },
 
     hidePomodoroModal() {
@@ -222,7 +237,12 @@ export const ui = {
         const inputVal = this.pomoPassInput ? this.pomoPassInput.value : "";
         if (!stored || inputVal === stored) {
             if (this.pomoMsg) this.pomoMsg.innerText = lang.t("pomo_unlocked");
-            if (this.pomoChoice) this.pomoChoice.style.display = "block";
+            if (this.pomoChoice) {
+                this.pomoChoice.style.display = "block";
+                this.pomoChoice.querySelectorAll("[data-duration]").forEach((btn) => {
+                    btn.disabled = false;
+                });
+            }
         } else {
             if (this.pomoMsg) this.pomoMsg.innerText = lang.t("pomo_wrong_pass");
             if (this.pomoPassInput) {
@@ -236,16 +256,15 @@ export const ui = {
 
     // --- TEMA E UI (Mantido inalterado, apenas encapsulado corretamente) ---
     initTheme() {
-        const currentTheme = localStorage.getItem("lit_theme_pref") || "journal";
-        const resolvedTheme = currentTheme === "ibm-light" ? "eink" : currentTheme;
-        document.body.setAttribute("data-theme", resolvedTheme);
-        if (resolvedTheme !== currentTheme) {
-            localStorage.setItem("lit_theme_pref", resolvedTheme);
-        }
+        const allowed = ["paper", "mist", "study"];
+        let currentTheme = localStorage.getItem("lit_theme_pref") || "paper";
+        if (!allowed.includes(currentTheme)) currentTheme = "paper";
+        document.body.setAttribute("data-theme", currentTheme);
+        localStorage.setItem("lit_theme_pref", currentTheme);
     },
 
     toggleTheme() {
-        const themes = ["tva", "amber-invert", "ink-dark", "eink", "ibm-dark", "ibm-blue", "journal", "terminal"];
+        const themes = ["paper", "mist", "study"];
         const current = document.body.getAttribute("data-theme");
         let nextIndex = themes.indexOf(current) + 1;
         if (nextIndex >= themes.length) nextIndex = 0;

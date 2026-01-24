@@ -1,0 +1,8 @@
+{
+  "SUBST": ["educação", "movimento", "tristeza", "natureza", "organização", "informação", "coragem", "bondade", "heroísmo", "lições"],
+  "ADJ": ["amável", "possível", "curioso", "valiosa", "ativo", "alegre", "musical", "técnico", "primário", "brilhante"],
+  "VERB": ["andar", "viver", "comer", "sentir", "amar", "cair", "abrir", "partir", "sorrir", "olhar"],
+  "ADV": ["lentamente", "rapidamente", "claramente", "felizmente", "provavelmente", "certamente", "facilmente", "realmente", "livremente", "intensamente"],
+  "PRON": ["meu", "minha", "seu", "sua", "nossa", "nosso", "este", "essa", "aquele", "ninguém"],
+  "NUM": ["1", "2", "10", "42", "300", "7", "99", "2024", "8", "15"]
+}

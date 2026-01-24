@@ -1,0 +1,22 @@
+{
+  "amar": { "pos": ["VERB"] },
+  "ser": { "pos": ["VERB"] },
+  "estar": { "pos": ["VERB"] },
+  "fazer": { "pos": ["VERB"] },
+  "dizer": { "pos": ["VERB"] },
+  "ver": { "pos": ["VERB"] },
+  "ouvir": { "pos": ["VERB"] },
+  "escrever": { "pos": ["VERB"] },
+  "ler": { "pos": ["VERB"] },
+  "andar": { "pos": ["VERB"] },
+  "aqui": { "pos": ["ADV"] },
+  "ali": { "pos": ["ADV"] },
+  "assim": { "pos": ["ADV"] },
+  "logo": { "pos": ["ADV", "CONJ"] },
+  "sempre": { "pos": ["ADV"] },
+  "nunca": { "pos": ["ADV"] },
+  "hoje": { "pos": ["ADV"] },
+  "ontem": { "pos": ["ADV"] },
+  "amanhã": { "pos": ["ADV"] },
+  "muito": { "pos": ["ADV", "ADJ"] }
+}

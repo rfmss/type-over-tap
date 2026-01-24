@@ -124,6 +124,12 @@ body.mobile-typing .mobile-trigger {
     display: grid;
     gap: 8px;
 }
+.drawer-actions-grid .btn-full {
+    opacity: 0.8;
+}
+.drawer-actions-grid .btn-full:nth-child(-n+3) {
+    opacity: 1;
+}
 .drawer-search {
     display: grid;
     gap: 8px;
@@ -213,16 +219,16 @@ body.mobile-typing .mobile-trigger {
 
 /* CONTROLS (Correção de posição e tamanho) */
 .controls {
-  position: absolute; left: 0; right: 0; bottom: 12px;
+  position: absolute; left: 0; right: 0; bottom: 14px;
   min-height: var(--controls-h); display: flex; justify-content: center;
   z-index: 50; pointer-events: none; 
 }
 
 .controls-inner {
-  display: flex; align-items: center; gap: 15px; padding: 0 20px;
+  display: flex; align-items: center; gap: 12px; padding: 0 18px;
   background: var(--bg-controls); 
   border: var(--border-style); /* Borda Glass */
-  box-shadow: var(--shadow-float); /* Sombra Glass */
+  box-shadow: var(--shadow-float); /* Sombra */
   border-radius: var(--radius);
   
   pointer-events: auto;
@@ -231,8 +237,8 @@ body.mobile-typing .mobile-trigger {
   flex-wrap: wrap;
   white-space: nowrap;
   overflow: visible;
-  row-gap: 6px;
-  column-gap: 10px;
+  row-gap: 5px;
+  column-gap: 8px;
   
   width: auto; max-width: 96vw; /* Ajusta ao conteúdo, mas não passa da tela */
   height: auto;

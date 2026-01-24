@@ -89,7 +89,7 @@ export function buildTotPayload(store) {
       count: parseInt(localStorage.getItem("tot_access_count"), 10) || 0
     },
     SESSION_CONFIG: {
-      theme: localStorage.getItem("lit_theme_pref") || "tva",
+      theme: localStorage.getItem("lit_theme_pref") || "paper",
       fontIndex: localStorage.getItem("lit_pref_font") || "0",
       fontSize: localStorage.getItem("lit_pref_font_size") || "",
       lang: localStorage.getItem("lit_lang") || "pt"
