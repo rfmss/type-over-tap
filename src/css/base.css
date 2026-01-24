@@ -31,7 +31,7 @@
 /* 1. Solzinho (Temas/Contraste) */
 .ph-sun-dim::before         { content: "\f0599"; } 
 
-/* 2. Marcador de Página (T∅TBooks) */
+/* 2. Marcador de Página (TΦTBooks) */
 .ph-book-open-text::before  { content: "\f02e"; } 
 
 /* 3. A Bomba (HUD Superior - Metáfora de Detonação/Hard Reset) */
@@ -102,27 +102,27 @@
   --selection-text: var(--bg-core);
 }
 
-/* 2. IBM LIGHT */
-[data-theme="ibm-light"] {
-  --bg-core: #eef2f6;            
-  --bg-panel: transparent; 
-  --bg-drawer: rgba(255, 255, 255, 0.75);
-  --bg-xray: #ffffff;
-  --bg-controls: rgba(255, 255, 255, 0.60);
-  --xray-surface: rgba(0, 0, 0, 0.03);
+/* 2. EINK */
+[data-theme="eink"] {
+  --bg-core: #d8d8d2;
+  --bg-panel: transparent;
+  --bg-drawer: rgba(222, 222, 214, 0.85);
+  --bg-xray: #e6e6df;
+  --bg-controls: rgba(230, 230, 224, 0.72);
+  --xray-surface: rgba(0, 0, 0, 0.04);
   --xray-border: 1px solid rgba(0, 0, 0, 0.12);
-  --color-text: #1e3a66;         
-  --color-accent: #2962ff;       
-  --color-accent-dim: rgba(41, 98, 255, 0.1);
-  --color-muted: #6b7c93;        
-  --border-style: 1px solid rgba(41, 98, 255, 0.15);
-  --grid-opacity: 0.05;
+  --color-text: #2a2724;
+  --color-accent: #4b4b46;
+  --color-accent-dim: rgba(75, 75, 70, 0.12);
+  --color-muted: #6b6762;
+  --border-style: 1px solid rgba(75, 75, 70, 0.18);
+  --grid-opacity: 0.06;
   --font-ui: 'IBM-Font', monospace;
   --font-main: 'IBM-Font', monospace;
   --font-mono: 'IBM-Font', monospace;
-  --radius: 2px; 
-  --selection-bg: rgba(41, 98, 255, 0.35);
-  --selection-text: #ffffff;
+  --radius: 2px;
+  --selection-bg: rgba(75, 75, 70, 0.22);
+  --selection-text: #f2f2f2;
 }
 
 /* 3. IBM DARK */
@@ -312,7 +312,7 @@ body.booting::after {
 
 mark { background-color: var(--color-accent); color: var(--bg-core); padding: 2px 4px; border-radius: 2px; }
 mark.search-active { box-shadow: 0 0 0 2px var(--color-accent-dim); }
-[data-theme="ibm-light"] mark { color: #fff; }
+[data-theme="eink"] mark { color: #f2f2f2; }
 [data-theme="ibm-dark"] mark { color: #fff; }
 [data-theme="ibm-blue"] mark { background-color: #fff; color: #294D81; }
 [data-theme="journal"] mark { background-color: #555; color: #fff; }

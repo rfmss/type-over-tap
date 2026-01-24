@@ -14,9 +14,10 @@ function downloadTextAsFile(text, filename) {
 }
 
 export function exportTot(store) {
-  const payload = buildTotPayload(store);
-  const filename = `TOT_${Date.now()}.tot`;
-  downloadTextAsFile(JSON.stringify(payload, null, 2), filename);
+  buildTotPayloadWithChain(store).then((payload) => {
+    const filename = `TOT_${Date.now()}.tot`;
+    downloadTextAsFile(JSON.stringify(payload, null, 2), filename);
+  });
 }
 
 export function importTot(raw) {
@@ -75,7 +76,7 @@ export function buildTotPayload(store) {
   return {
     HEADER: {
       VERSION: "TOT/2",
-      APP: "T∅T Writer - Type over Tap",
+      APP: "TΦT Writer - Type over Tap",
       CREATED: new Date().toISOString(),
       CERT: birth && birth.cert ? birth.cert : "UNKNOWN"
     },
@@ -97,4 +98,34 @@ export function buildTotPayload(store) {
     ARCHIVE_STATE: data,
     WORKBENCH_STATE: collectWorkbenchState()
   };
+}
+
+export async function buildTotPayloadWithChain(store) {
+  const payload = buildTotPayload(store);
+  const chain = await buildBirthChain(payload.MASTER_TEXT || "");
+  payload.BIRTH_CHAIN = chain;
+  return payload;
+}
+
+async function sha256Hex(text) {
+  const data = new TextEncoder().encode(text);
+  const hash = await crypto.subtle.digest("SHA-256", data);
+  return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, "0")).join("");
+}
+
+async function buildBirthChain(text) {
+  const prevRaw = localStorage.getItem("tot_birth_chain");
+  let prev = null;
+  try { prev = prevRaw ? JSON.parse(prevRaw) : null; } catch (_) { prev = null; }
+  const prevHash = prev && prev.hash ? prev.hash : "";
+  const createdAt = new Date().toISOString();
+  const hash = await sha256Hex(`${text}\n${prevHash}`);
+  const chain = {
+    algo: "SHA-256",
+    created_at: createdAt,
+    prev_hash: prevHash || null,
+    hash
+  };
+  localStorage.setItem("tot_birth_chain", JSON.stringify({ hash, created_at: createdAt }));
+  return chain;
 }

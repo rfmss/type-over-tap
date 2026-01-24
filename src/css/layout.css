@@ -298,6 +298,14 @@ body.mobile-typing .mobile-trigger {
     body.mobile-lite .logo-area { display: none; }
     body.mobile-lite .panel { top: 0; bottom: 0; padding: 0 14px; }
     body.mobile-lite .drawer { left: 0; }
+    body.mobile-lite #mobileTabNav,
+    body.mobile-lite #mobileTabTheme,
+    body.mobile-lite #mobileTabBooks,
+    body.mobile-lite #panelNav,
+    body.mobile-lite #panelActions { display: none !important; }
+    body.mobile-lite .drawer-search { display: none; }
+    body.mobile-lite #panelFiles .file-actions { flex-wrap: wrap; }
+    body.mobile-lite #btnScanQr { order: -1; }
     .drawer-tabs-mobile {
         display: flex;
         gap: 10px;

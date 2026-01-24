@@ -237,11 +237,15 @@ export const ui = {
     // --- TEMA E UI (Mantido inalterado, apenas encapsulado corretamente) ---
     initTheme() {
         const currentTheme = localStorage.getItem("lit_theme_pref") || "journal";
-        document.body.setAttribute("data-theme", currentTheme);
+        const resolvedTheme = currentTheme === "ibm-light" ? "eink" : currentTheme;
+        document.body.setAttribute("data-theme", resolvedTheme);
+        if (resolvedTheme !== currentTheme) {
+            localStorage.setItem("lit_theme_pref", resolvedTheme);
+        }
     },
 
     toggleTheme() {
-        const themes = ["tva", "amber-invert", "ink-dark", "ibm-light", "ibm-dark", "ibm-blue", "journal", "terminal"];
+        const themes = ["tva", "amber-invert", "ink-dark", "eink", "ibm-dark", "ibm-blue", "journal", "terminal"];
         const current = document.body.getAttribute("data-theme");
         let nextIndex = themes.indexOf(current) + 1;
         if (nextIndex >= themes.length) nextIndex = 0;

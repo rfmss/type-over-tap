@@ -3,15 +3,13 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>T∅T Writer</title>
+    <title>TΦT Writer</title>
     <meta name="theme-color" content="#c4c4c4" />
     
     <link rel="manifest" href="manifest.json" />
     <link rel="icon" href="src/assets/icons/logo-tot.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="src/assets/icons/logo-tot.svg" />
-    <script src="src/assets/js/qrcode.min.js"></script>
-    <script src="src/assets/js/jsqr.min.js"></script>
-    <script src="src/assets/js/lz-string.min.js"></script>
+    
     
     <link rel="stylesheet" href="src/css/main.css">
 </head>
@@ -57,7 +55,7 @@
         <div class="manifesto-header">
             <div class="manifesto-title-row">
                 <div>
-                    <h1 data-i18n="manifesto_title">MANIFESTO T∅T</h1>
+                    <h1 data-i18n="manifesto_title">MANIFESTO TΦT</h1>
                     <p data-i18n="manifesto_subtitle">Type over Tap</p>
                 </div>
                 <button id="manifestoLangToggle" class="flag-btn" data-i18n="lang_label">PTBR</button>
@@ -73,7 +71,7 @@
 <div id="frame">
 
     <div class="logo-area">
-        <img src="assets/images/logo.webp" alt="LIT Logo" onerror="this.style.display='none'"> 
+        <img src="src/assets/icons/logo-tot.svg" alt="TΦT Writer"> 
         <div class="marquee-container">
             <div class="marquee-content" data-i18n="marquee_ready">
                 /// SYSTEM READY /// PRESS [F1] FOR HELP :: TYPE --H IN EDITOR 
@@ -91,7 +89,7 @@
         <button class="hud-btn" id="tabNav" title="Navegação [Alt+2]" data-i18n-title="tab_nav" data-i18n-tip="tab_nav"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-list-bullets"></use></svg></button>
         <button class="hud-btn" id="tabMemo" title="Memo [Alt+3]" data-i18n-title="tab_memo" data-i18n-tip="tab_memo"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-pencil"></use></svg></button>
         <button class="hud-btn" id="btnThemeToggle" title="Tema [Alt+T]" data-i18n-title="tab_theme" data-i18n-tip="tab_theme"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-sun"></use></svg></button>
-        <button class="hud-btn" id="tabBooks" title="T∅TBooks [Alt+4]" data-i18n-title="tab_books" data-i18n-tip="tab_books"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-notepad"></use></svg></button>
+        <button class="hud-btn" id="tabBooks" title="TΦTBooks [Alt+4]" data-i18n-title="tab_books" data-i18n-tip="tab_books"><span class="icon-text">Φ</span></button>
 
         
         <div style="flex:1"></div> 
@@ -125,8 +123,8 @@
             <button class="drawer-tab-btn" id="mobileTabTheme" aria-label="Tema">
                 <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-sun"></use></svg>
             </button>
-            <button class="drawer-tab-btn" id="mobileTabBooks" aria-label="T∅TBooks">
-                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-notepad"></use></svg>
+            <button class="drawer-tab-btn" id="mobileTabBooks" aria-label="TΦTBooks">
+                <span class="icon-text">Φ</span>
             </button>
         </div>
 
@@ -184,7 +182,7 @@
             <div class="file-actions">
                 <button class="btn-half" id="btnNewProject" data-i18n="btn_new_project">+ NOVO</button>
                 <button class="btn-half" id="btnImport" title="Importar JSON/TXT" data-i18n-title="btn_import_title" data-i18n-tip="btn_import_title"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-upload-simple"></use></svg> <span data-i18n="btn_open">ABRIR</span></button>
-                <button class="btn-half" id="btnScanQr" title="Scan QR" data-i18n-title="btn_scan_qr" data-i18n-tip="btn_scan_qr"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-magnifying-glass"></use></svg> <span data-i18n="btn_scan">SCAN QR</span></button>
+                <button class="btn-half" id="btnScanQr" title="Scan QR" data-i18n-title="btn_scan_qr" data-i18n-tip="btn_scan_qr"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-qr-code"></use></svg> <span data-i18n="btn_scan">SCAN QR</span></button>
                 <input type="file" id="fileInput" style="display:none;" accept=".json,.txt,.md,.tot,.b64,.qr">
             </div>
             <div class="file-actions">
@@ -299,7 +297,7 @@
                     </div>
                 </div>
             </aside>
-            <div id="editor" contenteditable="true" spellcheck="false"></div>
+            <div id="editor" contenteditable="true" spellcheck="false" data-i18n-placeholder="editor_placeholder"></div>
         </div>
     </div>
 
@@ -308,7 +306,7 @@
             id="booksFrame"
             src="totbooks.html"
             style="width:100%; height:100%; border:0; background:transparent;"
-            title="T∅TBooks"
+            title="TΦTBooks"
         ></iframe>
     </div>
 </main>
@@ -323,16 +321,16 @@
             <span id="currentDocLabel" class="status-label">UNTITLED</span>
             <span id="liveStats" class="status-label" data-i18n="stats_label">CHARS: 0 | WORDS: 0</span>
             <button class="btn" id="btnFontType" title="Mudar Fonte [Alt+F]" data-i18n-title="font_title" data-i18n-tip="font_title"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-text-aa"></use></svg></button>
-            <button class="btn" id="fontMinus"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-minus"></use></svg></button>
-            <button class="btn" id="fontPlus"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-plus"></use></svg></button>
+            <button class="btn" id="fontMinus" data-i18n-title="font_minus_title" aria-label="Diminuir fonte"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-minus"></use></svg></button>
+            <button class="btn" id="fontPlus" data-i18n-title="font_plus_title" aria-label="Aumentar fonte"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-plus"></use></svg></button>
             <div class="divider"></div>
             <button class="btn" id="btnSave" title="Salvar [Ctrl+S]" data-i18n-title="save_title" data-i18n-tip="save_title"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-floppy-disk"></use></svg> <span data-i18n="export_btn">EXPORTAR</span></button>
             <div style="flex:1"></div> 
             <div class="search-wrapper">
                 <svg class="icon search-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-magnifying-glass"></use></svg>
                 <input id="search" class="search-input" data-i18n-ph="search_ph" placeholder="Buscar... [Ctrl+F]" />
-                <button class="btn-icon" id="btnSearchPrev" title="Anterior">▲</button>
-                <button class="btn-icon" id="btnSearchNext" title="Próximo">▼</button>
+                <button class="btn-icon" id="btnSearchPrev" data-i18n-title="search_prev_title" aria-label="Anterior">▲</button>
+                <button class="btn-icon" id="btnSearchNext" data-i18n-title="search_next_title" aria-label="Próximo">▼</button>
                 <button class="btn-icon" id="btnSearch" data-i18n="search_go">IR</button>
                 <button class="btn-icon" id="btnClear" data-i18n-title="search_clear_title" aria-label="Limpar busca">
                     <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-x"></use></svg>
@@ -358,6 +356,7 @@
                     <div class="export-card" id="actionQrStream"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-qr-code"></use></svg><span data-i18n="export_qr_stream">STREAM QR</span><small data-i18n="export_light">luz</small></div>
                 </div>
                 <div class="export-social">
+                    <div class="export-note help-text" data-i18n="export_note">Este arquivo preserva a autoria do texto.</div>
                     <div class="export-social-title" data-i18n="export_social_title">REDES FEDERADAS</div>
                     <div class="export-social-links">
                         <button class="social-link" type="button" data-network="Mastodon" data-url="https://mastodon.social">
@@ -428,7 +427,7 @@
 
     <div id="socialShareModal" class="modal-overlay">
         <div class="modal-box">
-            <div class="modal-header"><span data-i18n="share_title">DIVULGAR T∅T</span><button id="closeSocialShare" class="btn-icon">×</button></div>
+            <div class="modal-header"><span data-i18n="share_title">DIVULGAR TΦT</span><button id="closeSocialShare" class="btn-icon">×</button></div>
             <div class="modal-body">
                 <div id="socialShareMessage" class="share-preview"></div>
                 <div class="share-actions">
@@ -490,9 +489,9 @@
                     <div id="qrStreamCode" class="qr-canvas"></div>
                     <div class="qr-stream-panel">
                         <div id="qrStreamStatus" class="help-text" data-i18n="qr_stream_active">STREAM ATIVO</div>
-                        <div id="qrStreamMeta" class="qr-meta">FRAME 000 / 000</div>
+                        <div id="qrStreamMeta" class="qr-meta help-text">FRAME 000 / 000</div>
                         <div class="qr-stream-instructions" data-i18n-html="qr_stream_instructions">
-                            <p>1) No celular, abra o T∅T e vá em Arquivos → Scan QR.</p>
+                            <p>1) No celular, abra o TΦT e vá em Arquivos → Scan QR.</p>
                             <p>2) Aponte para esta tela até completar.</p>
                             <p>3) Depois, apague tudo aqui.</p>
                         </div>

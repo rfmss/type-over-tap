@@ -406,14 +406,14 @@
 
 ## Textos estÃ¡ticos em index.html
 
-- 🔸 T∅T Writer
+- 🔸 TΦT Writer
 - INICIALIZANDO SISTEMA
 - 🇧🇷 PT
 - Crie a senha da sessão
 - Criar sessão local
 - BLOQUEADO
 - DESBLOQUEAR
-- MANIFESTO T∅T
+- MANIFESTO TΦT
 - Type over Tap
 - PTBR
 - LI E ENTENDI
@@ -467,7 +467,7 @@
 - LinkedIn
 - FEDIVERSO
 - Pense em redes sociais como email: voce pode usar qualquer provedor e falar com qualquer pessoa. O fediverso funciona assim. Em vez de uma empresa mandar em tudo, varias comunidades se conectam. Voce escolhe onde morar, leva seus dados e ainda conversa com todo mundo. E menos vigilancia, mais controle e mais liberdade.
-- DIVULGAR T∅T
+- DIVULGAR TΦT
 - COPIAR TEXTO
 - ABRIR REDE
 - MODO LEITOR
@@ -476,7 +476,7 @@
 - DICIONÁRIO
 - STREAM ATIVO
 - FRAME 000 / 000
-- 1) No celular, abra o T∅T e vá em Arquivos → Scan QR.
+- 1) No celular, abra o TΦT e vá em Arquivos → Scan QR.
 - 2) Aponte para esta tela até completar.
 - 3) Depois, apague tudo aqui.
 - PAUSAR
@@ -575,9 +575,9 @@
 
 ## Textos estÃ¡ticos em totbooks.html
 
-- 🔸T∅TBooks
+- 🔸TΦTBooks
 - Duplo clique para criar • Arraste para organizar
 - Solte para descartar
-- 🔸 T∅TBook novo
+- 🔸 TΦTBook novo
 - Cancelar
 - Criar

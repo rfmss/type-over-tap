@@ -1,4 +1,4 @@
-/* * T∅T Writer - CORE MODULE
+/* * TΦT Writer - CORE MODULE
  * Fixes: Memo persistence bug (Ghost Data)
  */
 
@@ -7,7 +7,7 @@ import { ui } from './modules/ui.js';
 import { editorFeatures } from './modules/editor.js';
 import { lang } from './modules/lang.js';
 import { auth } from './modules/auth.js';
-import { exportTot, importTot, buildTotPayload } from './modules/export_tot.js';
+import { exportTot, importTot, buildTotPayloadWithChain } from './modules/export_tot.js';
 import { birthTracker } from './modules/birth_tracker.js';
 import { qrTransfer } from './modules/qr_transfer.js';
 
@@ -15,7 +15,7 @@ import { qrTransfer } from './modules/qr_transfer.js';
 document.addEventListener('DOMContentLoaded', () => {
     document.body.classList.add("booting");
     setTimeout(() => document.body.classList.remove("booting"), 2000);
-    console.log("🚀 T∅T SYSTEM BOOTING v5.5...");
+    console.log("🚀 TΦT SYSTEM BOOTING v5.5...");
 
     store.init();
     incrementAccessCount();
@@ -434,7 +434,7 @@ function setupEventListeners() {
                 document.getElementById("memoArea").value
             );
             const text = buildReportText();
-            printRawText(text, "T∅T Writer - RELATORIO");
+            printRawText(text, "TΦT Writer - RELATORIO");
             document.getElementById("exportModal").classList.remove("active");
         };
     }
@@ -446,9 +446,10 @@ function setupEventListeners() {
                 document.getElementById("editor").innerHTML,
                 document.getElementById("memoArea").value
             );
-            const payload = buildTotPayload(store);
-            downloadText(JSON.stringify(payload, null, 2), `TOT_EXPORT_${Date.now()}.json`, "application/json");
-            document.getElementById("exportModal").classList.remove("active");
+            buildTotPayloadWithChain(store).then((payload) => {
+                downloadText(JSON.stringify(payload, null, 2), `TOT_EXPORT_${Date.now()}.json`, "application/json");
+                document.getElementById("exportModal").classList.remove("active");
+            });
         };
     }
 
@@ -1122,7 +1123,7 @@ function downloadText(text, filename, mime) {
 function buildMarkdownExport() {
     const projects = Array.isArray(store.data.projects) ? store.data.projects : [];
     const blocks = [];
-    blocks.push("# T∅T Writer Export\n");
+    blocks.push("# TΦT Writer Export\n");
     blocks.push(`_Gerado em ${new Date().toISOString()}_\n`);
     const manifestText = localStorage.getItem("tot_manifest_text");
     const manifestSignedAt = localStorage.getItem("tot_manifest_signed_at");
@@ -1150,11 +1151,11 @@ function buildMarkdownExport() {
     let registry = [];
     try { registry = JSON.parse(registryRaw || "[]"); } catch (_) { registry = []; }
     if (registry.length) {
-        blocks.push("\n## T∅TBooks\n");
+        blocks.push("\n## TΦTBooks\n");
         registry.forEach((entry, idx) => {
             const id = typeof entry === "string" ? entry : entry.id;
             if (!id) return;
-            const title = localStorage.getItem(`title_${id}`) || `T∅TBook ${idx + 1}`;
+            const title = localStorage.getItem(`title_${id}`) || `TΦTBook ${idx + 1}`;
             blocks.push(`\n### ${title}\n`);
             let pages = [];
             try { pages = JSON.parse(localStorage.getItem(`pages_${id}`) || "[]"); } catch (_) { pages = []; }
@@ -1186,11 +1187,11 @@ function buildReportText() {
     let registry = [];
     try { registry = JSON.parse(registryRaw || "[]"); } catch (_) { registry = []; }
     if (registry.length) {
-        blocks.push("=== T∅TBOOKS ===");
+        blocks.push("=== TΦTBOOKS ===");
         registry.forEach((entry, idx) => {
             const id = typeof entry === "string" ? entry : entry.id;
             if (!id) return;
-            const title = localStorage.getItem(`title_${id}`) || `T∅TBook ${idx + 1}`;
+            const title = localStorage.getItem(`title_${id}`) || `TΦTBook ${idx + 1}`;
             blocks.push(`\n--- ${title} ---`);
             let pages = [];
             try { pages = JSON.parse(localStorage.getItem(`pages_${id}`) || "[]"); } catch (_) { pages = []; }

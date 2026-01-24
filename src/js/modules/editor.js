@@ -53,6 +53,7 @@ export const editorFeatures = {
     xraySummaryAmb: null,
     xrayActiveTab: "verbs",
     xrayData: null,
+    lastPasteNoticeAt: 0,
     readerModal: null,
     readerBox: null,
     readerContent: null,
@@ -187,8 +188,8 @@ export const editorFeatures = {
                 localStorage.setItem("lit_theme_pref", "tva");
                 return this.flashInlineData();
             case '--light':
-                document.body.setAttribute("data-theme", "ibm-light");
-                localStorage.setItem("lit_theme_pref", "ibm-light");
+                document.body.setAttribute("data-theme", "eink");
+                localStorage.setItem("lit_theme_pref", "eink");
                 return this.flashInlineData();
             case '--zen':
             case '--fs':
@@ -297,12 +298,26 @@ export const editorFeatures = {
 
     // --- CLEAN PASTE ---
     initCleanPaste() {
+        const notifyPasteBlocked = () => {
+            const now = Date.now();
+            if (now - this.lastPasteNoticeAt < 1200) return;
+            this.lastPasteNoticeAt = now;
+            const msg = lang.t("paste_blocked");
+            if (window.totModal && typeof window.totModal.alert === "function") {
+                window.totModal.alert(msg);
+            } else {
+                alert(msg);
+            }
+        };
+        this.editor.addEventListener("beforeinput", (e) => {
+            if (e.inputType === "insertFromPaste" || e.inputType === "insertFromDrop") {
+                e.preventDefault();
+                notifyPasteBlocked();
+            }
+        });
         this.editor.addEventListener("paste", (e) => {
             e.preventDefault();
-            const text = (e.clipboardData || window.clipboardData).getData("text/plain");
-            const clean = this.sanitizePlainText(text);
-            document.execCommand("insertText", false, clean);
-            this.playSound('type');
+            notifyPasteBlocked();
         });
         this.editor.addEventListener("drop", (e) => {
             e.preventDefault();
@@ -374,9 +389,22 @@ export const editorFeatures = {
         });
         document.addEventListener("click", (e) => { if (e.target !== this.editor) this.resetFocusMode(false); });
         this.editor.addEventListener("input", () => this.scheduleFocusBlockUpdate());
-        this.editor.addEventListener("click", () => this.scheduleFocusBlockUpdate());
+        this.editor.addEventListener("click", () => {
+            this.triggerFocusMode();
+            this.scheduleFocusBlockUpdate();
+        });
         this.editor.addEventListener("keyup", () => this.scheduleFocusBlockUpdate());
-        document.addEventListener("selectionchange", () => this.scheduleFocusBlockUpdate());
+        document.addEventListener("selectionchange", () => {
+            const sel = window.getSelection();
+            if (!sel || sel.rangeCount === 0) return;
+            const node = sel.focusNode && sel.focusNode.nodeType === Node.TEXT_NODE
+                ? sel.focusNode.parentElement
+                : sel.focusNode;
+            if (node && this.editor.contains(node)) {
+                this.triggerFocusMode();
+                this.scheduleFocusBlockUpdate();
+            }
+        });
     },
 
     triggerFocusMode() {
@@ -404,7 +432,7 @@ export const editorFeatures = {
 
     updateFocusBlocks() {
         if (!document.body.classList.contains("focus-active")) return;
-        const blocks = this.editor.querySelectorAll("p, div, h1, h2, h3, li, blockquote");
+        const blocks = this.getFocusBlocks();
         blocks.forEach((b) => {
             b.classList.add("focus-dim");
             b.classList.remove("focus-active-block");
@@ -419,11 +447,18 @@ export const editorFeatures = {
     },
 
     clearFocusBlocks() {
-        const blocks = this.editor.querySelectorAll(".focus-dim, .focus-active-block");
+        const blocks = this.getFocusBlocks();
         blocks.forEach((b) => {
             b.classList.remove("focus-dim");
             b.classList.remove("focus-active-block");
         });
+    },
+
+    getFocusBlocks() {
+        if (!this.editor) return [];
+        return Array.from(this.editor.children).filter((el) => (
+            el.matches("p, div, h1, h2, h3, li, blockquote")
+        ));
     },
 
     getActiveBlock() {
@@ -433,8 +468,13 @@ export const editorFeatures = {
         if (!node) return null;
         if (node.nodeType === Node.TEXT_NODE) node = node.parentElement;
         if (!node) return null;
-        const block = node.closest("p, h1, h2, h3, li, blockquote, div");
-        if (block && this.editor.contains(block)) return block;
+        if (!this.editor.contains(node)) return null;
+        while (node.parentElement && node.parentElement !== this.editor) {
+            node = node.parentElement;
+        }
+        if (node.parentElement === this.editor && node.matches("p, div, h1, h2, h3, li, blockquote")) {
+            return node;
+        }
         return null;
     },
 
@@ -773,10 +813,11 @@ export const editorFeatures = {
             const marker = document.createElement("div");
             marker.className = "page-marker";
             marker.style.top = `${top}px`;
+            if (i === 1) marker.classList.add("first");
 
             const label = document.createElement("div");
             label.className = "page-marker-label";
-            label.textContent = `PG ${String(i).padStart(2, "0")}`;
+            label.textContent = `${String(i).padStart(2, "0")}`;
             marker.appendChild(label);
 
             this.pageMarkers.appendChild(marker);

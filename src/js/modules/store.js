@@ -122,7 +122,7 @@ export const store = {
         try {
             const imported = JSON.parse(jsonString);
             
-            // Valida se é um backup válido do T∅T
+            // Valida se é um backup válido do TΦT
             if (!imported.projects || !Array.isArray(imported.projects)) {
                 showAlert(lang.t("alert_backup_invalid"));
                 return false;

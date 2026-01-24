@@ -8,6 +8,12 @@ const FRAME_INTERVAL_MS = 450;
 const QR_SIZE = 360;
 
 const qrTransfer = (() => {
+  const QR_LIBS = [
+    { key: 'QRCode', src: 'src/assets/js/qrcode.min.js' },
+    { key: 'jsQR', src: 'src/assets/js/jsqr.min.js' },
+    { key: 'LZString', src: 'src/assets/js/lz-string.min.js' }
+  ];
+  let qrLibsPromise = null;
   let streamTimer = null;
   let streamIndex = 0;
   let streamChunks = [];
@@ -49,6 +55,34 @@ const qrTransfer = (() => {
     els.scanRestore = document.getElementById('qrScanRestore');
   }
 
+  function loadScriptOnce(src, key) {
+    if (window[key]) return Promise.resolve();
+    const existing = document.querySelector(`script[data-qr-lib="${key}"]`);
+    if (existing) {
+      return new Promise((resolve, reject) => {
+        existing.addEventListener('load', resolve, { once: true });
+        existing.addEventListener('error', reject, { once: true });
+      });
+    }
+    return new Promise((resolve, reject) => {
+      const script = document.createElement('script');
+      script.src = src;
+      script.async = true;
+      script.dataset.qrLib = key;
+      script.onload = () => resolve();
+      script.onerror = () => reject(new Error(`Failed to load ${src}`));
+      document.head.appendChild(script);
+    });
+  }
+
+  async function ensureQrLibs() {
+    if (window.QRCode && window.LZString && window.jsQR) return;
+    if (qrLibsPromise) return qrLibsPromise;
+    qrLibsPromise = Promise.all(QR_LIBS.map((lib) => loadScriptOnce(lib.src, lib.key)))
+      .finally(() => { qrLibsPromise = null; });
+    return qrLibsPromise;
+  }
+
   function buildBackupBase64() {
     if (!window.LZString) {
       throw new Error('LZString not available.');
@@ -82,8 +116,14 @@ const qrTransfer = (() => {
     URL.revokeObjectURL(url);
   }
 
-  function initStream() {
+  async function initStream() {
     if (!els.streamCode) return;
+    try {
+      await ensureQrLibs();
+    } catch (_) {
+      if (els.streamStatus) els.streamStatus.textContent = lang.t('qr_libs_missing');
+      return;
+    }
     const base64 = buildBackupBase64();
     streamBackupId = Date.now().toString().slice(-6);
     streamChunks = base64.match(new RegExp(`.{1,${CHUNK_SIZE}}`, 'g')) || [];
@@ -156,6 +196,12 @@ const qrTransfer = (() => {
     }
 
     try {
+      try {
+        await ensureQrLibs();
+      } catch (_) {
+        updateScanStatus(lang.t('qr_libs_missing'));
+        return;
+      }
       scanStream = await navigator.mediaDevices.getUserMedia({
         video: { facingMode: 'environment' },
         audio: false

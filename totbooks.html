@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>🔸T∅TBooks</title>
+<title>🔸TΦTBooks</title>
 
 <style>
 html, body {
@@ -339,7 +339,7 @@ body:hover .bg-hint { opacity: 0.4; }
   box-shadow: 0 2px 5px rgba(0,0,0,0.15);
   z-index: 5;
 }
-.strap svg{ width:16px; height:16px; opacity: 0.85; }
+.strap .phi-mark{ width:16px; height:16px; display:inline-flex; align-items:center; justify-content:center; font-weight:900; font-size:14px; opacity:0.85; }
 .strap span {
   display: inline-block;
   max-width: 110px;      /* Garante que o texto não vaze da tarja */
@@ -353,7 +353,7 @@ body:hover .bg-hint { opacity: 0.4; }
   font-size: 8px;
   gap: 4px;
 }
-.totbook:not(.open) .strap svg { width: 12px; height: 12px; }
+.totbook:not(.open) .strap .phi-mark { width: 12px; height: 12px; font-size: 11px; }
 .totbook:not(.open) .strap span { max-width: 54px; }
 .totbook:not(.open)::before { width: 6px; }
 .totbook:not(.open)::after { width: 8px; top: 6px; height: calc(100% - 12px); border-radius: 4px; }
@@ -622,7 +622,7 @@ body.is-dragging #trash-zone {
 <div class="modal" id="modal">
   <div class="scrim"></div>
   <div class="card">
-    <h3 id="modalTitle">🔸 T∅TBook novo</h3>
+    <h3 id="modalTitle">Φ TΦTBook novo</h3>
     <input id="modalInput" type="text" maxlength="8" placeholder="Nome do projeto...">
     <div class="actions">
       <button class="btn-cancel" id="modalCancel">Cancelar</button>
@@ -653,60 +653,52 @@ let pendingSpawn = null;
 const langCode = localStorage.getItem('lit_lang') || 'pt';
 const i18n = {
   pt: {
-    totbooks_hint: "Duplo clique para criar • Arraste para organizar",
+    totbooks_hint: "Duplo clique cria um TΦTBook. Arraste para organizar e clique para abrir.",
     totbooks_drop: "Solte para descartar",
-    totbooks_modal_title: "🔸 T∅TBook novo",
+    totbooks_modal_title: "Φ TΦTBook novo",
     totbooks_modal_ph: "Nome do projeto...",
     totbooks_cancel: "Cancelar",
     totbooks_create: "Criar",
-    totbooks_open: "arraste",
     totbooks_cooldown: "Aguarde {s}s para criar outro...",
-    totbooks_drag: "Arrastar",
     totbooks_prev: "Página anterior",
     totbooks_next: "Próxima página",
     totbooks_pages_label: "Páginas {title}",
     totbooks_cover_label: "Capa {title}"
   },
   "en-uk": {
-    totbooks_hint: "Double-click to create • Drag to organise",
+    totbooks_hint: "Double-click creates a TΦTBook. Drag to organise and click to open.",
     totbooks_drop: "Drop to discard",
-    totbooks_modal_title: "🔸 New T∅TBook",
+    totbooks_modal_title: "Φ New TΦTBook",
     totbooks_modal_ph: "Project name...",
     totbooks_cancel: "Cancel",
     totbooks_create: "Create",
-    totbooks_open: "drag",
     totbooks_cooldown: "Wait {s}s to create another...",
-    totbooks_drag: "Drag",
     totbooks_prev: "Previous page",
     totbooks_next: "Next page",
     totbooks_pages_label: "Pages {title}",
     totbooks_cover_label: "Cover {title}"
   },
   es: {
-    totbooks_hint: "Doble clic para crear • Arrastra para organizar",
+    totbooks_hint: "Doble clic crea un TΦTBook. Arrastra para organizar y toca para abrir.",
     totbooks_drop: "Suelta para descartar",
-    totbooks_modal_title: "🔸 Nuevo T∅TBook",
+    totbooks_modal_title: "Φ Nuevo TΦTBook",
     totbooks_modal_ph: "Nombre del proyecto...",
     totbooks_cancel: "Cancelar",
     totbooks_create: "Crear",
-    totbooks_open: "arrastra",
     totbooks_cooldown: "Espera {s}s para crear otro...",
-    totbooks_drag: "Arrastrar",
     totbooks_prev: "Página anterior",
     totbooks_next: "Página siguiente",
     totbooks_pages_label: "Páginas {title}",
     totbooks_cover_label: "Portada {title}"
   },
   fr: {
-    totbooks_hint: "Double-cliquez pour créer • Glissez pour organiser",
+    totbooks_hint: "Double-cliquez crée un TΦTBook. Glissez pour organiser et cliquez pour ouvrir.",
     totbooks_drop: "Déposez pour supprimer",
-    totbooks_modal_title: "🔸 Nouveau T∅TBook",
+    totbooks_modal_title: "Φ Nouveau TΦTBook",
     totbooks_modal_ph: "Nom du projet...",
     totbooks_cancel: "Annuler",
     totbooks_create: "Créer",
-    totbooks_open: "glisser",
     totbooks_cooldown: "Attendez {s}s pour en créer un autre...",
-    totbooks_drag: "Glisser",
     totbooks_prev: "Page précédente",
     totbooks_next: "Page suivante",
     totbooks_pages_label: "Pages {title}",
@@ -726,7 +718,7 @@ function applyUiText() {
   if (modalInput) modalInput.placeholder = t('totbooks_modal_ph');
   if (modalCancel) modalCancel.textContent = t('totbooks_cancel');
   if (modalOk) modalOk.textContent = t('totbooks_create');
-  document.querySelectorAll('.hint').forEach(el => { el.textContent = t('totbooks_open'); });
+  document.querySelectorAll('.hint').forEach(el => { el.remove(); });
 }
 
 applyUiText();
@@ -1003,20 +995,16 @@ function createBook(title, x, y, opts = {}){
   book.innerHTML = `
     <div class="cover" aria-label="${escapeHtml(coverLabel)}">
       <div class="sheen"></div>
-      <div class="strap" style="background:${savedColor}">
-        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" style="font-size: 18px;">
-          <path d="M6 3h11a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2zm2 4h7v2H8V7zm0 4h7v2H8v-2zm0 4h5v2H8v-2z"></path>
-        </svg>
+    <div class="strap" style="background:${savedColor}">
+        <span class="phi-mark">Φ</span>
         <span class="title-text">${escapeHtml(savedTitle)}</span>
       </div>
       <div class="elastic"></div>
     </div>
 
-    <div class="drag-handle" title="${escapeHtml(t('totbooks_drag'))}">
+    <div class="drag-handle">
       <div class="dots"></div>
     </div>
-
-    <div class="hint">${escapeHtml(t('totbooks_open'))}</div>
 
     <div class="pages" role="region" aria-label="${escapeHtml(pagesLabel)}">
       <div class="page-viewport">
