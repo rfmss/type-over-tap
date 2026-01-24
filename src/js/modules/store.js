@@ -141,13 +141,24 @@ export const store = {
 
     // --- HARD RESET ---
     hardReset() {
-        localStorage.removeItem("tot_data");     // Dados
-        localStorage.removeItem("zel_data");     // Legacy
-        localStorage.removeItem("lit_auth_key"); // Senha
-        localStorage.removeItem("lit_lang");     // Idioma
-        localStorage.removeItem("lit_pomo_target"); // Pomodoro
-        localStorage.removeItem("lit_is_locked"); // Estado Lock
-        location.reload(); // Renasce limpo
+        // Limpa todo o estado local para evitar restauração fantasma.
+        try { localStorage.clear(); } catch (_) {}
+
+        // Remove bancos locais (se existirem).
+        if (window.indexedDB && typeof indexedDB.databases === "function") {
+            indexedDB.databases().then((dbs) => {
+                dbs.forEach((db) => {
+                    if (db && db.name) indexedDB.deleteDatabase(db.name);
+                });
+            }).catch(() => {});
+        }
+
+        // Limpa caches do Service Worker quando disponível.
+        if (window.caches && typeof caches.keys === "function") {
+            caches.keys().then((keys) => keys.forEach((k) => caches.delete(k))).catch(() => {});
+        }
+
+        setTimeout(() => location.reload(), 250); // Renasce limpo
     },
 
     generateShareLink(text) {

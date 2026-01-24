@@ -115,17 +115,31 @@ async function sha256Hex(text) {
 
 async function buildBirthChain(text) {
   const prevRaw = localStorage.getItem("tot_birth_chain");
+  const historyRaw = localStorage.getItem("tot_birth_chain_history");
   let prev = null;
+  let history = [];
   try { prev = prevRaw ? JSON.parse(prevRaw) : null; } catch (_) { prev = null; }
+  try { history = historyRaw ? JSON.parse(historyRaw) : []; } catch (_) { history = []; }
+  if (!Array.isArray(history)) history = [];
+
   const prevHash = prev && prev.hash ? prev.hash : "";
   const createdAt = new Date().toISOString();
   const hash = await sha256Hex(`${text}\n${prevHash}`);
-  const chain = {
+  const entry = {
     algo: "SHA-256",
     created_at: createdAt,
     prev_hash: prevHash || null,
     hash
   };
+  history.push(entry);
+  const chain = {
+    algo: "SHA-256",
+    created_at: createdAt,
+    prev_hash: prevHash || null,
+    hash,
+    history
+  };
   localStorage.setItem("tot_birth_chain", JSON.stringify({ hash, created_at: createdAt }));
+  localStorage.setItem("tot_birth_chain_history", JSON.stringify(history));
   return chain;
 }
