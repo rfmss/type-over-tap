@@ -256,15 +256,22 @@ export const ui = {
 
     // --- TEMA E UI (Mantido inalterado, apenas encapsulado corretamente) ---
     initTheme() {
-        const allowed = ["paper", "mist", "study"];
+        const allowed = ["paper", "chumbo", "study"];
         let currentTheme = localStorage.getItem("lit_theme_pref") || "paper";
+        const legacyMap = {
+            "ibm-blue": "chumbo",
+            "ibm-dark": "chumbo",
+            "journal": "paper",
+            "mist": "paper"
+        };
+        if (legacyMap[currentTheme]) currentTheme = legacyMap[currentTheme];
         if (!allowed.includes(currentTheme)) currentTheme = "paper";
         document.body.setAttribute("data-theme", currentTheme);
         localStorage.setItem("lit_theme_pref", currentTheme);
     },
 
     toggleTheme() {
-        const themes = ["paper", "mist", "study"];
+        const themes = ["paper", "chumbo", "study"];
         const current = document.body.getAttribute("data-theme");
         let nextIndex = themes.indexOf(current) + 1;
         if (nextIndex >= themes.length) nextIndex = 0;

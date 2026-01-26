@@ -141,8 +141,28 @@ export const store = {
 
     // --- HARD RESET ---
     hardReset() {
+        if (this.persistTimer) {
+            clearTimeout(this.persistTimer);
+            this.persistTimer = null;
+        }
+
+        this.data = { projects: [], activeId: null, memo: "" };
+
         // Limpa todo o estado local para evitar restauração fantasma.
-        try { localStorage.clear(); } catch (_) {}
+        try {
+            localStorage.removeItem("tot_data");
+            localStorage.removeItem("zel_data");
+            localStorage.removeItem("lit_auth_key");
+            localStorage.removeItem("lit_theme_pref");
+            localStorage.removeItem("lit_pref_font");
+            localStorage.removeItem("lit_pref_font_size");
+            localStorage.removeItem("lit_search_value");
+            localStorage.removeItem("lit_search_active");
+            localStorage.clear();
+        } catch (_) {}
+        try {
+            sessionStorage.clear();
+        } catch (_) {}
 
         // Remove bancos locais (se existirem).
         if (window.indexedDB && typeof indexedDB.databases === "function") {
@@ -158,7 +178,8 @@ export const store = {
             caches.keys().then((keys) => keys.forEach((k) => caches.delete(k))).catch(() => {});
         }
 
-        setTimeout(() => location.reload(), 250); // Renasce limpo
+        try { sessionStorage.setItem("tot_force_clean", "1"); } catch (_) {}
+        setTimeout(() => location.replace(location.pathname), 250); // Renasce limpo
     },
 
     generateShareLink(text) {

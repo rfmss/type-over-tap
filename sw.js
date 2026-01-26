@@ -92,6 +92,11 @@ const CACHE_ASSETS = [
   "./src/assets/fonts/ibm-plex-sans/IBMPlexSans-Italic.woff2",
   "./src/assets/fonts/ibm-plex-sans/IBMPlexSans-Bold.woff2",
   "./src/assets/fonts/ibm-plex-sans/IBMPlexSans-BoldItalic.woff2",
+  "./src/assets/fonts/jetbrains-mono/JetBrainsMono-Regular.woff2",
+  "./src/assets/fonts/jetbrains-mono/JetBrainsMono-Italic.woff2",
+  "./src/assets/fonts/jetbrains-mono/JetBrainsMono-Bold.woff2",
+  "./src/assets/fonts/jetbrains-mono/JetBrainsMono-BoldItalic.woff2",
+  "./src/assets/fonts/JetBrainsMonoNLNerdFont-Regular.ttf",
   "./src/assets/icons/icon-192.svg",
   "./src/assets/icons/icon-512.svg",
   "./src/assets/icons/logo-tot.svg"

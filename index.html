@@ -24,6 +24,8 @@
             <button id="setupLangToggle" class="flag-btn" data-i18n="lang_label">🇧🇷 PT</button>
         </div>
         <div style="width:250px;">
+            <p data-i18n="setup_project_label" class="help-text">Nome do projeto</p>
+            <input type="text" id="setupProjectName" class="search-input" autocomplete="off" style="border:1px solid var(--color-accent); padding:10px; margin-bottom:10px; text-align:center;">
             <p data-i18n="create_pass" class="help-text">Crie a senha da sessão</p>
             <input type="password" id="setupPass1" class="search-input" style="border:1px solid var(--color-accent); padding:10px; margin-bottom:10px; text-align:center;">
             <input type="password" id="setupPass2" class="search-input" style="border:1px solid var(--color-accent); padding:10px; margin-bottom:10px; text-align:center;" data-i18n-ph="repeat_pass" placeholder="Confirmar">
@@ -62,9 +64,34 @@
             </div>
         </div>
         <div class="manifesto-body" id="manifestoText"></div>
+        <div class="manifesto-note" data-i18n="manifesto_pomo_hint">Escolha seu primeiro ciclo de trabalho.</div>
         <div class="manifesto-actions">
-            <button id="manifestoAgree" class="btn-full" data-i18n="manifesto_accept">LI E ENTENDI</button>
+            <button id="manifestoChoice25" class="btn-half" data-duration="25" data-i18n="pomo_25">25 MIN</button>
+            <button id="manifestoChoice50" class="btn-half" data-duration="50" data-i18n="pomo_55">50 MIN</button>
         </div>
+        <div class="manifesto-terms">
+            <button id="manifestoTermsLink" class="manifesto-link" data-i18n="terms_link">Termos de uso</button>
+            <div class="manifesto-terms-note" data-i18n="terms_accept_hint">Ao iniciar uma sessão, você aceita os Termos de uso.</div>
+            <button id="manifestoVerifyLink" class="manifesto-link" data-i18n="verify_link">Verificar arquivo .tot</button>
+        </div>
+    </div>
+</div>
+
+<div id="termsModal" class="modal-overlay terms-modal">
+    <div class="terms-box" role="dialog" aria-modal="true" aria-labelledby="termsTitle">
+        <div class="terms-header">
+            <h2 id="termsTitle" data-i18n="terms_title">Uso responsável do TΦT</h2>
+        </div>
+        <div class="terms-body" id="termsBody"></div>
+        <label class="terms-check">
+            <input type="checkbox" id="termsCheck">
+            <span data-i18n="terms_check">Li, compreendi e aceito os termos de uso</span>
+        </label>
+        <div class="terms-actions">
+            <button id="termsAccept" class="btn-full" disabled data-i18n="terms_primary">Aceitar e começar</button>
+            <button id="termsBack" class="btn-ghost" data-i18n="terms_back">Voltar</button>
+        </div>
+        <div class="terms-tip" data-i18n="terms_tip">Dica: exporte com frequência e guarde seus backups.</div>
     </div>
 </div>
 
@@ -85,17 +112,21 @@
 
     <div class="hud">
         <div class="hud-rail"></div>
-        <button class="hud-btn" id="tabFiles" title="Arquivos [Alt+1]" data-i18n-title="tab_files" data-i18n-tip="tab_files"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-folder-open"></use></svg></button>
         <button class="hud-btn" id="tabNav" title="Navegação [Alt+2]" data-i18n-title="tab_nav" data-i18n-tip="tab_nav"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-list-bullets"></use></svg></button>
         <button class="hud-btn" id="tabMemo" title="Memo [Alt+3]" data-i18n-title="tab_memo" data-i18n-tip="tab_memo"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-pencil"></use></svg></button>
+        <button class="hud-btn" id="tabBooks" title="TΦTBooks [Alt+4]" data-i18n-title="tab_books" data-i18n-tip="tab_books"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-bookmark-simple"></use></svg></button>
+        <div class="hud-separator"></div>
+        <button class="hud-btn" id="tabFiles" title="Arquivos [Alt+1]" data-i18n-title="tab_files" data-i18n-tip="tab_files"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-folder-open"></use></svg></button>
+        <div class="hud-separator"></div>
         <button class="hud-btn" id="btnThemeToggle" title="Tema [Alt+T]" data-i18n-title="tab_theme" data-i18n-tip="tab_theme"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-sun"></use></svg></button>
-        <button class="hud-btn" id="tabBooks" title="TΦTBooks [Alt+4]" data-i18n-title="tab_books" data-i18n-tip="tab_books"><span class="icon-text">Φ</span></button>
-
-        
+        <div class="hud-separator"></div>
         <div style="flex:1"></div> 
         
         <button class="hud-btn" id="btnLangToggle" title="Idioma" data-i18n-title="lang_title" data-i18n-tip="lang_title">
             <span class="lang-badge" data-i18n="lang_label">🇧🇷 PT</span>
+        </button>
+        <button class="hud-btn" id="btnVerifyTot" title="TΦT Verify" data-i18n-title="verify_title" data-i18n-tip="verify_tip">
+            <span class="icon-text">Φ</span>
         </button>
         <button class="hud-btn danger-trigger" id="btnHardReset" title="HARD RESET" data-i18n-title="hard_reset_title" data-i18n-tip="hard_reset_title">
             <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
@@ -135,13 +166,13 @@
                     <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-floppy-disk"></use></svg>
                     <span data-i18n="export_btn">EXPORTAR</span>
                 </button>
-                <button class="btn-full" id="drawerReader">
-                    <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-book-open-text"></use></svg>
-                    <span data-i18n="reader_btn">LEITOR</span>
-                </button>
                 <button class="btn-full" id="drawerXray">
                     <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-list-bullets"></use></svg>
                     <span data-i18n="xray_btn">X-RAY</span>
+                </button>
+                <button class="btn-full" id="drawerReader">
+                    <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-book-open-text"></use></svg>
+                    <span data-i18n="reader_btn">LEITOR</span>
                 </button>
                 <button class="btn-full" id="drawerAudio">
                     <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-music-notes"></use></svg>
@@ -155,7 +186,7 @@
                     <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-lock-key"></use></svg>
                     <span data-i18n="lock_btn">LOCK</span>
                 </button>
-                <button class="btn-full" id="drawerPomodoro">
+                <button class="btn-full" id="drawerPomodoro" data-i18n-title="pomo_tip" data-i18n-tip="pomo_tip">
                     <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-tomato"></use></svg>
                     <span data-i18n="pomo_btn">POMODORO</span>
                 </button>
@@ -164,7 +195,7 @@
                 <div class="drawer-section-title" data-i18n="drawer_search">BUSCA</div>
                 <div class="drawer-search-row">
                     <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-magnifying-glass"></use></svg>
-                    <input id="drawerSearchInput" class="search-input" data-i18n-ph="search_ph" placeholder="Buscar... [Ctrl+F]" />
+                    <input id="drawerSearchInput" class="search-input" data-i18n-ph="search_ph" data-i18n-tip="search_tip" placeholder="Buscar..." />
                     <button class="btn-icon" id="drawerSearchGo" data-i18n="search_go">IR</button>
                 </div>
                 <div class="drawer-search-actions">
@@ -226,16 +257,14 @@
             <div id="pageMarkers" aria-hidden="true"></div>
             <div id="xrayOverlay" aria-hidden="true"></div>
             <aside id="xrayPanel" class="xray-panel" aria-hidden="true">
-                <div class="xray-drag-strip">
-                    <button id="xrayDragBtn" class="btn-icon xray-drag-btn" aria-label="Mover Rastro" data-i18n-title="xray_drag_title" data-i18n-tip="xray_drag_tip">
-                        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
-                            <path d="M11 2l-3.5 3.5h2.2v3.2h2.6V5.5h2.2L11 2zm2 20l3.5-3.5h-2.2v-3.2h-2.6v3.2H9.5L13 22zM2 11l3.5-3.5v2.2h3.2v2.6H5.5v2.2L2 11zm20 2l-3.5 3.5v-2.2h-3.2v-2.6h3.2V9.5L22 13z" fill="currentColor"/>
-                        </svg>
-                    </button>
-                </div>
                 <div class="xray-header">
                     <div class="xray-header-title" data-i18n="xray_panel_title">RASTRO DO TEXTO</div>
                     <div class="xray-header-actions">
+                        <button id="xrayDragBtn" class="btn-icon xray-drag-btn" aria-label="Mover Rastro" data-i18n-title="xray_drag_title" data-i18n-tip="xray_drag_tip">
+                            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M12 2l4 4h-3v4h-2V6H8l4-4zm0 20l-4-4h3v-4h2v4h3l-4 4zM2 12l4-4v3h4v2H6v3l-4-4zm20 0l-4 4v-3h-4v-2h4V8l4 4z" fill="currentColor"/>
+                            </svg>
+                        </button>
                         <button id="xrayHelpBtn" class="btn-icon" aria-label="Ajuda" data-i18n-title="xray_help_title" data-i18n-tip="xray_help_tip">?</button>
                         <button id="xrayCloseBtn" class="btn-icon" aria-label="Fechar" data-i18n-title="xray_close_title" data-i18n-tip="xray_close_tip">×</button>
                     </div>
@@ -330,7 +359,7 @@
             <div style="flex:1"></div> 
             <div class="search-wrapper">
                 <svg class="icon search-icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-magnifying-glass"></use></svg>
-                <input id="search" class="search-input" data-i18n-ph="search_ph" placeholder="Buscar... [Ctrl+F]" />
+                <input id="search" class="search-input" data-i18n-ph="search_ph" data-i18n-tip="search_tip" placeholder="Buscar..." />
                 <button class="btn-icon" id="btnSearchPrev" data-i18n-title="search_prev_title" aria-label="Anterior">▲</button>
                 <button class="btn-icon" id="btnSearchNext" data-i18n-title="search_next_title" aria-label="Próximo">▼</button>
                 <button class="btn-icon" id="btnSearch" data-i18n="search_go">IR</button>
@@ -354,7 +383,7 @@
                 <div class="export-grid">
                     <div class="export-card" id="actionDownloadMd"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-file-text"></use></svg><span data-i18n="export_markdown">EXPORTAR MARKDOWN</span><small>.md</small></div>
                     <div class="export-card" id="actionPrintReport"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-printer"></use></svg><span data-i18n="export_report_full">IMPRESSAO COMPLETA</span><small data-i18n="export_all">tudo</small></div>
-                    <div class="export-card" id="actionDownloadJson"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-file"></use></svg><span data-i18n="export_json">EXPORTAR JSON</span><small>.json</small></div>
+                    <div class="export-card" id="actionDownloadJson" data-i18n-tip="export_capsule_tip"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-file"></use></svg><span data-i18n="export_json">EXPORTAR CÁPSULA</span><small>.tot</small></div>
                     <div class="export-card" id="actionQrStream"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-qr-code"></use></svg><span data-i18n="export_qr_stream">STREAM QR</span><small data-i18n="export_light">luz</small></div>
                 </div>
                 <div class="export-social">
@@ -602,7 +631,7 @@
                         <p data-i18n="pomo_choice">ESCOLHA O PRÓXIMO CICLO:</p>
                         <div style="display:flex; gap:10px;">
                             <button class="btn-half" data-duration="25" data-i18n="pomo_25">25 MIN</button>
-                            <button class="btn-half" data-duration="55" data-i18n="pomo_55">55 MIN</button>
+                            <button class="btn-half" data-duration="50" data-i18n="pomo_55">50 MIN</button>
                         </div>
                     </div>
                     <span id="pomoMsg" class="help-text"></span>

@@ -72,8 +72,58 @@ export function buildTotPayload(store) {
   const birthRaw = localStorage.getItem("lit_birth_tracker");
   let birth = null;
   try { birth = birthRaw ? JSON.parse(birthRaw) : null; } catch (_) { birth = null; }
+  const langRaw = localStorage.getItem("lit_lang") || "pt-br";
+  const langMap = {
+    "pt-br": "pt-BR",
+    "en": "en-GB",
+    "es": "es",
+    "fr": "fr"
+  };
+  const startedAt = birth && birth.firstKeyTime ? new Date(birth.firstKeyTime).toISOString() : "";
+  const endedAt = birth && birth.lastKeyTime ? new Date(birth.lastKeyTime).toISOString() : "";
+  const durationMinutes = (birth && birth.firstKeyTime && birth.lastKeyTime)
+    ? Math.max(0, Math.round((birth.lastKeyTime - birth.firstKeyTime) / 60000))
+    : 0;
 
   return {
+    protocol: "TΦT Proof",
+    version: "1.0",
+    format: ".tot",
+    created_with: "TΦT — Type over Tap",
+    environment: "offline-first",
+    language: langMap[langRaw] || "pt-BR",
+    session: {
+      started_at: startedAt,
+      ended_at: endedAt,
+      duration_minutes: durationMinutes
+    },
+    writing_process: {
+      input_method: "human_typing",
+      keystrokes_total: birth && birth.keystrokeCount ? birth.keystrokeCount : 0,
+      insertions: 0,
+      deletions: 0,
+      revisions: 0,
+      pause_profile: {
+        short: 0,
+        medium: 0,
+        long: 0
+      }
+    },
+    content: {
+      encoding: "utf-8",
+      text: masterText
+    },
+    proof: {
+      hash_algorithm: "SHA-256",
+      content_hash: "",
+      generated_text: false,
+      imported_text: birth && birth.cert === "DISABLED"
+    },
+    disclaimer: {
+      authorship: "Not legally asserted",
+      verification: "Technically verifiable",
+      responsibility: "User-owned content"
+    },
     HEADER: {
       VERSION: "TOT/2",
       APP: "TΦT Writer - Type over Tap",
@@ -104,6 +154,7 @@ export async function buildTotPayloadWithChain(store) {
   const payload = buildTotPayload(store);
   const chain = await buildBirthChain(payload.MASTER_TEXT || "");
   payload.BIRTH_CHAIN = chain;
+  payload.proof.content_hash = await sha256Hex(payload.content.text || "");
   return payload;
 }
 

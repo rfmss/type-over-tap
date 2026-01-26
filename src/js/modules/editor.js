@@ -9,7 +9,7 @@ export const editorFeatures = {
     fontList: [
         { className: "font-inter", baseSize: 20 },
         { className: "font-serif", baseSize: 21 },
-        { className: "font-plex", baseSize: 20 }
+        { className: "font-mono", baseSize: 20 }
     ],
     lastSearchValue: "",
     statsRaf: null,
@@ -108,6 +108,7 @@ export const editorFeatures = {
     focusTimer: null,
     focusBlockRaf: null,
     activeBlock: null,
+    focusReady: false,
     lastUserScrollTime: 0,
     
     init(editorElement) {
@@ -191,8 +192,8 @@ export const editorFeatures = {
                 document.getElementById('btnThemeToggle').click();
                 return this.flashInlineData();
             case '--dark':
-                document.body.setAttribute("data-theme", "mist");
-                localStorage.setItem("lit_theme_pref", "mist");
+                document.body.setAttribute("data-theme", "chumbo");
+                localStorage.setItem("lit_theme_pref", "chumbo");
                 return this.flashInlineData();
             case '--light':
                 document.body.setAttribute("data-theme", "paper");
@@ -380,6 +381,7 @@ export const editorFeatures = {
             }, { passive: true });
         }
         this.editor.addEventListener("keydown", (e) => {
+            this.focusReady = true;
             if (e.key === "Enter") this.playSound('enter');
             else if (e.key === "Backspace") this.playSound('backspace');
             else if (!e.metaKey && !e.ctrlKey) this.playSound('type');
@@ -397,11 +399,13 @@ export const editorFeatures = {
         document.addEventListener("click", (e) => { if (e.target !== this.editor) this.resetFocusMode(false); });
         this.editor.addEventListener("input", () => this.scheduleFocusBlockUpdate());
         this.editor.addEventListener("click", () => {
+            this.focusReady = true;
             this.triggerFocusMode();
             this.scheduleFocusBlockUpdate();
         });
         this.editor.addEventListener("keyup", () => this.scheduleFocusBlockUpdate());
         document.addEventListener("selectionchange", () => {
+            if (!this.focusReady) return;
             const sel = window.getSelection();
             if (!sel || sel.rangeCount === 0) return;
             const node = sel.focusNode && sel.focusNode.nodeType === Node.TEXT_NODE
@@ -440,6 +444,11 @@ export const editorFeatures = {
     updateFocusBlocks() {
         if (!document.body.classList.contains("focus-active")) return;
         const blocks = this.getFocusBlocks();
+        if (blocks.length === 0) {
+            this.editor.classList.add("focus-active-block");
+            this.editor.classList.remove("focus-dim");
+            return;
+        }
         blocks.forEach((b) => {
             b.classList.add("focus-dim");
             b.classList.remove("focus-active-block");
@@ -454,6 +463,10 @@ export const editorFeatures = {
     },
 
     clearFocusBlocks() {
+        if (this.editor) {
+            this.editor.classList.remove("focus-active-block");
+            this.editor.classList.remove("focus-dim");
+        }
         const blocks = this.getFocusBlocks();
         blocks.forEach((b) => {
             b.classList.remove("focus-dim");
@@ -681,7 +694,7 @@ export const editorFeatures = {
         let i = parseInt(localStorage.getItem("lit_pref_font")) || 0;
         if (i < 0 || i >= this.fontList.length) i = 0;
         const entry = this.fontList[i];
-        this.editor.classList.remove("font-inter", "font-serif", "font-plex");
+        this.editor.classList.remove("font-inter", "font-serif", "font-plex", "font-mono");
         if (entry.className) this.editor.classList.add(entry.className);
         const size = Number.isFinite(storedSize) ? storedSize : entry.baseSize;
         this.editor.style.fontSize = `${size}px`;

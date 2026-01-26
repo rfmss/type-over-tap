@@ -81,62 +81,67 @@
 
 /* 1. TEMA PAPEL EDITORIAL (default) */
 :root {
-  --bg-core: #ecf0ff;
+  --bg-core: #d7d6d1;
   --bg-panel: transparent;
-  --bg-drawer: rgba(236, 240, 255, 0.92);
-  --bg-xray: #e7eaf5;
-  --bg-controls: rgba(236, 240, 255, 0.78);
-  --xray-surface: rgba(40, 42, 61, 0.04);
-  --xray-border: 1px solid rgba(40, 42, 61, 0.12);
-  --color-accent: #61667a;
-  --color-accent-dim: rgba(97, 102, 122, 0.16);
-  --color-text: #282a3d;
-  --color-muted: rgba(40, 42, 61, 0.55);
-  --border-style: 1px solid rgba(40, 42, 61, 0.12);
+  --bg-drawer: rgba(215, 214, 209, 0.94);
+  --bg-xray: #dfddd7;
+  --bg-controls: rgba(215, 214, 209, 0.82);
+  --xray-surface: rgba(43, 42, 38, 0.04);
+  --xray-border: 1px solid rgba(43, 42, 38, 0.12);
+  --color-accent: #5a5956;
+  --color-accent-dim: rgba(90, 89, 86, 0.16);
+  --color-text: #3a3935;
+  --color-muted: rgba(58, 57, 53, 0.5);
+  --border-style: 1px solid rgba(43, 42, 38, 0.12);
   --grid-opacity: 0.03;
   --font-ui: 'Main-Text', monospace;
   --font-main: 'Journal-Font', serif;
   --font-mono: 'Main-Text', monospace;
   --radius: 6px;
-  --selection-bg: rgba(97, 102, 122, 0.22);
-  --selection-text: #f7f8ff;
+  --selection-bg: #202123;
+  --selection-text: #f2f1ed;
 }
 
 [data-theme="paper"] {
-  --bg-core: #ecf0ff;
+  --bg-core: #d7d6d1;
   --bg-panel: transparent;
-  --bg-drawer: rgba(236, 240, 255, 0.92);
-  --bg-xray: #e7eaf5;
-  --bg-controls: rgba(236, 240, 255, 0.78);
-  --xray-surface: rgba(40, 42, 61, 0.04);
-  --xray-border: 1px solid rgba(40, 42, 61, 0.12);
-  --color-accent: #61667a;
-  --color-accent-dim: rgba(97, 102, 122, 0.16);
-  --color-text: #282a3d;
-  --color-muted: rgba(40, 42, 61, 0.55);
-  --border-style: 1px solid rgba(40, 42, 61, 0.12);
+  --bg-drawer: rgba(215, 214, 209, 0.94);
+  --bg-xray: #dfddd7;
+  --bg-controls: rgba(215, 214, 209, 0.82);
+  --xray-surface: rgba(43, 42, 38, 0.04);
+  --xray-border: 1px solid rgba(43, 42, 38, 0.12);
+  --color-accent: #5a5956;
+  --color-accent-dim: rgba(90, 89, 86, 0.16);
+  --color-text: #3a3935;
+  --color-muted: rgba(58, 57, 53, 0.5);
+  --border-style: 1px solid rgba(43, 42, 38, 0.12);
   --grid-opacity: 0.03;
-  --selection-bg: rgba(97, 102, 122, 0.22);
-  --selection-text: #f7f8ff;
+  --selection-bg: #202123;
+  --selection-text: #f2f1ed;
+  --search-bg: #202123;
+  --search-text: #f2f1ed;
 }
 
-/* 2. NÉVOA SILENCIOSA */
-[data-theme="mist"] {
-  --bg-core: #282a3d;
+/* 2. CHUMBO EDITORIAL */
+[data-theme="chumbo"] {
+  --bg-core: #34363b;
   --bg-panel: transparent;
-  --bg-drawer: rgba(40, 42, 61, 0.88);
-  --bg-xray: #242638;
-  --bg-controls: rgba(40, 42, 61, 0.82);
-  --xray-surface: rgba(230, 232, 240, 0.06);
-  --xray-border: 1px solid rgba(230, 232, 240, 0.16);
-  --color-text: #e6e8f0;
-  --color-accent: #9aa3c2;
-  --color-accent-dim: rgba(154, 163, 194, 0.22);
-  --color-muted: rgba(230, 232, 240, 0.6);
-  --border-style: 1px solid rgba(230, 232, 240, 0.16);
-  --grid-opacity: 0.05;
-  --selection-bg: rgba(154, 163, 194, 0.28);
-  --selection-text: #1b1c28;
+  --bg-drawer: #3a3d43;
+  --bg-xray: #3c4046;
+  --bg-controls: #3a3d43;
+  --xray-surface: rgba(231, 234, 242, 0.05);
+  --xray-border: 1px solid #454a52;
+  --color-text: #e2e5ea;
+  --color-accent: #b2b8c4;
+  --color-accent-dim: rgba(178, 184, 196, 0.2);
+  --color-muted: #c0c5cf;
+  --border-style: 1px solid #454a52;
+  --grid-opacity: 0.045;
+  --selection-bg: rgba(163, 169, 181, 0.3);
+  --selection-text: #34363b;
+  --search-bg: rgba(163, 169, 181, 0.3);
+  --search-text: #34363b;
+  --radius: 2px;
 }
 
 /* 3. VERDE DE ESTUDO */
@@ -154,8 +159,10 @@
   --color-muted: rgba(240, 166, 74, 0.58);
   --border-style: 1px solid rgba(240, 166, 74, 0.18);
   --grid-opacity: 0.06;
-  --selection-bg: rgba(224, 143, 58, 0.28);
+  --selection-bg: rgba(224, 143, 58, 0.22);
   --selection-text: #1f140d;
+  --search-bg: rgba(224, 143, 58, 0.22);
+  --search-text: #1f140d;
 }
 
 /* 3. IBM DARK */
@@ -269,8 +276,12 @@
   --font-main: 'IBM-Font', monospace;
   --font-mono: 'IBM-Font', monospace;
   --radius: 4px;
-  --selection-bg: rgba(36, 22, 15, 0.45);
+  --selection-bg: rgba(255, 214, 154, 0.7);
   --selection-text: #24160f;
+  --search-bg: rgba(255, 214, 154, 0.7);
+  --search-text: #24160f;
+  --select-bg: #f2a43b;
+  --select-text: #24160f;
 }
 
 /* 8. INK DARK (INVERTED GRAY) */
@@ -343,16 +354,20 @@ body.booting::after {
   100% { opacity: 0; }
 }
 
-mark { background-color: var(--color-accent); color: var(--bg-core); padding: 2px 4px; border-radius: 2px; }
+mark { background-color: var(--search-bg, var(--selection-bg)); color: var(--search-text, var(--selection-text)); padding: 2px 4px; border-radius: 2px; }
 mark.search-active { box-shadow: 0 0 0 2px var(--color-accent-dim); }
-[data-theme="paper"] mark { color: #f4f6ff; }
-[data-theme="mist"] mark { background-color: #e6e8f0; color: #282a3d; }
-[data-theme="study"] mark { background-color: #fff0e5; color: #2f372c; }
+[data-theme="paper"] mark { color: #f2efe8; }
+[data-theme="chumbo"] mark { background-color: var(--search-bg, var(--selection-bg)); color: var(--search-text, var(--selection-text)); }
+[data-theme="study"] mark { background-color: var(--search-bg, var(--selection-bg)); color: var(--search-text, var(--selection-text)); }
 
 #editor {
     -webkit-hyphens: auto; -moz-hyphens: auto; -ms-hyphens: auto; hyphens: auto;
     text-align: left;
     font-family: var(--font-main);
+}
+#editor ::selection {
+    background: var(--selection-bg);
+    color: var(--selection-text);
 }
 #editor.font-inter {
     font-family: "Inter", "Helvetica Neue", Arial, sans-serif;
@@ -365,6 +380,13 @@ mark.search-active { box-shadow: 0 0 0 2px var(--color-accent-dim); }
 #editor.font-plex {
     font-family: "IBM Plex Sans", "Helvetica Neue", Arial, sans-serif;
     line-height: 1.7;
+}
+#editor.font-mono {
+    font-family: "JetBrains Mono", "JetBrains Mono Nerd", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+                 "Liberation Mono", "Courier New", monospace;
+    line-height: 1.65;
+    letter-spacing: 0.01em;
+    font-variant-ligatures: none;
 }
 
 .hud, .controls, .logo-area, .drawer { opacity: 1; transition: opacity 3s ease; }

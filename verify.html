@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TΦT Verify</title>
+  <link rel="stylesheet" href="src/css/base.css">
+  <link rel="stylesheet" href="src/css/components.css">
+  <style>
+    body {
+      background: var(--bg-core);
+      color: var(--color-text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 24px;
+    }
+    .verify-shell {
+      width: min(880px, 92vw);
+      background: var(--bg-drawer);
+      border: var(--border-style);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-float);
+      padding: 24px;
+    }
+    .verify-header {
+      text-align: center;
+      padding-bottom: 18px;
+      border-bottom: var(--border-style);
+    }
+    .verify-title {
+      margin: 0 0 6px;
+      font-size: 18px;
+      letter-spacing: 2px;
+    }
+    .verify-subtitle {
+      margin: 0;
+      font-size: 12px;
+      color: var(--color-muted);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .verify-body {
+      padding: 18px 0;
+      display: grid;
+      gap: 16px;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    .verify-note {
+      color: var(--color-muted);
+      font-size: 12px;
+    }
+    .verify-drop {
+      border: var(--border-style);
+      border-radius: var(--radius);
+      padding: 18px;
+      text-align: center;
+      background: var(--xray-surface);
+      display: grid;
+      gap: 10px;
+    }
+    .verify-drop strong {
+      font-size: 13px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .verify-drop input[type=file] {
+      display: none;
+    }
+    .btn-full {
+      padding: 10px 14px;
+      border-radius: var(--radius);
+      border: var(--border-style);
+      background: var(--color-accent);
+      color: var(--bg-core);
+      font-size: 12px;
+      letter-spacing: 1px;
+      cursor: pointer;
+    }
+    .btn-ghost {
+      padding: 10px 14px;
+      border-radius: var(--radius);
+      border: var(--border-style);
+      background: transparent;
+      color: var(--color-text);
+      font-size: 12px;
+      letter-spacing: 1px;
+      cursor: pointer;
+    }
+    .verify-actions {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+    }
+    .verify-result {
+      border-top: var(--border-style);
+      padding-top: 16px;
+      display: grid;
+      gap: 8px;
+    }
+    .verify-result h3 {
+      margin: 0;
+      font-size: 12px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--color-muted);
+    }
+    .verify-status {
+      display: grid;
+      gap: 6px;
+      font-size: 13px;
+    }
+    .verify-status .ok { color: var(--color-text); }
+    .verify-status .warn { color: var(--color-muted); }
+    .verify-footer {
+      margin-top: 16px;
+      padding-top: 16px;
+      border-top: var(--border-style);
+      text-align: center;
+      font-size: 12px;
+      color: var(--color-muted);
+      line-height: 1.6;
+    }
+    .verify-faq {
+      border-top: var(--border-style);
+      padding-top: 16px;
+      display: grid;
+      gap: 14px;
+    }
+    .verify-faq h3 {
+      margin: 0;
+      font-size: 12px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--color-muted);
+    }
+    .verify-faq-summary {
+      margin: 0;
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--color-muted);
+    }
+    .verify-faq-actions {
+      display: flex;
+      justify-content: flex-start;
+    }
+    .verify-faq-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      font-size: 12px;
+    }
+    .verify-faq-links a {
+      color: var(--color-accent);
+      text-decoration: none;
+      border-bottom: 1px solid var(--color-accent-dim);
+    }
+    .verify-faq-item {
+      display: grid;
+      gap: 6px;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+    .verify-faq-item h4 {
+      margin: 0;
+      font-size: 13px;
+      letter-spacing: 0.5px;
+      color: var(--color-text);
+    }
+    .verify-faq-item p {
+      margin: 0;
+      color: var(--color-muted);
+    }
+    .verify-faq-item ul {
+      margin: 0;
+      padding-left: 16px;
+      color: var(--color-muted);
+    }
+    .verify-faq-item li { margin-bottom: 6px; }
+  </style>
+</head>
+<body>
+  <div class="verify-shell">
+    <div class="verify-header">
+      <h1 class="verify-title">TΦT VERIFY</h1>
+      <p class="verify-subtitle">Verificação técnica de escrita humana</p>
+    </div>
+
+    <div class="verify-body">
+      <p>Verifique se um arquivo .tot corresponde a um processo de escrita registrado no TΦT.</p>
+      <p class="verify-note">Não é análise de estilo. Não é detecção de IA.</p>
+      <p>É verificação técnica do processo de escrita.</p>
+
+      <div class="verify-drop" id="dropZone">
+        <strong>⬇ Envie seu arquivo ⬇</strong>
+        <div>Arraste o arquivo .tot</div>
+        <div>ou</div>
+        <label class="btn-full" for="fileInput">Selecionar arquivo</label>
+        <input id="fileInput" type="file" accept=".tot,application/json">
+      </div>
+
+      <div class="verify-actions">
+        <button id="btnVerify" class="btn-full" disabled>Verificar arquivo</button>
+      </div>
+
+      <div class="verify-result" id="verifyResult">
+        <h3>Resultado</h3>
+        <div class="verify-status" id="verifyStatus">
+          <div class="warn">Nenhum arquivo carregado.</div>
+        </div>
+        <p class="verify-note">Este relatório descreve dados técnicos. A interpretação cabe a quem avalia.</p>
+      </div>
+
+      <div class="verify-footer">
+        <div>O TΦT registra eventos de escrita (tempo, pausas, revisões e sequência de toques).</div>
+        <div>Nenhum dado é enviado ou armazenado.</div>
+        <div>TΦT — Type over Tap · Escrito aqui. Verificável por qualquer pessoa.</div>
+      </div>
+
+      <div class="verify-faq">
+        <h3>Guia rápido para editoras e avaliadores</h3>
+        <p class="verify-faq-summary">Resumo curto: o TΦT Verify confirma a integridade técnica de um arquivo .tot, recalculando o hash do texto e exibindo dados do processo de escrita. Não certifica autoria legal, não detecta IA e não julga qualidade literária. O relatório é evidência técnica complementar.</p>
+        <div class="verify-faq-actions">
+          <button id="btnFaqA4" class="btn-ghost">Baixar resumo A4</button>
+          <button id="btnFaqPdf" class="btn-ghost">Baixar resumo PDF</button>
+        </div>
+        <div class="verify-faq-links">
+          <a href="#faq-o-que-e">O que é</a>
+          <a href="#faq-o-que-registra">O que registra</a>
+          <a href="#faq-o-que-faz">O que verifica</a>
+          <a href="#faq-nao-faz">O que não faz</a>
+          <a href="#faq-interpretacao">Como interpretar</a>
+          <a href="#faq-por-que">Por que importa</a>
+        </div>
+
+        <div class="verify-faq-item" id="faq-o-que-e">
+          <h4>O que é o TΦT Verify?</h4>
+          <p>Ferramenta técnica para verificar se um texto foi produzido por digitação humana dentro do TΦT.</p>
+        </div>
+
+        <div class="verify-faq-item" id="faq-o-que-registra">
+          <h4>O que o TΦT registra durante a escrita?</h4>
+          <ul>
+            <li>Hash criptográfico do texto final</li>
+            <li>Duração da sessão</li>
+            <li>Eventos de digitação (inserções, deleções, revisões)</li>
+            <li>Ritmo e pausas</li>
+            <li>Sequência temporal do processo</li>
+          </ul>
+        </div>
+
+        <div class="verify-faq-item" id="faq-o-que-faz">
+          <h4>O que o Verify faz?</h4>
+          <p>Carrega um arquivo .tot, recalcula o hash, compara com o registro e apresenta um relatório técnico do processo.</p>
+        </div>
+
+        <div class="verify-faq-item" id="faq-nao-faz">
+          <h4>O que o Verify não faz?</h4>
+          <p>Não certifica autoria legal, não garante exclusividade intelectual e não analisa estilo literário.</p>
+        </div>
+
+        <div class="verify-faq-item" id="faq-interpretacao">
+          <h4>Como interpretar o relatório?</h4>
+          <p>Como evidência técnica complementar, similar a logs de criação e históricos de versão. A decisão permanece humana.</p>
+        </div>
+
+        <div class="verify-faq-item" id="faq-por-que">
+          <h4>Por que isso importa hoje?</h4>
+          <p>Em um cenário de geração automática, o processo de escrita (tempo, hesitação, revisão, ritmo) torna-se um dado relevante.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const theme = localStorage.getItem("lit_theme_pref") || "paper";
+    document.body.setAttribute("data-theme", theme);
+
+    const fileInput = document.getElementById("fileInput");
+    const btnVerify = document.getElementById("btnVerify");
+    const verifyStatus = document.getElementById("verifyStatus");
+    const dropZone = document.getElementById("dropZone");
+    let pendingText = "";
+
+    const setStatus = (lines) => {
+      verifyStatus.innerHTML = "";
+      lines.forEach(({ text, type }) => {
+        const row = document.createElement("div");
+        row.className = type || "ok";
+        row.textContent = text;
+        verifyStatus.appendChild(row);
+      });
+    };
+
+    const readFile = (file) => {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = () => reject(reader.error);
+        reader.readAsText(file);
+      });
+    };
+
+    const sha256Hex = async (text) => {
+      const data = new TextEncoder().encode(text);
+      const hash = await crypto.subtle.digest("SHA-256", data);
+      return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, "0")).join("");
+    };
+
+    const parseTot = (raw) => {
+      const parsed = JSON.parse(raw);
+      const contentText = parsed?.content?.text || parsed?.MASTER_TEXT || "";
+      const proofHash = parsed?.proof?.content_hash || "";
+      const keystrokes = parsed?.writing_process?.keystrokes_total || parsed?.HEADER?.KEYSTROKES || 0;
+      return { parsed, contentText, proofHash, keystrokes };
+    };
+
+    const verifyTot = async () => {
+      if (!pendingText) return;
+      try {
+        const { contentText, proofHash, keystrokes } = parseTot(pendingText);
+        const hash = await sha256Hex(contentText || "");
+        const hashOk = proofHash && hash === proofHash;
+        const humanOk = keystrokes > 0;
+
+        const lines = [
+          { text: hashOk ? "✔ Arquivo .tot válido" : "✖ Arquivo .tot inválido", type: hashOk ? "ok" : "warn" },
+          { text: hashOk ? "✔ Texto corresponde ao hash registrado" : "✖ Texto não corresponde ao hash registrado", type: hashOk ? "ok" : "warn" },
+          { text: humanOk ? "✔ Processo compatível com digitação humana" : "• Processo sem dados suficientes", type: humanOk ? "ok" : "warn" }
+        ];
+        setStatus(lines);
+      } catch (e) {
+        setStatus([{ text: "✖ Falha ao ler o arquivo .tot", type: "warn" }]);
+      }
+    };
+
+    fileInput.addEventListener("change", async (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+      pendingText = await readFile(file);
+      btnVerify.disabled = false;
+      setStatus([{ text: "Arquivo carregado. Clique em verificar.", type: "ok" }]);
+    });
+
+    btnVerify.addEventListener("click", verifyTot);
+
+    dropZone.addEventListener("dragover", (e) => {
+      e.preventDefault();
+      dropZone.style.borderColor = "var(--color-accent)";
+    });
+    dropZone.addEventListener("dragleave", () => {
+      dropZone.style.borderColor = "";
+    });
+    dropZone.addEventListener("drop", async (e) => {
+      e.preventDefault();
+      dropZone.style.borderColor = "";
+      const file = e.dataTransfer.files[0];
+      if (!file) return;
+      pendingText = await readFile(file);
+      btnVerify.disabled = false;
+      setStatus([{ text: "Arquivo carregado. Clique em verificar.", type: "ok" }]);
+    });
+
+    const btnFaqA4 = document.getElementById("btnFaqA4");
+    const btnFaqPdf = document.getElementById("btnFaqPdf");
+    const buildA4Html = () => `
+          <html lang="pt-BR">
+          <head>
+            <meta charset="UTF-8">
+            <title>TΦT Verify — Resumo A4</title>
+            <style>
+              body { font-family: Arial, sans-serif; margin: 40px; color: #1f1f1f; }
+              h1 { font-size: 20px; margin-bottom: 8px; }
+              p { font-size: 13px; line-height: 1.6; margin: 10px 0; }
+              ul { margin: 8px 0 12px 18px; }
+              li { margin-bottom: 6px; }
+            </style>
+          </head>
+          <body>
+            <h1>TΦT Verify — Resumo para editoras e avaliadores</h1>
+            <p>O TΦT Verify confirma a integridade técnica de um arquivo .tot, recalculando o hash do texto e exibindo dados do processo de escrita. Não certifica autoria legal, não detecta IA e não julga qualidade literária. O relatório é evidência técnica complementar.</p>
+            <p><strong>O que o TΦT registra:</strong></p>
+            <ul>
+              <li>Hash criptográfico do texto final</li>
+              <li>Duração da sessão</li>
+              <li>Eventos de digitação (inserções, deleções, revisões)</li>
+              <li>Ritmo e pausas</li>
+              <li>Sequência temporal do processo</li>
+            </ul>
+            <p><strong>O que o Verify faz:</strong> carrega um arquivo .tot, recalcula o hash, compara com o registro e apresenta um relatório técnico do processo.</p>
+            <p><strong>O que o Verify não faz:</strong> não certifica autoria legal, não garante exclusividade intelectual e não analisa estilo literário.</p>
+            <p><strong>Como interpretar:</strong> evidência técnica complementar, similar a logs de criação e históricos de versão. A decisão permanece humana.</p>
+          </body>
+          </html>
+        `;
+    if (btnFaqA4) {
+      btnFaqA4.addEventListener("click", () => {
+        const html = buildA4Html();
+        const win = window.open("", "_blank");
+        if (!win) return;
+        win.document.write(html);
+        win.document.close();
+      });
+    }
+    if (btnFaqPdf) {
+      btnFaqPdf.addEventListener("click", () => {
+        const html = buildA4Html();
+        const win = window.open("", "_blank");
+        if (!win) return;
+        win.document.write(html);
+        win.document.close();
+        win.onload = () => {
+          win.focus();
+          win.print();
+        };
+      });
+    }
+  </script>
+</body>
+</html>

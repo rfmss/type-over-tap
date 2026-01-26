@@ -14,6 +14,13 @@
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   /* Sem borda lateral dura, apenas o fim do background */
 }
+.hud-separator {
+  width: 18px;
+  height: 1px;
+  background: var(--color-accent-dim);
+  margin: 4px 0;
+  opacity: 0.6;
+}
 
 .drawer {
     position: absolute; left: var(--hud-w); top: 80px; bottom: 80px;

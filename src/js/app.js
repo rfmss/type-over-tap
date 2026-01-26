@@ -17,6 +17,11 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => document.body.classList.remove("booting"), 2000);
     console.log("🚀 TΦT SYSTEM BOOTING v5.5...");
 
+    if (sessionStorage.getItem("tot_force_clean") === "1") {
+        try { localStorage.clear(); } catch (_) {}
+        try { sessionStorage.removeItem("tot_force_clean"); } catch (_) {}
+    }
+
     store.init();
     incrementAccessCount();
     const preferFull = localStorage.getItem("lit_mobile_full") === "true";
@@ -53,6 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initMobileMemos();
     initMobileIntro();
     initMobileFullToggle();
+    enforceMobileLitePanels();
     initMobileTapToEdit();
     initMobileEdgeHandle();
 
@@ -61,6 +67,18 @@ document.addEventListener('DOMContentLoaded', () => {
         store.persist(true);
         e.preventDefault();
         e.returnValue = lang.t("confirm_exit");
+    });
+
+    // BLOQUEIO BFCache: evita restauração fantasma após hard reset
+    window.addEventListener("pageshow", (e) => {
+        if (e.persisted) {
+            location.replace(location.pathname);
+        }
+    });
+    window.addEventListener("pagehide", (e) => {
+        if (e.persisted) {
+            store.persist(true);
+        }
     });
 
     if ("serviceWorker" in navigator) {
@@ -200,6 +218,7 @@ function loadActiveDocument() {
         }
         editorFeatures.schedulePaginationUpdate();
         editorFeatures.refreshStats();
+        setTimeout(() => editorFeatures.resetFocusMode(false), 50);
     }
 }
 
@@ -446,8 +465,16 @@ function setupEventListeners() {
                 document.getElementById("editor").innerHTML,
                 document.getElementById("memoArea").value
             );
+            const active = store.getActive && store.getActive();
+            const baseName = active && active.name ? active.name : "TFT";
+            const safeName = baseName
+                .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+                .replace(/[^a-zA-Z0-9]+/g, "-")
+                .replace(/^-+|-+$/g, "")
+                .toLowerCase();
+            const slug = safeName || "tft";
             buildTotPayloadWithChain(store).then((payload) => {
-                downloadText(JSON.stringify(payload, null, 2), `TOT_EXPORT_${Date.now()}.json`, "application/json");
+                downloadText(JSON.stringify(payload, null, 2), `${slug}-${Date.now()}.tot`, "application/json");
                 document.getElementById("exportModal").classList.remove("active");
             });
         };
@@ -536,6 +563,11 @@ function setupEventListeners() {
         if (e.ctrlKey && e.key === "f") { e.preventDefault(); searchInput.focus(); }
 
         if (e.key === "Escape") {
+            const termsModal = document.getElementById("termsModal");
+            if (termsModal && termsModal.classList.contains("active")) {
+                termsModal.classList.remove("active");
+                return;
+            }
             const systemModal = document.getElementById("systemModal");
             if (systemModal && systemModal.classList.contains("active") && window.totModal?.cancel) {
                 window.totModal.cancel();
@@ -544,7 +576,7 @@ function setupEventListeners() {
             if (document.activeElement === searchInput) { document.getElementById("btnClear").click(); searchInput.blur(); }
             let closed = false;
             document.querySelectorAll(".modal-overlay.active").forEach(m => { 
-                if (m.id !== "gatekeeper" && m.id !== "pomodoroModal") {
+                if (m.id !== "gatekeeper" && m.id !== "pomodoroModal" && m.id !== "manifestoModal" && m.id !== "termsModal") {
                     m.classList.remove("active"); 
                     if(m.id==="resetModal") {
                         document.getElementById("step2Reset").style.display="none"; 
@@ -590,10 +622,12 @@ function setupEventListeners() {
 
     const btnInsert = document.getElementById("btnInsertChapter");
     if (btnInsert) btnInsert.onclick = () => { editorFeatures.insertChapter(); ui.openDrawer('nav', { renderNav: renderNavigation }); };
+    const btnVerifyTot = document.getElementById("btnVerifyTot");
+    if (btnVerifyTot) btnVerifyTot.onclick = () => { window.location.href = "verify.html"; };
 
     document.querySelectorAll(".modal-overlay").forEach(overlay => {
         overlay.addEventListener("click", (e) => {
-            if (overlay.id === "gatekeeper" || overlay.id === "pomodoroModal") return;
+            if (overlay.id === "gatekeeper" || overlay.id === "pomodoroModal" || overlay.id === "termsModal") return;
             if (overlay.id === "systemModal") {
                 if (e.target === overlay && window.totModal?.cancel) window.totModal.cancel();
                 return;
@@ -765,6 +799,7 @@ function initMobileFullToggle() {
             document.body.classList.add("mobile-lite");
             localStorage.setItem("lit_mobile_full", "false");
         }
+        enforceMobileLitePanels();
         updateLabel();
     };
     updateLabel();
@@ -812,6 +847,20 @@ function initMobileEdgeHandle() {
             showEdge();
         }
     }, { passive: true });
+}
+
+function enforceMobileLitePanels() {
+    const isLite = document.body.classList.contains("mobile-lite");
+    const panelActions = document.getElementById("panelActions");
+    const panelNav = document.getElementById("panelNav");
+    if (!panelActions || !panelNav) return;
+    if (isLite) {
+        panelActions.style.display = "none";
+        panelNav.style.display = "none";
+    } else {
+        panelActions.style.display = "";
+        panelNav.style.display = "";
+    }
 }
 
 // Funções auxiliares mantidas iguais

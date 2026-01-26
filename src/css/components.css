@@ -182,6 +182,9 @@ body.focus-active .xray-panel.show { opacity: 1; }
 body.focus-active #editor {
     color: var(--color-muted);
 }
+body.focus-active #editor.focus-active-block {
+    color: var(--color-text);
+}
 body.focus-active #editor .focus-dim {
     color: var(--color-muted);
 }
@@ -312,10 +315,26 @@ body.focus-active #editor .focus-active-block {
 .selection-btn:hover { background: var(--color-accent-dim); color: var(--color-text); }
 
 /* SELECAO DE TEXTO */
-::selection { background: var(--selection-bg); color: var(--selection-text); }
-::-moz-selection { background: var(--selection-bg); color: var(--selection-text); }
-#editor::selection, #editor *::selection { background: var(--selection-bg); color: var(--selection-text); }
-#readerContent::selection, #readerContent *::selection { background: var(--selection-bg); color: var(--selection-text); }
+::selection {
+    background: var(--selection-bg);
+    color: var(--selection-text);
+    border-radius: 2px;
+}
+::-moz-selection {
+    background: var(--selection-bg);
+    color: var(--selection-text);
+    border-radius: 2px;
+}
+#editor::selection, #editor *::selection {
+    background: var(--selection-bg);
+    color: var(--selection-text);
+    border-radius: 2px;
+}
+#readerContent::selection, #readerContent *::selection {
+    background: var(--selection-bg);
+    color: var(--selection-text);
+    border-radius: 2px;
+}
 body.xray-active #editor::selection,
 body.xray-active #editor *::selection {
     background: var(--color-accent-dim);
@@ -459,6 +478,15 @@ body.xray-active #editor *::selection {
     overscroll-behavior: contain;
 }
 .modal-overlay.active { display: flex; }
+.terms-modal {
+    z-index: 200;
+}
+.manifesto-modal {
+    z-index: 110;
+}
+body.terms-open .manifesto-modal {
+    pointer-events: none;
+}
 .modal-box { 
     background: var(--bg-drawer); 
     border: var(--border-style); 
@@ -626,7 +654,7 @@ body.consult-open .selection-toolbar {
     cursor: pointer;
 }
 .manifesto-header {
-    padding: 24px 28px 12px;
+    padding: 16px 28px 10px;
     border-bottom: var(--border-style);
 }
 .manifesto-title-row {
@@ -637,27 +665,67 @@ body.consult-open .selection-toolbar {
 }
 .manifesto-header h1 {
     margin: 0 0 8px;
-    letter-spacing: 3px;
-    font-size: 18px;
-    color: var(--color-accent);
+    letter-spacing: 2px;
+    font-size: 16px;
+    color: var(--color-text);
     font-family: var(--font-display, var(--font-ui));
 }
 .manifesto-header p {
     margin: 0;
-    font-size: 12px;
+    font-size: 11px;
     color: var(--color-muted);
     letter-spacing: 1px;
-    text-transform: uppercase;
+    text-transform: none;
     font-family: var(--font-ui);
 }
 .manifesto-body {
     padding: 18px 28px;
     overflow-y: auto;
-    font-size: 13px;
-    line-height: 1.6;
+    font-size: 14px;
+    line-height: 1.7;
     color: var(--color-text);
 }
 .manifesto-body p { margin: 0 0 14px; }
+.manifesto-top {
+    text-align: center;
+    margin: 6px 0 18px;
+    animation: manifestoFade 0.3s ease;
+}
+.manifesto-top h2 {
+    margin: 0 0 6px;
+    font-size: 18px;
+    letter-spacing: 1px;
+    color: var(--color-text);
+    font-family: var(--font-display, var(--font-ui));
+}
+.manifesto-top p {
+    margin: 0;
+    font-size: 13px;
+    color: var(--color-muted);
+}
+.manifesto-lines {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+.manifesto-lines p {
+    margin: 0;
+}
+.manifesto-tech {
+    font-size: 12px;
+    color: var(--color-muted);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.manifesto-tech p {
+    margin: 0;
+}
+@keyframes manifestoFade {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
 .manifesto-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -716,11 +784,94 @@ body.consult-open .selection-toolbar {
 .manifesto-actions {
     padding: 16px 28px 24px;
     border-top: var(--border-style);
+    display: flex;
+    gap: 12px;
 }
-.manifesto-actions .btn-full {
+.manifesto-actions .btn-full,
+.manifesto-actions .btn-half {
     background: var(--color-accent);
     color: #fff;
     border: none;
+}
+.manifesto-terms {
+    padding: 0 28px 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    text-align: center;
+}
+.manifesto-link {
+    background: none;
+    border: none;
+    color: var(--color-accent);
+    font-size: 12px;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+}
+.manifesto-terms-note {
+    font-size: 11px;
+    color: var(--color-muted);
+}
+
+.terms-modal .terms-box {
+    background: var(--bg-drawer);
+    border: var(--border-style);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-float);
+    width: min(720px, 92vw);
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 24px;
+    color: var(--color-text);
+}
+.terms-header h2 {
+    margin: 0 0 10px;
+    font-size: 16px;
+    letter-spacing: 1px;
+    color: var(--color-text);
+    font-family: var(--font-display, var(--font-ui));
+}
+.terms-body {
+    border: var(--border-style);
+    border-radius: var(--radius);
+    padding: 14px;
+    max-height: 60vh;
+    overflow-y: auto;
+    font-size: 13px;
+    line-height: 1.6;
+    background: rgba(255, 255, 255, 0.03);
+}
+.terms-body p { margin: 0 0 12px; }
+.terms-body ul { margin: 0 0 12px 16px; padding: 0; }
+.terms-body li { margin-bottom: 8px; }
+.terms-check {
+    margin-top: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    color: var(--color-text);
+}
+.terms-check input {
+    width: 14px;
+    height: 14px;
+    accent-color: var(--color-accent);
+}
+.terms-actions {
+    margin-top: 14px;
+    display: flex;
+    gap: 10px;
+}
+.btn-ghost {
+    background: transparent;
+    border: var(--border-style);
+    color: var(--color-text);
+}
+.terms-tip {
+    margin-top: 10px;
+    font-size: 11px;
+    color: var(--color-muted);
 }
 .export-social {
     margin-top: 18px;
@@ -966,24 +1117,17 @@ body.consult-open .selection-toolbar {
     transform: translate(-50%, -50%);
     pointer-events: auto;
 }
-.xray-drag-strip {
-    position: absolute;
-    top: 6px;
-    right: 56px;
-    left: auto;
-    z-index: 2;
-}
 .xray-drag-btn {
-    width: 28px;
-    height: 28px;
-    border-radius: 8px;
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
     border: var(--xray-border);
     background: var(--xray-surface);
     box-shadow: var(--shadow-float);
 }
 .xray-drag-btn .icon {
-    width: 16px;
-    height: 16px;
+    width: 14px;
+    height: 14px;
 }
 .xray-header {
     display: flex;
@@ -996,7 +1140,12 @@ body.consult-open .selection-toolbar {
     font-weight: 700;
     color: var(--color-text);
 }
-.xray-header-actions { display: flex; gap: 8px; }
+.xray-header-actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: nowrap;
+}
 .xray-header-actions .btn-icon {
     width: 22px;
     height: 22px;
@@ -1040,8 +1189,8 @@ body.consult-open .selection-toolbar {
     border: var(--xray-border);
     border-radius: var(--radius);
     padding: 6px 8px;
-    background: var(--xray-surface);
-    color: var(--color-text);
+    background: var(--select-bg, var(--color-text));
+    color: var(--select-text, var(--bg-core));
     font-size: 12px;
 }
 .xray-filters {
@@ -1053,6 +1202,36 @@ body.consult-open .selection-toolbar {
     color: var(--color-muted);
 }
 .xray-filter input { margin-right: 4px; }
+input[type="checkbox"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 14px;
+    height: 14px;
+    border-radius: 4px;
+    border: var(--border-style);
+    background: var(--xray-surface);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+    margin: 0;
+}
+input[type="checkbox"]::after {
+    content: "";
+    width: 8px;
+    height: 8px;
+    border-radius: 2px;
+    background: var(--color-accent);
+    opacity: 0;
+    transition: opacity 0.15s ease;
+}
+input[type="checkbox"]:checked::after {
+    opacity: 1;
+}
+input[type="checkbox"]:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+}
 
 .xray-tabs {
     display: flex;
