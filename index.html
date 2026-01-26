@@ -64,15 +64,19 @@
             </div>
         </div>
         <div class="manifesto-body" id="manifestoText"></div>
+        <div class="manifesto-verify">
+            <button id="manifestoVerifyLink" class="manifesto-link" data-i18n="verify_link">Verificar um arquivo .tot</button>
+            <div class="manifesto-verify-note" data-i18n="verify_note">Verificação técnica de escrita humana.</div>
+        </div>
         <div class="manifesto-note" data-i18n="manifesto_pomo_hint">Escolha seu primeiro ciclo de trabalho.</div>
         <div class="manifesto-actions">
             <button id="manifestoChoice25" class="btn-half" data-duration="25" data-i18n="pomo_25">25 MIN</button>
             <button id="manifestoChoice50" class="btn-half" data-duration="50" data-i18n="pomo_55">50 MIN</button>
         </div>
+        <div class="manifesto-note subtle" data-i18n="manifesto_pomo_note">Você pode ajustar isso depois.</div>
         <div class="manifesto-terms">
             <button id="manifestoTermsLink" class="manifesto-link" data-i18n="terms_link">Termos de uso</button>
             <div class="manifesto-terms-note" data-i18n="terms_accept_hint">Ao iniciar uma sessão, você aceita os Termos de uso.</div>
-            <button id="manifestoVerifyLink" class="manifesto-link" data-i18n="verify_link">Verificar arquivo .tot</button>
         </div>
     </div>
 </div>
@@ -496,12 +500,18 @@
                     <div class="reader-glass-panel reader-glass-bottom"></div>
                 </div>
                 <div class="reader-ruler-controls" aria-hidden="true">
-                    <button id="btnReaderRulerClose" class="btn-icon" title="Fechar régua" data-i18n-title="reader_ruler_close_title" data-i18n-tip="reader_ruler_close_title">×</button>
-                    <button id="btnReaderSpeedDown" class="btn-icon" title="Lento">−</button>
+                    <button id="btnReaderRulerClose" class="btn-icon" title="Fechar régua" data-i18n-title="reader_ruler_close_title" data-i18n-tip="reader_ruler_close_title">
+                        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-x"></use></svg>
+                    </button>
+                    <button id="btnReaderSpeedDown" class="btn-icon" title="Lento">
+                        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-minus"></use></svg>
+                    </button>
                     <button id="btnReaderPlay" class="btn-icon" title="Play" data-i18n-title="reader_play_title" data-i18n-tip="reader_play_title">
                         <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-play-circle"></use></svg>
                     </button>
-                    <button id="btnReaderSpeedUp" class="btn-icon" title="Rápido">+</button>
+                    <button id="btnReaderSpeedUp" class="btn-icon" title="Rápido">
+                        <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="src/assets/icons/phosphor-sprite.svg#icon-plus"></use></svg>
+                    </button>
                 </div>
                 <aside class="reader-sidebar">
                     <div class="reader-section-title" data-i18n="reader_glossary">DICIONÁRIO</div>

@@ -565,7 +565,7 @@ function setupEventListeners() {
         if (e.key === "Escape") {
             const termsModal = document.getElementById("termsModal");
             if (termsModal && termsModal.classList.contains("active")) {
-                termsModal.classList.remove("active");
+                auth.closeTermsModal(true);
                 return;
             }
             const systemModal = document.getElementById("systemModal");

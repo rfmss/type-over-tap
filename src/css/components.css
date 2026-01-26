@@ -479,13 +479,23 @@ body.xray-active #editor *::selection {
 }
 .modal-overlay.active { display: flex; }
 .terms-modal {
-    z-index: 200;
+    z-index: 300;
 }
 .manifesto-modal {
     z-index: 110;
 }
 body.terms-open .manifesto-modal {
     pointer-events: none;
+}
+body.manifesto-open #frame {
+    pointer-events: none;
+}
+body.terms-open #frame {
+    pointer-events: none;
+}
+.terms-modal,
+.terms-modal .terms-box {
+    pointer-events: auto;
 }
 .modal-box { 
     background: var(--bg-drawer); 
@@ -781,6 +791,21 @@ body.consult-open .selection-toolbar {
     margin-top: 14px;
     display: block;
 }
+.manifesto-note.subtle {
+    margin-top: 10px;
+    opacity: 0.8;
+}
+.manifesto-verify {
+    padding: 0 28px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    text-align: center;
+}
+.manifesto-verify-note {
+    font-size: 11px;
+    color: var(--color-muted);
+}
 .manifesto-actions {
     padding: 16px 28px 24px;
     border-top: var(--border-style);
@@ -1003,7 +1028,7 @@ body.consult-open .selection-toolbar {
     text-align: center;
     color: var(--color-muted);
     opacity: 0.35;
-    font-family: "Impact", "Arial Black", sans-serif;
+    font-family: var(--font-ui);
     text-transform: uppercase;
     letter-spacing: 6px;
 }
@@ -1309,9 +1334,10 @@ input[type="checkbox"]:focus-visible {
 .selection-toolbar [data-tip]::after,
 .reader-modal [data-tip]::after {
     white-space: nowrap;
-    max-width: none;
+    max-width: min(220px, calc(100vw - 40px));
     width: max-content;
     text-align: center;
+    z-index: 6;
 }
 .hud [data-tip]::after {
     left: calc(100% + 10px);
@@ -1545,12 +1571,12 @@ input[type="checkbox"]:focus-visible {
 }
 .reader-actions .btn-icon {
     color: #d6d3cf;
-    width: 38px;
-    height: 38px;
+    width: 40px;
+    height: 40px;
 }
 .reader-actions .btn-icon .icon {
-    width: 20px;
-    height: 20px;
+    width: 22px;
+    height: 22px;
 }
 .reader-modal.reader-theme-light .reader-actions .btn-icon {
     color: #2a2622;
@@ -1562,7 +1588,7 @@ input[type="checkbox"]:focus-visible {
     height: calc(100vh - 60px);
 }
 .reader-content {
-    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-family: var(--font-body);
     font-size: 18px;
     line-height: 1.9;
     color: #d6d3cf;
@@ -1578,7 +1604,7 @@ input[type="checkbox"]:focus-visible {
     padding: 40px 0 100px;
 }
 .reader-content.reader-font-serif {
-    font-family: "Georgia", "Times New Roman", serif;
+    font-family: "Source Serif 4", "Georgia", "Times New Roman", serif;
 }
 .reader-modal.reader-theme-light .reader-content {
     color: #1f1f1f;
@@ -1637,13 +1663,16 @@ input[type="checkbox"]:focus-visible {
     transform: none;
     border-radius: 0;
     border: none;
-    background: transparent;
+    background: rgba(255, 255, 255, 0.015);
+    backdrop-filter: none;
     box-shadow: none;
     cursor: grab;
     pointer-events: auto;
     z-index: 2;
     display: none;
 }
+.reader-ruler.resize-ns { cursor: ns-resize; }
+.reader-ruler.resizing { cursor: ns-resize; }
 .reader-ruler.dragging { cursor: grabbing; }
 .reader-modal.show-ruler .reader-ruler { display: block; }
 .reader-ruler-controls {
@@ -1684,15 +1713,28 @@ input[type="checkbox"]:focus-visible {
     content: "";
     position: absolute;
     inset: 0;
-    background:
-        radial-gradient(ellipse at center, rgba(0, 0, 0, 0) 0 55%, rgba(0, 0, 0, 0.18) 100%),
-        linear-gradient(to bottom, rgba(255, 255, 255, 0.16), transparent 40%, transparent 60%, rgba(0, 0, 0, 0.2));
+    background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.08) 0 60%, rgba(0, 0, 0, 0.08) 100%);
     pointer-events: none;
 }
+.reader-ruler::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    width: 64px;
+    height: 4px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateX(-50%);
+    top: 6px;
+}
+.reader-ruler.resize-ns::after {
+    background: rgba(255, 255, 255, 0.35);
+}
 .reader-modal.reader-theme-light .reader-ruler::before {
-    background:
-        radial-gradient(ellipse at center, rgba(0, 0, 0, 0) 0 55%, rgba(0, 0, 0, 0.12) 100%),
-        linear-gradient(to bottom, rgba(255, 255, 255, 0.2), transparent 40%, transparent 60%, rgba(0, 0, 0, 0.14));
+    background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.08) 0 60%, rgba(0, 0, 0, 0.06) 100%);
+}
+.reader-modal.reader-theme-light .reader-ruler::after {
+    background: rgba(0, 0, 0, 0.18);
 }
 
 .reader-glass {
@@ -1707,12 +1749,12 @@ input[type="checkbox"]:focus-visible {
     position: absolute;
     left: 0;
     right: 0;
-    background: rgba(0, 0, 0, 0.04);
-    backdrop-filter: blur(3px);
+    background: rgba(0, 0, 0, 0.025);
+    backdrop-filter: blur(1px);
 }
 .reader-modal.reader-theme-light .reader-glass-panel {
-    background: rgba(0, 0, 0, 0.02);
-    backdrop-filter: blur(2px);
+    background: rgba(0, 0, 0, 0.012);
+    backdrop-filter: blur(0.8px);
 }
 .reader-glass-top {
     top: 0;

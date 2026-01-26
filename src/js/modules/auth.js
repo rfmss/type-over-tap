@@ -56,6 +56,7 @@ export const auth = {
         };
         if (!modal || !choice25 || !choice50) return;
         modal.classList.add("active");
+        document.body.classList.add("manifesto-open");
         applyManifestoText();
         document.addEventListener("lang:changed", applyManifestoText);
         if (langToggle) {
@@ -70,6 +71,7 @@ export const auth = {
             localStorage.setItem("tot_manifest_signed_at", new Date().toISOString());
             localStorage.setItem("lit_pomo_preset", String(minutes));
             modal.classList.remove("active");
+            document.body.classList.remove("manifesto-open");
             this.runGatekeeper();
         };
         this.acceptWithDuration = acceptWithDuration;

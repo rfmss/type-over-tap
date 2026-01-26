@@ -371,7 +371,7 @@
             <meta charset="UTF-8">
             <title>TΦT Verify — Resumo A4</title>
             <style>
-              body { font-family: Arial, sans-serif; margin: 40px; color: #1f1f1f; }
+              body { font-family: "JetBrains Mono", "JetBrains Mono Nerd", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; margin: 40px; color: #1f1f1f; }
               h1 { font-size: 20px; margin-bottom: 8px; }
               p { font-size: 13px; line-height: 1.6; margin: 10px 0; }
               ul { margin: 8px 0 12px 18px; }
@@ -395,6 +395,86 @@
           </body>
           </html>
         `;
+    const buildA4Pdf = () => {
+      const text = [
+        "TΦT Verify — Resumo para editoras e avaliadores",
+        "",
+        "O TΦT Verify confirma a integridade técnica de um arquivo .tot, recalculando o hash do texto",
+        "e exibindo dados do processo de escrita. Não certifica autoria legal, não detecta IA e não",
+        "julga qualidade literária. O relatório é evidência técnica complementar.",
+        "",
+        "O que o TΦT registra:",
+        "- Hash criptográfico do texto final",
+        "- Duração da sessão",
+        "- Eventos de digitação (inserções, deleções, revisões)",
+        "- Ritmo e pausas",
+        "- Sequência temporal do processo",
+        "",
+        "O que o Verify faz: carrega um arquivo .tot, recalcula o hash, compara com o registro e",
+        "apresenta um relatório técnico do processo.",
+        "",
+        "O que o Verify não faz: não certifica autoria legal, não garante exclusividade intelectual",
+        "e não analisa estilo literário.",
+        "",
+        "Como interpretar: evidência técnica complementar, similar a logs de criação e históricos de",
+        "versão. A decisão permanece humana."
+      ];
+      const wrapLines = (line, maxLen) => {
+        if (line.length <= maxLen) return [line];
+        const words = line.split(" ");
+        const lines = [];
+        let current = "";
+        words.forEach(word => {
+          const next = current ? `${current} ${word}` : word;
+          if (next.length <= maxLen) {
+            current = next;
+          } else {
+            if (current) lines.push(current);
+            current = word;
+          }
+        });
+        if (current) lines.push(current);
+        return lines;
+      };
+      const wrapped = [];
+      text.forEach(line => {
+        if (line.startsWith("- ")) {
+          wrapLines(line, 90).forEach(w => wrapped.push(w));
+        } else {
+          wrapLines(line, 92).forEach(w => wrapped.push(w));
+        }
+      });
+      const escapePdf = (str) => str.replace(/\\/g, "\\\\").replace(/\(/g, "\\(").replace(/\)/g, "\\)");
+      const fontSize = 12;
+      const lineHeight = 16;
+      let y = 800;
+      let content = "BT\n/F1 " + fontSize + " Tf\n";
+      wrapped.forEach(line => {
+        if (y < 60) return;
+        content += `72 ${y} Td (${escapePdf(line)}) Tj\n`;
+        y -= lineHeight;
+      });
+      content += "ET";
+      const objects = [];
+      objects.push("1 0 obj << /Type /Catalog /Pages 2 0 R >> endobj");
+      objects.push("2 0 obj << /Type /Pages /Kids [3 0 R] /Count 1 >> endobj");
+      objects.push("3 0 obj << /Type /Page /Parent 2 0 R /MediaBox [0 0 595 842] /Contents 4 0 R /Resources << /Font << /F1 5 0 R >> >> >> endobj");
+      objects.push(`4 0 obj << /Length ${content.length} >> stream\n${content}\nendstream endobj`);
+      objects.push("5 0 obj << /Type /Font /Subtype /Type1 /BaseFont /Helvetica >> endobj");
+      let pdf = "%PDF-1.4\n";
+      const xref = [];
+      objects.forEach(obj => {
+        xref.push(pdf.length);
+        pdf += obj + "\n";
+      });
+      const xrefStart = pdf.length;
+      pdf += "xref\n0 6\n0000000000 65535 f \n";
+      xref.forEach(offset => {
+        pdf += offset.toString().padStart(10, "0") + " 00000 n \n";
+      });
+      pdf += "trailer << /Size 6 /Root 1 0 R >>\nstartxref\n" + xrefStart + "\n%%EOF";
+      return new Blob([pdf], { type: "application/pdf" });
+    };
     if (btnFaqA4) {
       btnFaqA4.addEventListener("click", () => {
         const html = buildA4Html();
@@ -406,15 +486,15 @@
     }
     if (btnFaqPdf) {
       btnFaqPdf.addEventListener("click", () => {
-        const html = buildA4Html();
-        const win = window.open("", "_blank");
-        if (!win) return;
-        win.document.write(html);
-        win.document.close();
-        win.onload = () => {
-          win.focus();
-          win.print();
-        };
+        const blob = buildA4Pdf();
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "tft-verify-resumo.pdf";
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        setTimeout(() => URL.revokeObjectURL(url), 2000);
       });
     }
   </script>

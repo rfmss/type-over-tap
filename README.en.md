@@ -1,8 +1,12 @@
 # TΦT — Type over Tap
 
+![Human-written](https://img.shields.io/badge/Human--written-.tot-2B2F36)
+
 **Written here. Verifiable by anyone.**
 
 TΦT is an offline, portable, non-trackable editor built for human writing in the age of AI.
+
+Texts exported as `.tot` include a technical record of the human writing process.
 
 Text is produced exclusively through human typing.
 The system records the writing process and generates a verifiable capsule (.tot).
@@ -33,4 +37,3 @@ TΦT does not claim legal authorship.
 It provides technical evidence.
 
 Interpretation remains human.
-

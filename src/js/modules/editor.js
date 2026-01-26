@@ -114,6 +114,7 @@ export const editorFeatures = {
     init(editorElement) {
         this.editor = editorElement;
         this.initFonts();
+        this.initHardwareKeyboard();
         this.initAudioEngine(); 
         this.initAudioUI();
         this.initSearch();
@@ -129,6 +130,25 @@ export const editorFeatures = {
         this.initLexicon();
         this.initDictionary();
         this.initGoal();
+    },
+
+    initHardwareKeyboard() {
+        if (!this.editor) return;
+        const isAndroid = /Android/i.test(navigator.userAgent || "");
+        if (!isAndroid) return;
+        const applyMode = () => {
+            const hw = localStorage.getItem("tot_hwkb") === "true";
+            this.editor.setAttribute("inputmode", hw ? "none" : "text");
+        };
+        applyMode();
+        this.editor.addEventListener("focus", applyMode);
+        this.editor.addEventListener("keydown", () => {
+            if (localStorage.getItem("tot_hwkb") === "true") return;
+            localStorage.setItem("tot_hwkb", "true");
+            this.editor.setAttribute("inputmode", "none");
+            this.editor.blur();
+            requestAnimationFrame(() => this.editor.focus());
+        });
     },
 
     // --- COMANDOS INLINE (MÁGICA DO TECLADO) ---
@@ -218,6 +238,18 @@ export const editorFeatures = {
             case '--xraytest':
                 this.runXrayTests();
                 return true;
+            case '--kb':
+                {
+                    const enabled = localStorage.getItem("tot_hwkb") === "true";
+                    if (enabled) {
+                        localStorage.removeItem("tot_hwkb");
+                        this.editor.setAttribute("inputmode", "text");
+                    } else {
+                        localStorage.setItem("tot_hwkb", "true");
+                        this.editor.setAttribute("inputmode", "none");
+                    }
+                }
+                return this.flashInlineData();
             default: return false; 
         }
     },
@@ -665,6 +697,9 @@ export const editorFeatures = {
     },
 
     initFonts() {
+        if (!localStorage.getItem("lit_pref_font")) {
+            localStorage.setItem("lit_pref_font", "2");
+        }
         this.applyFont();
         document.getElementById("btnFontType").onclick = () => {
             let i = parseInt(localStorage.getItem("lit_pref_font")) || 0;
@@ -2232,6 +2267,9 @@ export const editorFeatures = {
                     const rulerRect = this.readerRuler.getBoundingClientRect();
                     const targetTop = Math.max(60, (modalRect.height - rulerRect.height) / 2);
                     this.readerRuler.style.top = `${targetTop}px`;
+                    if (!this.readerRuler.dataset.baseHeight) {
+                        this.readerRuler.dataset.baseHeight = String(rulerRect.height || 140);
+                    }
                     this.syncReaderRuler();
                 }
             };
@@ -2263,15 +2301,43 @@ export const editorFeatures = {
         }
         if (this.readerRuler && this.readerBody) {
             let dragging = false;
+            let resizing = false;
+            let resizeEdge = null;
             let startY = 0;
             let startTop = 0;
+            let startHeight = 0;
+            const edgeSize = 10;
             const onMove = (e) => {
-                if (!dragging || !this.readerRuler || !this.readerBody) return;
+                if (!this.readerRuler || !this.readerBody) return;
                 const delta = e.clientY - startY;
                 const modalRect = this.readerBody.getBoundingClientRect();
                 const rulerRect = this.readerRuler.getBoundingClientRect();
                 const minTop = 60;
                 const maxTop = modalRect.height - rulerRect.height - 40;
+                const baseHeight = parseFloat(this.readerRuler.dataset.baseHeight || "140");
+                const minHeight = Math.max(60, baseHeight * 0.9);
+                const maxHeight = baseHeight * 1.4;
+                if (resizing) {
+                    let nextHeight = startHeight;
+                    let nextTop = startTop;
+                    if (resizeEdge === "bottom") {
+                        nextHeight = startHeight + delta;
+                    } else if (resizeEdge === "top") {
+                        nextHeight = startHeight - delta;
+                        nextTop = startTop + delta;
+                    }
+                    nextHeight = Math.max(minHeight, Math.min(maxHeight, nextHeight));
+                    const heightDelta = nextHeight - startHeight;
+                    if (resizeEdge === "top") {
+                        nextTop = startTop - heightDelta;
+                    }
+                    nextTop = Math.max(minTop, Math.min(maxTop, nextTop));
+                    this.readerRuler.style.height = `${nextHeight}px`;
+                    this.readerRuler.style.top = `${nextTop}px`;
+                    this.syncReaderRuler();
+                    return;
+                }
+                if (!dragging) return;
                 let nextTop = startTop + delta;
                 nextTop = Math.max(minTop, Math.min(maxTop, nextTop));
                 this.readerRuler.style.top = `${nextTop}px`;
@@ -2280,19 +2346,51 @@ export const editorFeatures = {
             const onUp = () => {
                 if (!this.readerRuler) return;
                 dragging = false;
+                resizing = false;
+                resizeEdge = null;
                 this.readerRuler.classList.remove("dragging");
+                this.readerRuler.classList.remove("resizing");
                 document.removeEventListener("pointermove", onMove);
                 document.removeEventListener("pointerup", onUp);
             };
             this.readerRuler.addEventListener("pointerdown", (e) => {
                 if (!this.readerBox || !this.readerBox.classList.contains("show-ruler")) return;
-                dragging = true;
-                startY = e.clientY;
+                const rect = this.readerRuler.getBoundingClientRect();
+                const offsetY = e.clientY - rect.top;
                 const computedTop = parseFloat(window.getComputedStyle(this.readerRuler).top) || 0;
+                const computedHeight = parseFloat(window.getComputedStyle(this.readerRuler).height) || rect.height;
+                startY = e.clientY;
                 startTop = computedTop;
-                this.readerRuler.classList.add("dragging");
+                startHeight = computedHeight;
+                if (offsetY <= edgeSize) {
+                    resizing = true;
+                    resizeEdge = "top";
+                } else if (offsetY >= rect.height - edgeSize) {
+                    resizing = true;
+                    resizeEdge = "bottom";
+                } else {
+                    dragging = true;
+                }
+                if (resizing) {
+                    this.readerRuler.classList.add("resizing");
+                } else {
+                    this.readerRuler.classList.add("dragging");
+                }
                 document.addEventListener("pointermove", onMove);
                 document.addEventListener("pointerup", onUp);
+            });
+            this.readerRuler.addEventListener("pointermove", (e) => {
+                if (dragging || resizing || !this.readerRuler) return;
+                const rect = this.readerRuler.getBoundingClientRect();
+                const offsetY = e.clientY - rect.top;
+                if (offsetY <= edgeSize || offsetY >= rect.height - edgeSize) {
+                    this.readerRuler.classList.add("resize-ns");
+                } else {
+                    this.readerRuler.classList.remove("resize-ns");
+                }
+            });
+            this.readerRuler.addEventListener("pointerleave", () => {
+                if (this.readerRuler) this.readerRuler.classList.remove("resize-ns");
             });
         }
         document.addEventListener("keydown", (e) => {
