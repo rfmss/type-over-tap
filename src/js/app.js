@@ -1011,6 +1011,7 @@ function renderMobileFolders() {
         };
         list.appendChild(btn);
     });
+    updateMobileViewCounts();
 }
 
 function renderMobileTags() {
@@ -1038,6 +1039,7 @@ function renderMobileTags() {
         };
         list.appendChild(btn);
     });
+    updateMobileViewCounts();
 }
 
 function renderMobileProjects() {
@@ -1071,6 +1073,24 @@ function renderMobileProjects() {
     const active = getActiveProject();
     if (projectQr) projectQr.disabled = !active;
     if (projectJson) projectJson.disabled = !active;
+    updateMobileViewCounts();
+}
+
+function updateMobileViewCounts() {
+    const notesCount = document.getElementById("mobileNotesCount");
+    const filesCount = document.getElementById("mobileFilesCount");
+    const favCount = document.getElementById("mobileFavCount");
+    const projCount = document.getElementById("mobileProjectsCount");
+    const tagsCount = document.getElementById("mobileTagsCount");
+    if (notesCount) notesCount.textContent = mobileNotesCache.length;
+    const folders = Array.from(new Set(mobileNotesCache.map(n => normalizeFolder(n.folder)).filter(Boolean)));
+    if (filesCount) filesCount.textContent = folders.length;
+    const tags = new Set();
+    mobileNotesCache.forEach(note => (note.tags || []).forEach(tag => tags.add(normalizeTag(tag))));
+    if (tagsCount) tagsCount.textContent = tags.size;
+    const favs = mobileNotesCache.filter(note => (note.tags || []).map(normalizeTag).includes("fav") || (note.tags || []).map(normalizeTag).includes("favorito") || (note.tags || []).map(normalizeTag).includes("φ"));
+    if (favCount) favCount.textContent = favs.length;
+    if (projCount) projCount.textContent = (store.data.projects || []).length;
 }
 
 function renderMobileNotes() {
@@ -1156,6 +1176,7 @@ function renderMobileNotes() {
         card.appendChild(actions);
         list.appendChild(card);
     });
+    updateMobileViewCounts();
 }
 
 function addOrUpdateMobileNote(text, tagsRaw, folderRaw) {
@@ -1189,6 +1210,7 @@ function initMobileMemos() {
     const memoTags = document.getElementById("mobileMemoTags");
     const memoFolder = document.getElementById("mobileMemoFolder");
     const memoSearch = document.getElementById("mobileMemoSearch");
+    const viewItems = document.querySelectorAll(".mobile-view-item");
     const addBtn = document.getElementById("btnAddMobileMemo");
     if (!memoInput) return;
 
@@ -1202,6 +1224,26 @@ function initMobileMemos() {
         memoSearch.addEventListener("input", (e) => {
             mobileNotesFilter.search = e.target.value;
             renderMobileNotes();
+        });
+    }
+
+    if (viewItems && viewItems.length) {
+        viewItems.forEach(btn => {
+            btn.addEventListener("click", () => {
+                const target = btn.getAttribute("data-target");
+                const filter = btn.getAttribute("data-filter");
+                if (filter) {
+                    if (memoSearch) memoSearch.value = filter;
+                    mobileNotesFilter.search = filter;
+                    renderMobileNotes();
+                }
+                if (target) {
+                    const el = document.querySelector(target);
+                    if (el && el.scrollIntoView) {
+                        el.scrollIntoView({ behavior: "smooth", block: "start" });
+                    }
+                }
+            });
         });
     }
 

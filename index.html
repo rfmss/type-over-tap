@@ -237,21 +237,45 @@
                 <textarea id="memoArea" data-i18n-ph="memo_ph" placeholder="Buffer de memória..."></textarea>
             </div>
             <div class="mobile-only mobile-memo">
+                <div class="mobile-memo-header">
+                    <div class="mobile-logo">Φ</div>
+                    <div class="mobile-title">TΦT Mobile</div>
+                </div>
+
+                <div class="mobile-views">
+                    <div class="mobile-views-title" data-i18n="mobile_views_title">Views</div>
+                    <button class="mobile-view-item" type="button" data-target="#mobileNotesSection">
+                        <span data-i18n="mobile_view_notes">Notes</span> <span class="mobile-view-count" id="mobileNotesCount">0</span>
+                    </button>
+                    <button class="mobile-view-item" type="button" data-target="#mobileFilesSection">
+                        <span data-i18n="mobile_view_files">Files</span> <span class="mobile-view-count" id="mobileFilesCount">0</span>
+                    </button>
+                    <button class="mobile-view-item" type="button" data-filter="#fav">
+                        <span class="mobile-view-fav">Φ</span> <span data-i18n="mobile_view_favs">Favoritos</span> <span class="mobile-view-count" id="mobileFavCount">0</span>
+                    </button>
+                    <button class="mobile-view-item" type="button" data-target="#mobileProjectsSection">
+                        <span data-i18n="mobile_view_projects">TΦT Projetos</span> <span class="mobile-view-count" id="mobileProjectsCount">0</span>
+                    </button>
+                    <button class="mobile-view-item" type="button" data-target="#mobileTagsSection">
+                        <span data-i18n="mobile_view_tags">Tags</span> <span class="mobile-view-count" id="mobileTagsCount">0</span>
+                    </button>
+                </div>
+
                 <input id="mobileMemoSearch" class="mobile-memo-search" data-i18n-ph="mobile_memo_search" placeholder="Buscar ou #tag" />
                 <button class="btn-full" id="btnMobileScan" data-i18n="btn_scan">SCAN QR</button>
 
-                <div class="mobile-memo-section-title" data-i18n="mobile_notes_title">NOTAS</div>
+                <div class="mobile-memo-section-title" id="mobileNotesSection" data-i18n="mobile_notes_title">NOTAS</div>
                 <textarea id="mobileMemoInput" class="mobile-memo-input" data-i18n-ph="mobile_memo_ph" placeholder="Nota rápida..."></textarea>
                 <input id="mobileMemoTags" class="mobile-memo-tags" data-i18n-ph="mobile_memo_tags" placeholder="Tags (separe por vírgula)" />
                 <input id="mobileMemoFolder" class="mobile-memo-folder" data-i18n-ph="mobile_memo_folder" placeholder="Pasta (opcional)" />
                 <button class="btn-full" id="btnAddMobileMemo" data-i18n="mobile_memo_add">SALVAR NOTA</button>
                 <div id="mobileMemoList" class="mobile-memo-list"></div>
 
-                <div class="mobile-memo-section-title" data-i18n="mobile_files_title">ARQUIVOS</div>
+                <div class="mobile-memo-section-title" id="mobileFilesSection" data-i18n="mobile_files_title">ARQUIVOS</div>
                 <div class="help-text" data-i18n="mobile_files_hint">Organize notas por pasta.</div>
                 <div id="mobileFoldersList" class="mobile-memo-tags-list"></div>
 
-                <div class="mobile-memo-section-title" data-i18n="mobile_projects_title">TΦT PROJETOS</div>
+                <div class="mobile-memo-section-title" id="mobileProjectsSection" data-i18n="mobile_projects_title">TΦT PROJETOS</div>
                 <div class="help-text" data-i18n="mobile_projects_hint">Projetos ganham QR e exportação dedicada.</div>
                 <button class="btn-full" id="btnMobileNewProject" data-i18n="mobile_project_new">NOVO PROJETO</button>
                 <div id="mobileProjectList" class="mobile-memo-list"></div>
@@ -260,7 +284,7 @@
                     <button class="btn-half" id="btnMobileProjectJson" data-i18n="mobile_project_json">EXPORTAR PROJETO</button>
                 </div>
 
-                <div class="mobile-memo-section-title" data-i18n="mobile_tags_title">TAGS</div>
+                <div class="mobile-memo-section-title" id="mobileTagsSection" data-i18n="mobile_tags_title">TAGS</div>
                 <div id="mobileTagsList" class="mobile-memo-tags-list"></div>
             </div>
             <div class="mobile-only mobile-project-note">
