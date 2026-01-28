@@ -158,8 +158,8 @@ select:focus-visible {
 .panel-placeholder {
     font-size: 11px;
     color: var(--color-muted);
-    letter-spacing: 0.5px;
-    margin-bottom: 10px;
+    letter-spacing: 0.4px;
+    margin-bottom: 8px;
     text-align: center;
     text-wrap: balance;
     hyphens: none;
@@ -530,10 +530,10 @@ body.terms-open #frame {
     width: min(92vw, 420px);
 }
 .system-modal-message {
-    font-size: 14px;
-    line-height: 1.6;
+    font-size: 13px;
+    line-height: 1.55;
     color: var(--color-text);
-    letter-spacing: 0.3px;
+    letter-spacing: 0.2px;
 }
 .system-modal-input {
     margin-top: 12px;
@@ -551,7 +551,7 @@ body.terms-open #frame {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 10px;
-    margin-top: 16px;
+    margin-top: 12px;
 }
 .system-modal-actions.single {
     grid-template-columns: minmax(0, 1fr);
@@ -1592,7 +1592,7 @@ input[type="checkbox"]:focus-visible {
 }
 .reader-actions {
     display: flex;
-    gap: 8px;
+    gap: 6px;
 }
 .reader-actions .btn-icon {
     color: #d6d3cf;
@@ -1683,14 +1683,14 @@ input[type="checkbox"]:focus-visible {
 }
 .reader-glossary {
     display: grid;
-    gap: 6px;
+    gap: 5px;
     font-size: 12px;
 }
 .reader-glossary-item {
     display: flex;
     justify-content: space-between;
     border-bottom: 1px dashed rgba(0, 0, 0, 0.08);
-    padding-bottom: 4px;
+    padding-bottom: 3px;
 }
 .reader-ruler {
     position: absolute;
@@ -1702,7 +1702,7 @@ input[type="checkbox"]:focus-visible {
     transform: none;
     border-radius: 0;
     border: none;
-    background: rgba(255, 255, 255, 0.015);
+    background: rgba(255, 255, 255, 0.02);
     backdrop-filter: none;
     box-shadow: none;
     cursor: grab;
@@ -1729,7 +1729,7 @@ input[type="checkbox"]:focus-visible {
 }
 .reader-modal.show-ruler .reader-ruler-controls { display: inline-flex; }
 .reader-ruler-controls .btn-icon {
-    background: rgba(0, 0, 0, 0.18);
+    background: rgba(0, 0, 0, 0.2);
     border: none;
     border-radius: 999px;
     width: 30px;

@@ -224,9 +224,7 @@ export const auth = {
 
     handleManifestoChoice(minutes) {
         if (!this.hasAcceptedTerms()) {
-            this.pendingCycle = minutes;
-            this.openTermsModal();
-            return;
+            this.markTermsAccepted();
         }
         if (typeof this.acceptWithDuration === "function") {
             this.acceptWithDuration(minutes);
@@ -263,22 +261,11 @@ export const auth = {
 
     updateTermsButtonState() {
         const btns = [this.termsChoice25, this.termsChoice50].filter(Boolean);
-        const accepted = this.hasAcceptedTerms();
-        const hasPending = Number.isFinite(this.pendingCycle);
-        if (accepted && !hasPending) {
-            btns.forEach(btn => btn.style.display = "none");
-            if (this.termsBack) {
-                this.termsBack.textContent = lang.t("terms_close");
-                this.termsBack.style.display = "block";
-            }
-            return;
+        btns.forEach(btn => btn.style.display = "none");
+        if (this.termsBack) {
+            this.termsBack.textContent = lang.t("terms_close");
+            this.termsBack.style.display = "block";
         }
-        if (this.termsBack && this.termsBack.textContent !== lang.t("terms_back")) {
-            this.termsBack.textContent = lang.t("terms_back");
-        }
-        btns.forEach(btn => btn.style.display = "");
-        if (this.termsBack) this.termsBack.style.display = "";
-        btns.forEach(btn => btn.disabled = !this.termsScrolledEnough);
     },
 
     async acceptTermsWithDuration(minutes) {
@@ -289,13 +276,29 @@ export const auth = {
             return;
         }
         if (!this.termsScrolledEnough) return;
+        await this.markTermsAccepted();
+        const pending = Number.isFinite(minutes) ? minutes : this.pendingCycle;
+        this.pendingCycle = null;
+        this.closeTermsModal();
+        if (Number.isFinite(pending) && typeof this.acceptWithDuration === "function") {
+            this.acceptWithDuration(pending);
+        }
+    },
+
+    async markTermsAccepted() {
         const acceptedKey = this.getTermsAcceptedKey();
         const currentLang = lang?.state?.lang || "pt-br";
         localStorage.setItem(acceptedKey, "true");
         localStorage.setItem(`termsAcceptedAt_${currentLang}`, new Date().toISOString());
         localStorage.setItem("termsVersion", this.getTermsVersion());
         try {
-            const text = this.termsBody ? this.termsBody.innerText.trim() : "";
+            let text = this.termsBody ? this.termsBody.innerText.trim() : "";
+            if (!text) {
+                const raw = lang.t("terms_body") || "";
+                const temp = document.createElement("div");
+                temp.innerHTML = raw;
+                text = temp.innerText.trim();
+            }
             if (text && window.crypto?.subtle) {
                 const data = new TextEncoder().encode(text);
                 const hash = await crypto.subtle.digest("SHA-256", data);
@@ -305,12 +308,6 @@ export const auth = {
             }
         } catch (e) {
             console.warn("terms hash failed", e);
-        }
-        const pending = Number.isFinite(minutes) ? minutes : this.pendingCycle;
-        this.pendingCycle = null;
-        this.closeTermsModal();
-        if (Number.isFinite(pending) && typeof this.acceptWithDuration === "function") {
-            this.acceptWithDuration(pending);
         }
     },
 

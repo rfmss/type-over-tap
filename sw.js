@@ -1,4 +1,4 @@
-const CACHE_NAME = "tot-cache-v5";
+const CACHE_NAME = "tot-cache-v6";
 const CACHE_ASSETS = [
   "./",
   "./index.html",
@@ -18,6 +18,7 @@ const CACHE_ASSETS = [
   "./src/js/modules/store.js",
   "./src/js/modules/ui.js",
   "./src/js/modules/qr_transfer.js",
+  "./src/js/modules/mobile.js",
   "./src/js/modules/pt_dictionary.js",
   "./src/js/modules/pt_pos_lexicon.js",
   "./src/assets/js/qrcode.min.js",

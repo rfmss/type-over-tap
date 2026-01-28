@@ -40,7 +40,7 @@
 .drawer.open { width: var(--drawer-w); }
 .drawer-header { height: 50px; border-bottom: var(--border-style); display: flex; align-items: center; justify-content: center; padding: 0 15px; flex-shrink: 0; position: relative; }
 #closeDrawer { position: absolute; right: 12px; }
-.drawer-content { flex: 1; padding: 15px; overflow-y: auto; opacity: 0; transition: opacity 0.2s; }
+.drawer-content { flex: 1; padding: 14px; overflow-y: auto; opacity: 0; transition: opacity 0.2s; }
 .drawer.open .drawer-content { opacity: 1; }
 .mobile-memo-actions { display: none; margin-top: 12px; }
 .mobile-only { display: none; }
